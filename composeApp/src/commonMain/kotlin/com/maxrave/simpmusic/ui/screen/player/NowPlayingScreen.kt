@@ -147,6 +147,8 @@ import com.maxrave.simpmusic.ui.component.LyricsView
 import com.maxrave.simpmusic.ui.component.NowPlayingBottomSheet
 import com.maxrave.simpmusic.ui.component.PlayPauseButton
 import com.maxrave.simpmusic.ui.component.PlayerControlLayout
+import com.maxrave.simpmusic.ui.component.PlatformPlayerControlLayout
+import com.maxrave.simpmusic.ui.component.PlatformProgressSlider
 import com.maxrave.simpmusic.ui.component.QueueBottomSheet
 import com.maxrave.simpmusic.ui.navigation.destination.list.ArtistDestination
 import com.maxrave.simpmusic.ui.navigation.destination.player.FullscreenDestination
@@ -1219,70 +1221,24 @@ fun NowPlayingScreenContent(
                                                     }
                                                 }
                                             }
-                                            CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                                Slider(
-                                                    value = sliderValue,
-                                                    onValueChangeFinished = {
-                                                        isSliding = false
-                                                        sharedViewModel.onUIEvent(
-                                                            UIEvent.UpdateProgress(sliderValue),
-                                                        )
-                                                    },
-                                                    onValueChange = {
-                                                        isSliding = true
-                                                        sliderValue = it
-                                                    },
-                                                    valueRange = 0f..100f,
-                                                    modifier =
-                                                        Modifier
-                                                            .fillMaxWidth()
-                                                            .padding(top = 3.dp)
-                                                            .align(
-                                                                Alignment.TopCenter,
-                                                            ),
-                                                    track = { sliderState ->
-                                                        SliderDefaults.Track(
-                                                            modifier =
-                                                                Modifier
-                                                                    .height(5.dp),
-                                                            enabled = true,
-                                                            sliderState = sliderState,
-                                                            colors =
-                                                                SliderDefaults.colors().copy(
-                                                                    thumbColor = Color.White,
-                                                                    activeTrackColor = Color.White,
-                                                                    inactiveTrackColor = Color.Transparent,
-                                                                ),
-                                                            thumbTrackGapSize = 0.dp,
-                                                            drawTick = { _, _ -> },
-                                                            drawStopIndicator = null,
-                                                        )
-                                                    },
-                                                    thumb = {
-                                                        SliderDefaults.Thumb(
-                                                            modifier =
-                                                                Modifier
-                                                                    .height(18.dp)
-                                                                    .width(8.dp)
-                                                                    .padding(
-                                                                        vertical = 4.dp,
-                                                                    ),
-                                                            thumbSize = DpSize(8.dp, 8.dp),
-                                                            interactionSource =
-                                                                remember {
-                                                                    MutableInteractionSource()
-                                                                },
-                                                            colors =
-                                                                SliderDefaults.colors().copy(
-                                                                    thumbColor = Color.White,
-                                                                    activeTrackColor = Color.White,
-                                                                    inactiveTrackColor = Color.Transparent,
-                                                                ),
-                                                            enabled = true,
-                                                        )
-                                                    },
-                                                )
-                                            }
+                                            PlatformProgressSlider(
+                                                value = sliderValue,
+                                                onValueChange = {
+                                                    isSliding = true
+                                                    sliderValue = it
+                                                },
+                                                onValueChangeFinished = {
+                                                    isSliding = false
+                                                    sharedViewModel.onUIEvent(
+                                                        UIEvent.UpdateProgress(sliderValue),
+                                                    )
+                                                },
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(top = 3.dp)
+                                                    .align(Alignment.TopCenter),
+                                                useLiquidGlass = true,
+                                            )
                                         }
                                         // Time Layout
                                         Row(
@@ -1311,11 +1267,11 @@ fun NowPlayingScreenContent(
                                                     .height(5.dp),
                                         )
                                         // Control Button Layout
-                                        PlayerControlLayout(
-                                            controllerState,
-                                        ) {
-                                            sharedViewModel.onUIEvent(it)
-                                        }
+                                        PlatformPlayerControlLayout(
+                                            controllerState = controllerState,
+                                            onUIEvent = { sharedViewModel.onUIEvent(it) },
+                                            useLiquidGlass = true,
+                                        )
                                     } else {
                                         Spacer(Modifier.height(16.dp))
                                     }
