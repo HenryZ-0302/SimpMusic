@@ -54,6 +54,7 @@ private val CapsuleShape = RoundedCornerShape(50)
 fun LiquidSlider(
     value: () -> Float,
     onValueChange: (Float) -> Unit,
+    onValueChangeFinished: (() -> Unit)? = null,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     backdrop: Backdrop,
     modifier: Modifier = Modifier,
@@ -94,7 +95,9 @@ fun LiquidSlider(
                 onDragStopped = {
                     if (didDrag) {
                         onValueChange(targetValue)
+                        onValueChangeFinished?.invoke()
                     }
+                    didDrag = false
                 },
                 onDrag = { _, dragAmount ->
                     if (!didDrag) {

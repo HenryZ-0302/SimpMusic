@@ -41,6 +41,7 @@ actual fun PlatformProgressSlider(
         LiquidSlider(
             value = { value / 100f },
             onValueChange = { onValueChange(it * 100f) },
+            onValueChangeFinished = onValueChangeFinished,
             valueRange = 0f..1f,
             backdrop = backdrop,
             modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp),
