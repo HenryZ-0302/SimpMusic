@@ -1161,66 +1161,14 @@ fun NowPlayingScreenContent(
                                         }
                                     }
                                     if (getPlatform() == Platform.Android) {
-                                        // Real Slider
+                                        // Real Slider with Liquid Glass effect
                                         Box(
                                             Modifier
-                                                .padding(
-                                                    top = 15.dp,
-                                                ).padding(horizontal = 20.dp)
+                                                .padding(top = 15.dp)
                                                 .isElementVisible {
                                                     shouldShowToolbar = !it && isExpanded && mainScrollState.value > 0
                                                 },
                                         ) {
-                                            Box(
-                                                modifier =
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .height(24.dp),
-                                                contentAlignment = Alignment.Center,
-                                            ) {
-                                                Crossfade(timelineState.loading) {
-                                                    if (it) {
-                                                        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                                            LinearProgressIndicator(
-                                                                modifier =
-                                                                    Modifier
-                                                                        .fillMaxWidth()
-                                                                        .height(4.dp)
-                                                                        .padding(
-                                                                            horizontal = 3.dp,
-                                                                        ).clip(
-                                                                            RoundedCornerShape(8.dp),
-                                                                        ),
-                                                                color = Color.Gray,
-                                                                trackColor = Color.DarkGray,
-                                                                strokeCap = StrokeCap.Round,
-                                                            )
-                                                        }
-                                                    } else {
-                                                        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                                            LinearProgressIndicator(
-                                                                progress = { timelineState.bufferedPercent.toFloat() / 100 },
-                                                                modifier =
-                                                                    Modifier
-                                                                        .fillMaxWidth()
-                                                                        .height(4.dp)
-                                                                        .padding(
-                                                                            horizontal = 3.dp,
-                                                                        ).clip(
-                                                                            RoundedCornerShape(8.dp),
-                                                                        ),
-                                                                color = Color.Gray,
-                                                                trackColor =
-                                                                    Color.Gray.copy(
-                                                                        alpha = 0.6f,
-                                                                    ),
-                                                                strokeCap = StrokeCap.Round,
-                                                                drawStopIndicator = {},
-                                                            )
-                                                        }
-                                                    }
-                                                }
-                                            }
                                             PlatformProgressSlider(
                                                 value = sliderValue,
                                                 onValueChange = {
@@ -1235,8 +1183,7 @@ fun NowPlayingScreenContent(
                                                 },
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(top = 3.dp)
-                                                    .align(Alignment.TopCenter),
+                                                    .padding(horizontal = 8.dp),
                                                 useLiquidGlass = true,
                                             )
                                         }

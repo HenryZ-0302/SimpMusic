@@ -44,7 +44,7 @@ actual fun PlatformProgressSlider(
             onValueChangeFinished = onValueChangeFinished,
             valueRange = 0f..1f,
             backdrop = backdrop,
-            modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            modifier = modifier,
             enabled = enabled,
         )
     } else {
