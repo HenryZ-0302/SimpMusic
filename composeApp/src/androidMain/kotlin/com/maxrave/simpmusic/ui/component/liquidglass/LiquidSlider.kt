@@ -62,10 +62,10 @@ fun LiquidSlider(
     trackColor: Color = Color.Unspecified,
 ) {
     val isLightTheme = !isSystemInDarkTheme()
-    val resolvedAccentColor = if (accentColor.isUnspecified) {
+    val resolvedAccentColor = if (accentColor == Color.Unspecified) {
         if (isLightTheme) Color(0xFF0088FF) else Color(0xFF0091FF)
     } else accentColor
-    val resolvedTrackColor = if (trackColor.isUnspecified) {
+    val resolvedTrackColor = if (trackColor == Color.Unspecified) {
         if (isLightTheme) Color(0xFF787878).copy(0.2f) else Color(0xFF787880).copy(0.36f)
     } else trackColor
 

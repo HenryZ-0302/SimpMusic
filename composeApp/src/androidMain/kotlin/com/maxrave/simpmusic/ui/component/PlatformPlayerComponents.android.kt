@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -22,6 +23,7 @@ import com.maxrave.simpmusic.ui.component.liquidglass.LiquidPlayerControlLayout
 import com.maxrave.simpmusic.ui.component.liquidglass.LiquidSlider
 import com.maxrave.simpmusic.viewModel.UIEvent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 actual fun PlatformProgressSlider(
     value: Float,
