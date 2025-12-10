@@ -1183,7 +1183,7 @@ fun NowPlayingScreenContent(
                                                 },
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(horizontal = 8.dp),
+                                                    .padding(horizontal = 14.dp),
                                                 useLiquidGlass = true,
                                             )
                                         }

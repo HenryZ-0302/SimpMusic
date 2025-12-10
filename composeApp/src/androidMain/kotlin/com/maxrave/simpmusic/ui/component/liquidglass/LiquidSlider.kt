@@ -81,7 +81,6 @@ fun LiquidSlider(
 
         val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
         val animationScope = rememberCoroutineScope()
-        var didDrag by remember { mutableStateOf(false) }
         
         val dampedDragAnimation = remember(animationScope) {
             DampedDragAnimation(
@@ -93,17 +92,12 @@ fun LiquidSlider(
                 pressedScale = 1.5f,
                 onDragStarted = {},
                 onDragStopped = {
-                    if (didDrag) {
-                        onValueChange(targetValue)
-                        onValueChangeFinished?.invoke()
-                    }
-                    didDrag = false
+                    // 始终调用回调，确保播放器跳转到正确位置
+                    onValueChange(targetValue)
+                    onValueChangeFinished?.invoke()
                 },
                 onDrag = { _, dragAmount ->
-                    if (!didDrag) {
-                        didDrag = dragAmount.x != 0f
-                    }
-                    if (enabled) {
+                    if (enabled && dragAmount.x != 0f) {
                         val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount.x / trackWidth)
                         onValueChange(
                             if (isLtr) (targetValue + delta).coerceIn(valueRange)
@@ -139,6 +133,7 @@ fun LiquidSlider(
                                         .coerceIn(valueRange)
                                 dampedDragAnimation.animateToValue(targetValue)
                                 onValueChange(targetValue)
+                                onValueChangeFinished?.invoke()
                             }
                         }
                     }
