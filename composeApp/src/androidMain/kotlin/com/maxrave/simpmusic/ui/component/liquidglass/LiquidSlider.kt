@@ -1,6 +1,7 @@
 package com.maxrave.simpmusic.ui.component.liquidglass
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -117,7 +118,7 @@ fun LiquidSlider(
                 }
         }
 
-        // Track background
+        // Track background with touch handling
         Box(Modifier.layerBackdrop(trackBackdrop)) {
             Box(
                 Modifier
@@ -137,7 +138,35 @@ fun LiquidSlider(
                             }
                         }
                     }
-                    .height(6f.dp)
+                    .pointerInput(animationScope, enabled) {
+                        if (enabled) {
+                            detectHorizontalDragGestures(
+                                onDragStart = { offset ->
+                                    // 拖动开始时，先跳转到点击位置
+                                    val delta = (valueRange.endInclusive - valueRange.start) * (offset.x / trackWidth)
+                                    val targetValue =
+                                        (if (isLtr) valueRange.start + delta
+                                        else valueRange.endInclusive - delta)
+                                            .coerceIn(valueRange)
+                                    onValueChange(targetValue)
+                                },
+                                onDragEnd = {
+                                    onValueChangeFinished?.invoke()
+                                },
+                                onDragCancel = {
+                                    onValueChangeFinished?.invoke()
+                                }
+                            ) { change, dragAmount ->
+                                change.consume()
+                                val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount / trackWidth)
+                                val newValue = (dampedDragAnimation.targetValue + 
+                                    if (isLtr) delta else -delta).coerceIn(valueRange)
+                                dampedDragAnimation.updateValue(newValue)
+                                onValueChange(newValue)
+                            }
+                        }
+                    }
+                    .height(24f.dp) // 增加触摸区域高度
                     .fillMaxWidth()
             )
 
