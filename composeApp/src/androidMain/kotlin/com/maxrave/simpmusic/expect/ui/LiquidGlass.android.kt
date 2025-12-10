@@ -6,15 +6,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.kyant.backdrop.backdrops.LayerBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
-import com.kyant.backdrop.effects.colorControls
 import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.effects.vibrancy
-import kotlin.math.sign
 import com.kyant.backdrop.backdrops.layerBackdrop as nativeBackdrop
 
 actual typealias PlatformBackdrop = LayerBackdrop
@@ -36,31 +33,10 @@ actual fun Modifier.drawBackdropCustomShape(
     return this.drawBackdrop(
         backdrop = backdrop,
         effects = {
-            val l = (luminanceAnimation * 2f - 1f).let { sign(it) * it * it }
+            // 使用 demo app 的默认效果设置
             vibrancy()
-            colorControls(
-                brightness =
-                    if (l > 0f) {
-                        lerp(0.1f, 0.5f, l)
-                    } else {
-                        lerp(0.1f, -0.2f, -l)
-                    },
-                contrast =
-                    if (l > 0f) {
-                        lerp(1f, 0f, l)
-                    } else {
-                        1f
-                    },
-                saturation = 1.5f,
-            )
-            blur(
-                if (l > 0f) {
-                    lerp(8f.dp.toPx(), 16f.dp.toPx(), l)
-                } else {
-                    lerp(8f.dp.toPx(), 2f.dp.toPx(), -l)
-                },
-            )
-            lens(24f.dp.toPx(), size.minDimension / 2f, true)
+            blur(8f.dp.toPx())
+            lens(24f.dp.toPx(), 24f.dp.toPx())
         },
         onDrawBackdrop = { drawBackdrop ->
             drawBackdrop()
