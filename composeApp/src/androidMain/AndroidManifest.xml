@@ -32,7 +32,7 @@
     </intent>
 </queries>
 <queries>
-    <package android:name="com.maxrave.simpmusic" />
+    <package android:name="com.hymusic.app" />
 </queries>
 <queries>
     <intent>

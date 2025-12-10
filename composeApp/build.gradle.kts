@@ -190,7 +190,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.maxrave.simpmusic"
+        applicationId = "com.hymusic.app"
         minSdk = 26
         targetSdk = 36
         versionCode =
@@ -314,7 +314,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             modules("jdk.unsupported")
-            packageName = "SimpMusic"
+            packageName = "HYMusic"
             macOS {
                 includeAllModules = true
                 packageVersion = "2025.11.16"
