@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,8 +42,10 @@ import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
-import com.kyant.capsule.ContinuousCapsule
 import kotlinx.coroutines.flow.collectLatest
+
+// 使用胶囊形圆角作为替代
+private val CapsuleShape = RoundedCornerShape(50)
 
 /**
  * Liquid Glass styled slider for music progress
@@ -121,7 +124,7 @@ fun LiquidSlider(
         Box(Modifier.layerBackdrop(trackBackdrop)) {
             Box(
                 Modifier
-                    .clip(ContinuousCapsule)
+                    .clip(CapsuleShape)
                     .background(resolvedTrackColor)
                     .pointerInput(animationScope, enabled) {
                         if (enabled) {
@@ -143,7 +146,7 @@ fun LiquidSlider(
             // Active track
             Box(
                 Modifier
-                    .clip(ContinuousCapsule)
+                    .clip(CapsuleShape)
                     .background(resolvedAccentColor)
                     .height(6f.dp)
                     .layout { measurable, constraints ->
@@ -179,7 +182,7 @@ fun LiquidSlider(
                                 }
                             }
                         ),
-                        shape = { ContinuousCapsule },
+                        shape = { CapsuleShape },
                         effects = {
                             val progress = dampedDragAnimation.pressProgress
                             blur(8f.dp.toPx() * (1f - progress))
