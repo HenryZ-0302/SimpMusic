@@ -81,7 +81,9 @@ fun LiquidSlider(
 
         val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
         val animationScope = rememberCoroutineScope()
+        var isDragging by remember { mutableStateOf(false) }
         
+        // DampedDragAnimation - 仅用于动画状态管理，不再直接处理手势
         val dampedDragAnimation = remember(animationScope) {
             DampedDragAnimation(
                 animationScope = animationScope,
@@ -91,23 +93,12 @@ fun LiquidSlider(
                 initialScale = 1f,
                 pressedScale = 1.5f,
                 onDragStarted = {},
-                onDragStopped = {
-                    // 始终调用回调，确保播放器跳转到正确位置
-                    onValueChange(targetValue)
-                    onValueChangeFinished?.invoke()
-                },
-                onDrag = { _, dragAmount ->
-                    if (enabled && dragAmount.x != 0f) {
-                        val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount.x / trackWidth)
-                        onValueChange(
-                            if (isLtr) (targetValue + delta).coerceIn(valueRange)
-                            else (targetValue - delta).coerceIn(valueRange)
-                        )
-                    }
-                }
+                onDragStopped = {},
+                onDrag = { _, _ -> }
             )
         }
         
+        // 监听外部 value 变化更新动画
         LaunchedEffect(dampedDragAnimation) {
             snapshotFlow { value() }
                 .collectLatest { newValue ->
@@ -123,20 +114,6 @@ fun LiquidSlider(
                 Modifier
                     .clip(CapsuleShape)
                     .background(resolvedTrackColor)
-                    .pointerInput(animationScope, enabled) {
-                        if (enabled) {
-                            detectTapGestures { position ->
-                                val delta = (valueRange.endInclusive - valueRange.start) * (position.x / trackWidth)
-                                val targetValue =
-                                    (if (isLtr) valueRange.start + delta
-                                    else valueRange.endInclusive - delta)
-                                        .coerceIn(valueRange)
-                                dampedDragAnimation.animateToValue(targetValue)
-                                onValueChange(targetValue)
-                                onValueChangeFinished?.invoke()
-                            }
-                        }
-                    }
                     .height(6f.dp)
                     .fillMaxWidth()
             )
@@ -161,13 +138,13 @@ fun LiquidSlider(
         if (enabled) {
             Box(
                 Modifier
-                    .then(dampedDragAnimation.modifier)  // 先绑定手势
                     .graphicsLayer {
                         translationX =
                             (-size.width / 2f + trackWidth * dampedDragAnimation.progress)
                                 .fastCoerceIn(-size.width / 4f, trackWidth - size.width * 3f / 4f) * 
                                 if (isLtr) 1f else -1f
                     }
+                    // 移除这里的 modifier，手势统一在外层处理
                     .drawBackdrop(
                         backdrop = rememberCombinedBackdrop(
                             backdrop,
@@ -224,6 +201,54 @@ fun LiquidSlider(
                         }
                     )
                     .size(40f.dp, 24f.dp)
+            )
+        }
+
+        // 统一手势处理层 (覆盖整个区域)
+        if (enabled) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures { position ->
+                            val delta = (valueRange.endInclusive - valueRange.start) * (position.x / trackWidth)
+                            val targetValue =
+                                (if (isLtr) valueRange.start + delta
+                                else valueRange.endInclusive - delta)
+                                    .coerceIn(valueRange)
+                            
+                            // 点击动画
+                            dampedDragAnimation.animateToValue(targetValue)
+                            onValueChange(targetValue)
+                            onValueChangeFinished?.invoke()
+                        }
+                    }
+                    .pointerInput(Unit) {
+                        detectHorizontalDragGestures(
+                            onDragStart = { 
+                                dampedDragAnimation.press() // 触发按压动画
+                                isDragging = true
+                            },
+                            onDragEnd = {
+                                dampedDragAnimation.release() // 释放动画
+                                isDragging = false
+                                onValueChangeFinished?.invoke()
+                            },
+                            onDragCancel = {
+                                dampedDragAnimation.release()
+                                isDragging = false
+                            },
+                            onHorizontalDrag = { change, dragAmount ->
+                                change.consume()
+                                val currentValue = value()
+                                val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount / trackWidth)
+                                val newValue = (if (isLtr) currentValue + delta
+                                    else currentValue - delta).coerceIn(valueRange)
+                                
+                                onValueChange(newValue)
+                            }
+                        )
+                    }
             )
         }
     }
