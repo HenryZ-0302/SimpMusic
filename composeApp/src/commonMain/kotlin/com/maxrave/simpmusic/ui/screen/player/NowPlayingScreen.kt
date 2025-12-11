@@ -391,14 +391,10 @@ fun NowPlayingScreenContent(
     var sliderValue by rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    LaunchedEffect(key1 = timelineState, key2 = isSliding) {
-        if (!isSliding) {
-            sliderValue =
-                if (timelineState.total > 0L) {
-                    timelineState.current.toFloat() * 100 / timelineState.total.toFloat()
-                } else {
-                    0f
-                }
+    // 同步进度 - 只在非拖动状态下更新
+    LaunchedEffect(timelineState.current, timelineState.total) {
+        if (!isSliding && timelineState.total > 0L) {
+            sliderValue = timelineState.current.toFloat() * 100 / timelineState.total.toFloat()
         }
     }
     // Show ControlLayout Or Show Artist Badge
