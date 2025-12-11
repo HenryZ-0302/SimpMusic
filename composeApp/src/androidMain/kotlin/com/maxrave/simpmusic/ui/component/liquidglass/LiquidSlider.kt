@@ -1,8 +1,6 @@
 package com.maxrave.simpmusic.ui.component.liquidglass
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -23,12 +21,10 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -114,8 +110,8 @@ fun LiquidSlider(
                         // 1. 通知外部更新
                         currentOnValueChange(newTarget)
                         
-                        // 2. 立即更新视觉位置，防止等待回流导致卡顿
-                        dragTo(newTarget)
+                        // 2. 更新内部目标值，触发弹性动画
+                        updateValue(newTarget)
                     }
                 }
             )
@@ -136,48 +132,17 @@ fun LiquidSlider(
                 Modifier
                     .clip(CapsuleShape)
                     .background(resolvedTrackColor)
-                    .pointerInput(animationScope, enabled, trackWidth, valueRange, isLtr) {
+                    .pointerInput(animationScope, enabled) {
                         if (enabled) {
-                            awaitEachGesture {
-                                val down = awaitFirstDown(requireUnconsumed = false)
-                                down.consume()
-                                
-                                // 1. 按下即跳转 (Jump)
-                                val position = down.position.x
-                                val delta = (valueRange.endInclusive - valueRange.start) * (position / trackWidth)
-                                val target = if (isLtr) valueRange.start + delta else valueRange.endInclusive - delta
-                                val clamped = target.coerceIn(valueRange)
-                                
-                                // 直接调用 latest callback
-                                currentOnValueChange(clamped)
-                                dampedDragAnimation.dragTo(clamped)
-                                
-                                // 2. 进入连续拖动模式
-                                var dragging = true
-                                while (dragging) {
-                                    val event = awaitPointerEvent()
-                                    val change = event.changes.firstOrNull { it.id == down.id } ?: break // 手指抬起或丢失
-                                    
-                                    if (!change.pressed) {
-                                        dragging = false
-                                        currentOnValueChangeFinished?.invoke()
-                                        break
-                                    }
-                                    
-                                    val dragAmount = change.positionChange()
-                                    // 只要位置改变，或者手指还在按着，就持续更新
-                                    // 注意：dragTo 是绝对位置定位，这里我们重新计算绝对位置
-                                    if (change.positionChange() != Offset.Zero) {
-                                        change.consume()
-                                        val currPos = change.position.x
-                                        val currDelta = (valueRange.endInclusive - valueRange.start) * (currPos / trackWidth)
-                                        val currTarget = if (isLtr) valueRange.start + currDelta else valueRange.endInclusive - currDelta
-                                        val currClamped = currTarget.coerceIn(valueRange)
-                                        
-                                        currentOnValueChange(currClamped)
-                                        dampedDragAnimation.dragTo(currClamped)
-                                    }
-                                }
+                            detectTapGestures { position ->
+                                val delta = (valueRange.endInclusive - valueRange.start) * (position.x / trackWidth)
+                                val targetValue =
+                                    (if (isLtr) valueRange.start + delta
+                                    else valueRange.endInclusive - delta)
+                                        .coerceIn(valueRange)
+                                dampedDragAnimation.animateToValue(targetValue)
+                                onValueChange(targetValue)
+                                onValueChangeFinished?.invoke()
                             }
                         }
                     }
