@@ -107,7 +107,7 @@ fun LiquidToggle(
 
     Box(
         modifier = modifier
-            .size(46.dp, 32.dp)
+            .size(52.dp, 32.dp) // 加宽一点确保 thumb 有足够空间移动
             .layerBackdrop(trackBackdrop)
             .clip(CapsuleShape)
             .drawBehind {
@@ -116,11 +116,17 @@ fun LiquidToggle(
             .semantics { role = Role.Switch }
     ) {
         val density = LocalDensity.current
-        val width = remember(density) { with(density) { 32.dp.toPx() } }
+        // Thumb 圆形尺寸
+        val thumbSize = 26.dp
+        val thumbSizePx = remember(density) { with(density) { thumbSize.toPx() } }
+        val trackWidthPx = remember(density) { with(density) { 52.dp.toPx() } }
+        // 计算 thumb 在 track 内的移动范围
+        val padding = (trackWidthPx - thumbSizePx) / 2f
         Box(
             Modifier
                 .graphicsLayer {
-                    translationX = (-width / 2f + width * dampedDragAnimation.progress).fastCoerceIn(-1f, 1f)
+                    // translationX: 从 -padding 到 +padding
+                    translationX = lerp(-padding, padding, dampedDragAnimation.progress)
                 }
                 .then(dampedDragAnimation.modifier)
                 .drawBackdrop(
@@ -168,7 +174,7 @@ fun LiquidToggle(
                         drawRect(Color.White.copy(alpha = 1f - progress))
                     }
                 )
-                .size(32.dp, 32.dp)
+                .size(thumbSize) // 使用圆形 thumb
                 .align(Alignment.Center)
         )
     }
