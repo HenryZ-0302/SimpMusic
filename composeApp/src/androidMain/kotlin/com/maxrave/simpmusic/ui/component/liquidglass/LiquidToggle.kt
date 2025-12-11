@@ -66,6 +66,8 @@ fun LiquidToggle(
     }
     val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
     val animationScope = rememberCoroutineScope()
+    val density = LocalDensity.current
+    val dragDivisorPx = remember(density) { with(density) { 14.dp.toPx() } }
     var targetValue by remember { mutableFloatStateOf(initialProgress) }
     val dampedDragAnimation = remember {
         DampedDragAnimation(
@@ -83,7 +85,7 @@ fun LiquidToggle(
                 targetValue = if (progress >= 0.5f) 1f else 0f
             },
             onDrag = { _, dragAmount ->
-                targetValue = (value + dragAmount.x / 14.dp.toPx() * (if (isLtr) 1f else -1f)).fastCoerceIn(0f, 1f)
+                targetValue = (value + dragAmount.x / dragDivisorPx * (if (isLtr) 1f else -1f)).fastCoerceIn(0f, 1f)
             }
         )
     }
