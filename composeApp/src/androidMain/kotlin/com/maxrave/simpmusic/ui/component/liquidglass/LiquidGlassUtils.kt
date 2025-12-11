@@ -46,7 +46,7 @@ suspend fun PointerInputScope.inspectDragGestures(
                 }
                 val dragAmount = change.positionChange()
                 if (dragAmount != Offset.Zero) {
-                    change.consume()  // 消费事件防止父组件拦截
+                    // change.consume() removed
                 }
                 onDrag(change, dragAmount)
             }
