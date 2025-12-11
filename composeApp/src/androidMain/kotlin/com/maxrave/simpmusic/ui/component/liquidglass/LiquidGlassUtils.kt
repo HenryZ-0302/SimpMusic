@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 /**
- * Inspects drag gestures without consuming them
+ * Drag gestures handler that consumes events to prevent parent interception
  */
 suspend fun PointerInputScope.inspectDragGestures(
     onDragStart: (PointerInputChange) -> Unit,
@@ -34,17 +34,20 @@ suspend fun PointerInputScope.inspectDragGestures(
     onDrag: (change: PointerInputChange, dragAmount: Offset) -> Unit
 ) {
     awaitEachGesture {
-        val down = awaitFirstDown(pass = PointerEventPass.Initial)
+        val down = awaitFirstDown(requireUnconsumed = false)
         onDragStart(down)
         try {
             while (true) {
-                val event = awaitPointerEvent(pass = PointerEventPass.Initial)
+                val event = awaitPointerEvent()
                 val change = event.changes.firstOrNull() ?: break
                 if (!change.pressed) {
                     onDragEnd()
                     break
                 }
                 val dragAmount = change.positionChange()
+                if (dragAmount != Offset.Zero) {
+                    change.consume()  // 消费事件防止父组件拦截
+                }
                 onDrag(change, dragAmount)
             }
         } catch (e: Exception) {
