@@ -263,8 +263,8 @@ android {
                 abi {
                     isEnable = true
                     reset()
-                    isUniversalApk = true
-                    include(*abis)
+                    isUniversalApk = false  // 不生成 universal 包
+                    include("arm64-v8a")    // 只生成 arm64
                 }
             }
         }
