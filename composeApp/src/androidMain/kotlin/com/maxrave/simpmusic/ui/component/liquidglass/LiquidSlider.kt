@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -82,7 +83,11 @@ fun LiquidSlider(
         val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
         val animationScope = rememberCoroutineScope()
         
-        val dampedDragAnimation = remember(animationScope) {
+        val currentQ by rememberUpdatedState(value) // 使用 State 包装函数类型
+        val currentOnValueChange by rememberUpdatedState(onValueChange)
+        val currentOnValueChangeFinished by rememberUpdatedState(onValueChangeFinished)
+
+        val dampedDragAnimation = remember(animationScope, trackWidth, valueRange, isLtr) {
             DampedDragAnimation(
                 animationScope = animationScope,
                 initialValue = value(),
@@ -92,16 +97,16 @@ fun LiquidSlider(
                 pressedScale = 1.5f,
                 onDragStarted = {},
                 onDragStopped = {
-                    // 始终调用回调，确保播放器跳转到正确位置
-                    onValueChange(targetValue)
-                    onValueChangeFinished?.invoke()
+                    currentOnValueChangeFinished?.invoke()
                 },
                 onDrag = { _, dragAmount ->
                     if (enabled && dragAmount.x != 0f) {
+                        // 使用最新的 value() 作为基准
+                        val currentBase = currentQ()
                         val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount.x / trackWidth)
-                        onValueChange(
-                            if (isLtr) (targetValue + delta).coerceIn(valueRange)
-                            else (targetValue - delta).coerceIn(valueRange)
+                        currentOnValueChange(
+                            if (isLtr) (currentBase + delta).coerceIn(valueRange)
+                            else (currentBase - delta).coerceIn(valueRange)
                         )
                     }
                 }
