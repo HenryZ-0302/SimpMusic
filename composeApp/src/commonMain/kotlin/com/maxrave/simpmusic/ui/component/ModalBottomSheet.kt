@@ -1008,13 +1008,14 @@ fun QueueBottomSheet(
                             style = typo().bodySmall,
                             modifier = Modifier.padding(horizontal = 8.dp),
                         )
-                        Switch(
+                        PlatformSwitch(
                             checked = endlessQueueEnable,
                             onCheckedChange = {
                                 coroutineScope.launch {
                                     dataStoreManager.setEndlessQueue(it)
                                 }
                             },
+                            useLiquidGlass = true,
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                     }

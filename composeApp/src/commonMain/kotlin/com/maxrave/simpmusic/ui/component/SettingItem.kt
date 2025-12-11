@@ -98,13 +98,14 @@ fun SettingItem(
             }
             if (switch != null) {
                 Spacer(Modifier.width(10.dp))
-                Switch(
+                PlatformSwitch(
                     modifier = Modifier.wrapContentWidth(),
                     checked = switch.first,
                     onCheckedChange = {
                         switch.second.invoke(it)
                     },
                     enabled = isEnable,
+                    useLiquidGlass = true,
                 )
             }
         }
