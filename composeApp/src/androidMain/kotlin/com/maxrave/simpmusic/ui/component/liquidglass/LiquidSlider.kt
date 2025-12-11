@@ -161,13 +161,13 @@ fun LiquidSlider(
         if (enabled) {
             Box(
                 Modifier
+                    .then(dampedDragAnimation.modifier)  // 先绑定手势
                     .graphicsLayer {
                         translationX =
                             (-size.width / 2f + trackWidth * dampedDragAnimation.progress)
                                 .fastCoerceIn(-size.width / 4f, trackWidth - size.width * 3f / 4f) * 
                                 if (isLtr) 1f else -1f
                     }
-                    .then(dampedDragAnimation.modifier)
                     .drawBackdrop(
                         backdrop = rememberCombinedBackdrop(
                             backdrop,
