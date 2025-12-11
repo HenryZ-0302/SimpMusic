@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalDensity
@@ -31,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.compose.ui.util.lerp
 import com.kyant.backdrop.backdrops.layerBackdrop
-import com.kyant.backdrop.backdrops.rememberBackdrop
-import com.kyant.backdrop.backdrops.rememberCombinedBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
@@ -62,7 +59,11 @@ fun LiquidToggle(
     }
     val dark = isSystemInDarkTheme()
     var trackColor by remember(dark) { mutableStateOf(if (dark) Color.Gray else Color.LightGray) }
-    val trackBackdrop = rememberBackdrop(trackColor) { trackColor = it }
+    // 创建 track 的 LayerBackdrop
+    val trackBackdrop = rememberLayerBackdrop {
+        drawRect(trackColor)
+        drawContent()
+    }
     val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
     val animationScope = rememberCoroutineScope()
     var targetValue by remember { mutableFloatStateOf(initialProgress) }
@@ -121,17 +122,7 @@ fun LiquidToggle(
                 }
                 .then(dampedDragAnimation.modifier)
                 .drawBackdrop(
-                    backdrop = rememberCombinedBackdrop(
-                        backdrop,
-                        rememberBackdrop(trackBackdrop) { drawBackdrop ->
-                            val progress = dampedDragAnimation.pressProgress
-                            val scaleX = lerp(2f / 3f, 1f, progress)
-                            val scaleY = lerp(0f, 1f, progress)
-                            scale(scaleX, scaleY) {
-                                drawBackdrop()
-                            }
-                        }
-                    ),
+                    backdrop = backdrop,
                     shape = { CapsuleShape },
                     effects = {
                         val progress = dampedDragAnimation.pressProgress
