@@ -23,6 +23,9 @@ import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.effects.vibrancy
+import com.kyant.backdrop.highlight.Highlight
+import com.kyant.backdrop.shadow.InnerShadow
+import com.kyant.backdrop.shadow.Shadow
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -58,6 +61,27 @@ fun LiquidCircleButton(
                     vibrancy()
                     blur(2f.dp.toPx())
                     lens(12f.dp.toPx(), size.toPx() / 2f)
+                },
+                highlight = {
+                    val progress = if (isInteractive) interactiveHighlight.pressProgress else 0f
+                    Highlight.Ambient.copy(
+                        width = Highlight.Ambient.width / 1.5f,
+                        blurRadius = Highlight.Ambient.blurRadius / 1.5f,
+                        alpha = lerp(0.5f, 1f, progress)
+                    )
+                },
+                shadow = {
+                    Shadow(
+                        radius = 4.dp,
+                        color = Color.Black.copy(alpha = 0.1f)
+                    )
+                },
+                innerShadow = {
+                    val progress = if (isInteractive) interactiveHighlight.pressProgress else 0f
+                    InnerShadow(
+                        radius = 4.dp * progress,
+                        alpha = progress
+                    )
                 },
                 layerBlock = if (isInteractive) {
                     {

@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -71,6 +72,13 @@ fun LiquidToggle(
     val animationScope = rememberCoroutineScope()
     var didDrag by remember { mutableStateOf(false) }
     var fraction by remember { mutableFloatStateOf(if (selected()) 1f else 0f) }
+    
+    // 使用 rememberUpdatedState 确保 callbacks 中使用最新值
+    val currentSelected by rememberUpdatedState(selected)
+    val currentOnSelect by rememberUpdatedState(onSelect)
+    val currentDidDrag by rememberUpdatedState(didDrag)
+    val currentFraction by rememberUpdatedState(fraction)
+    
     val dampedDragAnimation = remember(animationScope) {
         DampedDragAnimation(
             animationScope = animationScope,
@@ -81,23 +89,24 @@ fun LiquidToggle(
             pressedScale = 1.5f,
             onDragStarted = {},
             onDragStopped = {
-                if (didDrag) {
+                if (currentDidDrag) {
                     fraction = if (targetValue >= 0.5f) 1f else 0f
-                    onSelect(fraction == 1f)
+                    currentOnSelect(fraction == 1f)
                     didDrag = false
                 } else {
-                    fraction = if (selected()) 0f else 1f
-                    onSelect(fraction == 1f)
+                    // 点击时切换状态
+                    fraction = if (currentSelected()) 0f else 1f
+                    currentOnSelect(fraction == 1f)
                 }
             },
             onDrag = { _, dragAmount ->
-                if (!didDrag) {
+                if (!currentDidDrag) {
                     didDrag = dragAmount.x != 0f
                 }
                 val delta = dragAmount.x / dragWidth
                 fraction =
-                    if (isLtr) (fraction + delta).fastCoerceIn(0f, 1f)
-                    else (fraction - delta).fastCoerceIn(0f, 1f)
+                    if (isLtr) (currentFraction + delta).fastCoerceIn(0f, 1f)
+                    else (currentFraction - delta).fastCoerceIn(0f, 1f)
             }
         )
     }
