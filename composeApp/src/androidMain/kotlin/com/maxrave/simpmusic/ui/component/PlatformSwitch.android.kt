@@ -3,6 +3,7 @@ package com.maxrave.simpmusic.ui.component
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.maxrave.simpmusic.ui.component.liquidglass.LiquidToggle
 
 @Composable
@@ -14,11 +15,14 @@ actual fun PlatformSwitch(
     useLiquidGlass: Boolean,
 ) {
     if (useLiquidGlass) {
+        val backdrop = rememberLayerBackdrop {
+            drawContent()
+        }
         LiquidToggle(
             selected = { checked },
-            onValueChange = onCheckedChange,
+            onSelect = onCheckedChange,
+            backdrop = backdrop,
             modifier = modifier,
-            enabled = enabled,
         )
     } else {
         Switch(
