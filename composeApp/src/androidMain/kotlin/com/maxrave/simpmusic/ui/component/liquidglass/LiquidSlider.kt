@@ -81,9 +81,7 @@ fun LiquidSlider(
 
         val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
         val animationScope = rememberCoroutineScope()
-        var isDragging by remember { mutableStateOf(false) }
         
-        // DampedDragAnimation - 仅用于动画状态管理，不再直接处理手势
         val dampedDragAnimation = remember(animationScope) {
             DampedDragAnimation(
                 animationScope = animationScope,
@@ -93,12 +91,23 @@ fun LiquidSlider(
                 initialScale = 1f,
                 pressedScale = 1.5f,
                 onDragStarted = {},
-                onDragStopped = {},
-                onDrag = { _, _ -> }
+                onDragStopped = {
+                    // 始终调用回调，确保播放器跳转到正确位置
+                    onValueChange(targetValue)
+                    onValueChangeFinished?.invoke()
+                },
+                onDrag = { _, dragAmount ->
+                    if (enabled && dragAmount.x != 0f) {
+                        val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount.x / trackWidth)
+                        onValueChange(
+                            if (isLtr) (targetValue + delta).coerceIn(valueRange)
+                            else (targetValue - delta).coerceIn(valueRange)
+                        )
+                    }
+                }
             )
         }
         
-        // 监听外部 value 变化更新动画
         LaunchedEffect(dampedDragAnimation) {
             snapshotFlow { value() }
                 .collectLatest { newValue ->
@@ -114,6 +123,20 @@ fun LiquidSlider(
                 Modifier
                     .clip(CapsuleShape)
                     .background(resolvedTrackColor)
+                    .pointerInput(animationScope, enabled) {
+                        if (enabled) {
+                            detectTapGestures { position ->
+                                val delta = (valueRange.endInclusive - valueRange.start) * (position.x / trackWidth)
+                                val targetValue =
+                                    (if (isLtr) valueRange.start + delta
+                                    else valueRange.endInclusive - delta)
+                                        .coerceIn(valueRange)
+                                dampedDragAnimation.animateToValue(targetValue)
+                                onValueChange(targetValue)
+                                onValueChangeFinished?.invoke()
+                            }
+                        }
+                    }
                     .height(6f.dp)
                     .fillMaxWidth()
             )
@@ -144,111 +167,78 @@ fun LiquidSlider(
                                 .fastCoerceIn(-size.width / 4f, trackWidth - size.width * 3f / 4f) * 
                                 if (isLtr) 1f else -1f
                     }
-                    // 移除这里的 modifier，手势统一在外层处理
-                    .drawBackdrop(
-                        backdrop = rememberCombinedBackdrop(
-                            backdrop,
-                            rememberBackdrop(trackBackdrop) { drawBackdrop ->
-                                val progress = dampedDragAnimation.pressProgress
-                                val scaleX = lerp(2f / 3f, 1f, progress)
-                                val scaleY = lerp(0f, 1f, progress)
-                                scale(scaleX, scaleY) {
-                                    drawBackdrop()
-                                }
-                            }
-                        ),
-                        shape = { CapsuleShape },
-                        effects = {
-                            val progress = dampedDragAnimation.pressProgress
-                            blur(8f.dp.toPx() * (1f - progress))
-                            lens(
-                                10f.dp.toPx() * progress,
-                                14f.dp.toPx() * progress,
-                                chromaticAberration = true
-                            )
-                        },
-                        highlight = {
-                            val progress = dampedDragAnimation.pressProgress
-                            Highlight.Ambient.copy(
-                                width = Highlight.Ambient.width / 1.5f,
-                                blurRadius = Highlight.Ambient.blurRadius / 1.5f,
-                                alpha = progress
-                            )
-                        },
-                        shadow = {
-                            Shadow(
-                                radius = 4f.dp,
-                                color = Color.Black.copy(alpha = 0.05f)
-                            )
-                        },
-                        innerShadow = {
-                            val progress = dampedDragAnimation.pressProgress
-                            InnerShadow(
-                                radius = 4f.dp * progress,
-                                alpha = progress
-                            )
-                        },
-                        layerBlock = {
-                            scaleX = dampedDragAnimation.scaleX
-                            scaleY = dampedDragAnimation.scaleY
-                            val velocity = dampedDragAnimation.velocity / 10f
-                            scaleX /= 1f - (velocity * 0.75f).fastCoerceIn(-0.2f, 0.2f)
-                            scaleY *= 1f - (velocity * 0.25f).fastCoerceIn(-0.2f, 0.2f)
-                        },
-                        onDrawSurface = {
-                            val progress = dampedDragAnimation.pressProgress
-                            drawRect(Color.White.copy(alpha = 1f - progress))
-                        }
-                    )
-                    .size(40f.dp, 24f.dp)
-            )
-        }
+                    .size(40f.dp, 24f.dp) // 基准尺寸用于定位计算
+                ,
+                contentAlignment = Alignment.Center // 确保中心对齐
+            ) {
+                // 触摸热区 - 显著增大 (80x60)
+                Box(
+                    Modifier
+                        .size(80.dp, 60.dp)
+                        .then(dampedDragAnimation.modifier)
+                )
 
-        // 统一手势处理层 (覆盖整个区域)
-        if (enabled) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .pointerInput(Unit) {
-                        detectTapGestures { position ->
-                            val delta = (valueRange.endInclusive - valueRange.start) * (position.x / trackWidth)
-                            val targetValue =
-                                (if (isLtr) valueRange.start + delta
-                                else valueRange.endInclusive - delta)
-                                    .coerceIn(valueRange)
-                            
-                            // 点击动画
-                            dampedDragAnimation.animateToValue(targetValue)
-                            onValueChange(targetValue)
-                            onValueChangeFinished?.invoke()
-                        }
-                    }
-                    .pointerInput(Unit) {
-                        detectHorizontalDragGestures(
-                            onDragStart = { 
-                                dampedDragAnimation.press() // 触发按压动画
-                                isDragging = true
+                // 视觉 Thumb - 保持原样 (40x24)
+                Box(
+                    Modifier
+                        .drawBackdrop(
+                            backdrop = rememberCombinedBackdrop(
+                                backdrop,
+                                rememberBackdrop(trackBackdrop) { drawBackdrop ->
+                                    val progress = dampedDragAnimation.pressProgress
+                                    val scaleX = lerp(2f / 3f, 1f, progress)
+                                    val scaleY = lerp(0f, 1f, progress)
+                                    scale(scaleX, scaleY) {
+                                        drawBackdrop()
+                                    }
+                                }
+                            ),
+                            shape = { CapsuleShape },
+                            effects = {
+                                val progress = dampedDragAnimation.pressProgress
+                                blur(8f.dp.toPx() * (1f - progress))
+                                lens(
+                                    10f.dp.toPx() * progress,
+                                    14f.dp.toPx() * progress,
+                                    chromaticAberration = true
+                                )
                             },
-                            onDragEnd = {
-                                dampedDragAnimation.release() // 释放动画
-                                isDragging = false
-                                onValueChangeFinished?.invoke()
+                            highlight = {
+                                val progress = dampedDragAnimation.pressProgress
+                                Highlight.Ambient.copy(
+                                    width = Highlight.Ambient.width / 1.5f,
+                                    blurRadius = Highlight.Ambient.blurRadius / 1.5f,
+                                    alpha = progress
+                                )
                             },
-                            onDragCancel = {
-                                dampedDragAnimation.release()
-                                isDragging = false
+                            shadow = {
+                                Shadow(
+                                    radius = 4f.dp,
+                                    color = Color.Black.copy(alpha = 0.05f)
+                                )
                             },
-                                onHorizontalDrag = { change, dragAmount ->
-                                    val currentValue = value()
-                                val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount / trackWidth)
-                                val newValue = (if (isLtr) currentValue + delta
-                                    else currentValue - delta).coerceIn(valueRange)
-                                
-                                onValueChange(newValue)
+                            innerShadow = {
+                                val progress = dampedDragAnimation.pressProgress
+                                InnerShadow(
+                                    radius = 4f.dp * progress,
+                                    alpha = progress
+                                )
+                            },
+                            layerBlock = {
+                                scaleX = dampedDragAnimation.scaleX
+                                scaleY = dampedDragAnimation.scaleY
+                                val velocity = dampedDragAnimation.velocity / 10f
+                                scaleX /= 1f - (velocity * 0.75f).fastCoerceIn(-0.2f, 0.2f)
+                                scaleY *= 1f - (velocity * 0.25f).fastCoerceIn(-0.2f, 0.2f)
+                            },
+                            onDrawSurface = {
+                                val progress = dampedDragAnimation.pressProgress
+                                drawRect(Color.White.copy(alpha = 1f - progress))
                             }
                         )
-                    }
-            )
+                        .size(40f.dp, 24f.dp)
+                )
+            }
         }
     }
 }

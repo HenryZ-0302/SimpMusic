@@ -25,7 +25,8 @@ import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 /**
- * Drag gestures handler that consumes events to prevent parent interception
+ * Drag gestures handler that proactively consumes events
+ * 强制接管手势，确保在滚动视图中也能顺滑拖动
  */
 suspend fun PointerInputScope.inspectDragGestures(
     onDragStart: (PointerInputChange) -> Unit,
@@ -36,19 +37,26 @@ suspend fun PointerInputScope.inspectDragGestures(
     awaitEachGesture {
         val down = awaitFirstDown(requireUnconsumed = false)
         onDragStart(down)
+        // 只要按下了，就尝试接管所有后续事件
         try {
+            var dragging = false
             while (true) {
                 val event = awaitPointerEvent()
-                val change = event.changes.firstOrNull() ?: break
+                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                
                 if (!change.pressed) {
                     onDragEnd()
                     break
                 }
+                
                 val dragAmount = change.positionChange()
-                if (dragAmount != Offset.Zero) {
-                    // change.consume() removed
+                
+                // 如果已经在拖动，或者发生了位移，就消费掉
+                if (dragging || dragAmount != Offset.Zero) {
+                    dragging = true
+                    change.consume()
+                    onDrag(change, dragAmount)
                 }
-                onDrag(change, dragAmount)
             }
         } catch (e: Exception) {
             onDragCancel()
