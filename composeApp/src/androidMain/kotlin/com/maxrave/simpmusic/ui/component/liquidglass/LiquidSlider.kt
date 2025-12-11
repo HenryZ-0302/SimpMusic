@@ -104,10 +104,14 @@ fun LiquidSlider(
                         // 使用最新的 value() 作为基准
                         val currentBase = currentQ()
                         val delta = (valueRange.endInclusive - valueRange.start) * (dragAmount.x / trackWidth)
-                        currentOnValueChange(
-                            if (isLtr) (currentBase + delta).coerceIn(valueRange)
-                            else (currentBase - delta).coerceIn(valueRange)
-                        )
+                        val newTarget = if (isLtr) (currentBase + delta).coerceIn(valueRange)
+                                        else (currentBase - delta).coerceIn(valueRange)
+                        
+                        // 1. 通知外部更新
+                        currentOnValueChange(newTarget)
+                        
+                        // 2. 立即更新视觉位置，防止等待回流导致卡顿
+                        dragTo(newTarget)
                     }
                 }
             )
