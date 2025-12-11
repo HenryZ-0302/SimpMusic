@@ -425,6 +425,7 @@ fun FullscreenLyricsSheet(
     var sliderValue by rememberSaveable {
         mutableFloatStateOf(0f)
     }
+    var isSliding by remember { mutableStateOf(false) }
 
     // Auto-hide controls state - Only hide control buttons, not title/progress
     var showControlButtons by rememberSaveable {
@@ -440,12 +441,14 @@ fun FullscreenLyricsSheet(
     }
 
     LaunchedEffect(key1 = timelineState) {
-        sliderValue =
-            if (timelineState.total > 0L) {
-                timelineState.current.toFloat() * 100 / timelineState.total.toFloat()
-            } else {
-                0f
-            }
+        if (!isSliding) {
+            sliderValue =
+                if (timelineState.total > 0L) {
+                    timelineState.current.toFloat() * 100 / timelineState.total.toFloat()
+                } else {
+                    0f
+                }
+        }
     }
 
     if (screenDataState.lyricsData != null) {
@@ -647,119 +650,27 @@ fun FullscreenLyricsSheet(
 
                     // Progress Bar and Time - Always visible, positioned based on control buttons visibility
                     Column {
-                        // Real Slider
+                        // Real Slider with Liquid Glass effect
                         Box(
                             Modifier
-                                .padding(
-                                    top = 15.dp,
-                                ).padding(horizontal = 40.dp),
+                                .padding(top = 15.dp)
+                                .padding(horizontal = 24.dp),
                         ) {
-                            Box(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .height(24.dp),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Crossfade(timelineState.loading) {
-                                    if (it) {
-                                        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                            LinearProgressIndicator(
-                                                modifier =
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .height(4.dp)
-                                                        .padding(
-                                                            horizontal = 3.dp,
-                                                        ).clip(
-                                                            RoundedCornerShape(8.dp),
-                                                        ),
-                                                color = Color.Gray,
-                                                trackColor = Color.DarkGray,
-                                                strokeCap = StrokeCap.Round,
-                                            )
-                                        }
-                                    } else {
-                                        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                            LinearProgressIndicator(
-                                                progress = { timelineState.bufferedPercent.toFloat() / 100 },
-                                                modifier =
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .height(4.dp)
-                                                        .padding(
-                                                            horizontal = 3.dp,
-                                                        ).clip(
-                                                            RoundedCornerShape(8.dp),
-                                                        ),
-                                                color = Color.Gray,
-                                                trackColor = Color.DarkGray,
-                                                strokeCap = StrokeCap.Round,
-                                                drawStopIndicator = {},
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                            CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                Slider(
-                                    value = sliderValue,
-                                    onValueChange = {
-                                        sharedViewModel.onUIEvent(
-                                            UIEvent.UpdateProgress(it),
-                                        )
-                                    },
-                                    valueRange = 0f..100f,
-                                    modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(top = 3.dp)
-                                            .align(
-                                                Alignment.TopCenter,
-                                            ),
-                                    track = { sliderState ->
-                                        SliderDefaults.Track(
-                                            modifier =
-                                                Modifier
-                                                    .height(5.dp),
-                                            enabled = true,
-                                            sliderState = sliderState,
-                                            colors =
-                                                SliderDefaults.colors().copy(
-                                                    thumbColor = Color.White,
-                                                    activeTrackColor = Color.White,
-                                                    inactiveTrackColor = Color.Transparent,
-                                                ),
-                                            thumbTrackGapSize = 0.dp,
-                                            drawTick = { _, _ -> },
-                                            drawStopIndicator = null,
-                                        )
-                                    },
-                                    thumb = {
-                                        SliderDefaults.Thumb(
-                                            modifier =
-                                                Modifier
-                                                    .height(18.dp)
-                                                    .width(8.dp)
-                                                    .padding(
-                                                        vertical = 4.dp,
-                                                    ),
-                                            thumbSize = DpSize(8.dp, 8.dp),
-                                            interactionSource =
-                                                remember {
-                                                    MutableInteractionSource()
-                                                },
-                                            colors =
-                                                SliderDefaults.colors().copy(
-                                                    thumbColor = Color.White,
-                                                    activeTrackColor = Color.White,
-                                                    inactiveTrackColor = Color.Transparent,
-                                                ),
-                                            enabled = true,
-                                        )
-                                    },
-                                )
-                            }
+                            PlatformProgressSlider(
+                                value = sliderValue,
+                                onValueChange = {
+                                    isSliding = true
+                                    sliderValue = it
+                                },
+                                onValueChangeFinished = {
+                                    isSliding = false
+                                    sharedViewModel.onUIEvent(
+                                        UIEvent.UpdateProgress(sliderValue),
+                                    )
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                useLiquidGlass = true
+                            )
                         }
                         LazyColumn {
                             item {
@@ -805,9 +716,11 @@ fun FullscreenLyricsSheet(
                                             tween(300),
                                         ),
                                 ) {
-                                    PlayerControlLayout(controllerState) {
-                                        sharedViewModel.onUIEvent(it)
-                                    }
+                                    PlatformPlayerControlLayout(
+                                        controllerState = controllerState,
+                                        onUIEvent = { sharedViewModel.onUIEvent(it) },
+                                        useLiquidGlass = true
+                                    )
                                 }
                                 AnimatedVisibility(
                                     visible = showControlButtons,
