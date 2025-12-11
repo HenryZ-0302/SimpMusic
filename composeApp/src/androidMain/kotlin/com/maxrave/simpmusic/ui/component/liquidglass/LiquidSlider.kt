@@ -117,8 +117,9 @@ fun LiquidSlider(
             )
         }
         
+        // 同步外部值变化到内部动画 - 使用 currentQ 确保捕获最新的 value lambda
         LaunchedEffect(dampedDragAnimation) {
-            snapshotFlow { value() }
+            snapshotFlow { currentQ() }
                 .collectLatest { newValue ->
                     if (dampedDragAnimation.targetValue != newValue) {
                         dampedDragAnimation.updateValue(newValue)
