@@ -108,18 +108,7 @@ fun ShareSavedLyricsDialog(
                     style = typo().bodySmall,
                 )
                 Text(
-                    buildAnnotatedString {
-                        append(stringResource(Res.string.lyrics_database_description))
-                        append(" ")
-                        withLink(
-                            LinkAnnotation.Url(
-                                "https://github.com/maxrave-dev/lyrics",
-                                TextLinkStyles(style = SpanStyle(color = md_theme_dark_primary)),
-                            ),
-                        ) {
-                            append("https://github.com/maxrave-dev/lyrics")
-                        }
-                    },
+                    stringResource(Res.string.lyrics_database_description),
                     style = typo().bodySmall,
                 )
                 Spacer(Modifier.height(8.dp))
