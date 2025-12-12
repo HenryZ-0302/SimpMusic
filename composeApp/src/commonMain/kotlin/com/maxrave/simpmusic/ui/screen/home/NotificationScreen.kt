@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.home
+﻿package com.maxrave.simpmusic.ui.screen.home
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -52,14 +52,14 @@ import com.maxrave.simpmusic.viewModel.NotificationViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.album
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.new_release
-import simpmusic.composeapp.generated.resources.no_notification
-import simpmusic.composeapp.generated.resources.notification
-import simpmusic.composeapp.generated.resources.singles
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.album
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.new_release
+import hymusic.composeapp.generated.resources.no_notification
+import hymusic.composeapp.generated.resources.notification
+import hymusic.composeapp.generated.resources.singles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

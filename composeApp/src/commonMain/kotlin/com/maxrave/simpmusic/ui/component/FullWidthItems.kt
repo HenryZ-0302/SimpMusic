@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -86,18 +86,18 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.add_to_queue
-import simpmusic.composeapp.generated.resources.album
-import simpmusic.composeapp.generated.resources.artists
-import simpmusic.composeapp.generated.resources.baseline_add_24
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.download_for_offline_white
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.playlist
-import simpmusic.composeapp.generated.resources.podcasts
-import simpmusic.composeapp.generated.resources.radio
-import simpmusic.composeapp.generated.resources.you
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.add_to_queue
+import hymusic.composeapp.generated.resources.album
+import hymusic.composeapp.generated.resources.artists
+import hymusic.composeapp.generated.resources.baseline_add_24
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.download_for_offline_white
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.podcasts
+import hymusic.composeapp.generated.resources.radio
+import hymusic.composeapp.generated.resources.you
 import kotlin.math.roundToInt
 
 /**

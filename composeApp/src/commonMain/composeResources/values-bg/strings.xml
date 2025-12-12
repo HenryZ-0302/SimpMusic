@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Песен • %1$s</string>
     <string name="playlist_and_author">Плейлист • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">За нас</string>
     <string name="version">Версия</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="paypal">PayPal</string>
     <string name="title">Заглавие</string>
@@ -134,7 +134,7 @@
     <string name="albums_inArtist">Албуми</string>
     <string name="singles_inArtist">Сингли</string>
     <string name="fans_might_also_like_inArtist">Почитателите може да харесат и</string>
-    <string name="crash_log">SimpMusic се срина. Извиняваме се за неудобството.\nИзпрати crash-log на разработчика</string>
+    <string name="crash_log">HYMusic се срина. Извиняваме се за неудобството.\nИзпрати crash-log на разработчика</string>
     <string name="crash">Сриване</string>
     <string name="send">Изпрати</string>
     <string name="mail_subject">Докладване за срив</string>
@@ -228,7 +228,7 @@
     <string name="saved_to_local_playlist">Запазено в локален плейлист</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">ако искате да разсинхронизирате този плейлист, моля, отидете в локален плейлист</string>
     <string name="log_in_to_get_YouTube_playlist">Влезте за да получите YouTube Playlist</string>
-    <string name="sync_playlist_warning">SimpMusic ще създаде YouTube Music Playlist автоматично. Сигурни ли сте?</string>
+    <string name="sync_playlist_warning">HYMusic ще създаде YouTube Music Playlist автоматично. Сигурни ли сте?</string>
     <string name="syncing">Синхронизиране</string>
     <string name="unsync_playlist_warning">"Разсинхронизиране на този плейлист? Този плейлист ще бъде премахнат от YouTube Music "</string>
     <string name="unsyncing">Разсинхронизиране</string>
@@ -257,7 +257,7 @@
     <string name="suggest">Предложение</string>
     <string name="reload">Презареди</string>
     <string name="added_date">Дата на добавяне</string>
-    <string name="credit_app">Опростено приложение за музика, което използва YouTube Music за бекенд \n\nSimpMusic е проект с отворен код, който стриймва музика от YouTube и YouTube Music без реклами и проследяване. SimpMusic идва с много функции:\n\n - Стрийминг \n - Текстове\n - Персонализиране на данните\n - и т. н… \n\nSimpMusic е безплатен и без реклами\n\nBuild с ❤️ от Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">Опростено приложение за музика, което използва YouTube Music за бекенд \n\nSimpMusic е проект с отворен код, който стриймва музика от YouTube и YouTube Music без реклами и проследяване. SimpMusic идва с много функции:\n\n - Стрийминг \n - Текстове\n - Персонализиране на данните\n - и т. н… \n\nSimpMusic е безплатен и без реклами\n\nBuild с ❤️ от Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Тракър на задачи</string>
     <string name="featured_playlists">Избрани плейлисти</string>
     <string name="featured_inArtist">Участва в</string>

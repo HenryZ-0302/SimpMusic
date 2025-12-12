@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic
+﻿package com.maxrave.simpmusic
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -97,17 +97,17 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.cancel
-import simpmusic.composeapp.generated.resources.download
-import simpmusic.composeapp.generated.resources.good_night
-import simpmusic.composeapp.generated.resources.sleep_timer_off
-import simpmusic.composeapp.generated.resources.this_link_is_not_supported
-import simpmusic.composeapp.generated.resources.unknown
-import simpmusic.composeapp.generated.resources.update_available
-import simpmusic.composeapp.generated.resources.update_message
-import simpmusic.composeapp.generated.resources.version_format
-import simpmusic.composeapp.generated.resources.yes
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.cancel
+import hymusic.composeapp.generated.resources.download
+import hymusic.composeapp.generated.resources.good_night
+import hymusic.composeapp.generated.resources.sleep_timer_off
+import hymusic.composeapp.generated.resources.this_link_is_not_supported
+import hymusic.composeapp.generated.resources.unknown
+import hymusic.composeapp.generated.resources.update_available
+import hymusic.composeapp.generated.resources.update_message
+import hymusic.composeapp.generated.resources.version_format
+import hymusic.composeapp.generated.resources.yes
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class, ExperimentalFoundationApi::class)

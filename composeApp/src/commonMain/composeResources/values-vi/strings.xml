@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Bài hát • %1$s</string>
     <string name="playlist_and_author">Danh sách phát • %1$s</string>
@@ -118,7 +118,7 @@
     <string name="about_us">Về tôi</string>
     <string name="version">Phiên bản</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Hỗ trợ tôi</string>
     <string name="paypal">PayPal</string>
     <string name="title">Tiêu đề</string>
@@ -137,7 +137,7 @@
     <string name="albums_inArtist">Đĩa nhạc</string>
     <string name="singles_inArtist">Đĩa đơn</string>
     <string name="fans_might_also_like_inArtist">Người hâm mộ có thể cũng thích</string>
-    <string name="crash_log">SimpMusic đã dừng đột ngột. Xin lỗi bạn vì sự bất tiện này. Gửi crash-log đến nhà phát trển</string>
+    <string name="crash_log">HYMusic đã dừng đột ngột. Xin lỗi bạn vì sự bất tiện này. Gửi crash-log đến nhà phát trển</string>
     <string name="crash">Lỗi</string>
     <string name="send">Gửi</string>
     <string name="mail_subject">Báo cáo</string>
@@ -237,7 +237,7 @@
     <string name="saved_to_local_playlist">Đã lưu vào danh sách phát nội bộ</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">Nếu bạn muốn huỷ đồng bộ danh sách phát này, xin hãy truy cập đến phần danh sách phát nội bộ</string>
     <string name="log_in_to_get_YouTube_playlist">Đăng nhập để tải danh sách phát YouTube của bạn</string>
-    <string name="sync_playlist_warning">SimpMusic sẽ tự động tạo một danh sách phát trên YouTube Music. Bạn có chắc chắn?</string>
+    <string name="sync_playlist_warning">HYMusic sẽ tự động tạo một danh sách phát trên YouTube Music. Bạn có chắc chắn?</string>
     <string name="syncing">Đang đồng bộ</string>
     <string name="unsync_playlist_warning">"Huỷ đồng bộ danh sách phát này? Điều này sẽ không xoá danh sách phát này trên YouTube Music"</string>
     <string name="unsyncing">Đang huỷ đồng bộ</string>
@@ -272,7 +272,7 @@
     <string name="older_first">Cũ trước</string>
     <string name="newer_first">Mới trước</string>
     <string name="added_date">Ngày thêm vào</string>
-    <string name="credit_app">Một ứng dụng âm nhạc đơn giản sử dụng dữ liệu từ YouTube Music \n\nSimpMusic là một dự án nguồn mở để phát nhạc từ YouTube và YouTube Music mà không bị quảng cáo và theo dõi. SimpMusic cung cấp nhiều tính năng:\n\n - Phát nhạc \n - Lời bài hát được đồng bộ hóa\n - Cá nhân hóa dữ liệu\n - v.v… \n\nSimpMusic luôn miễn phí và không có quảng cáo\n\nXây dựng với ❤️ bởi Nguyên Đức Tuấn Minh (maxrave-dev)</string>
+    <string name="credit_app">Một ứng dụng âm nhạc đơn giản sử dụng dữ liệu từ YouTube Music \n\nSimpMusic là một dự án nguồn mở để phát nhạc từ YouTube và YouTube Music mà không bị quảng cáo và theo dõi. SimpMusic cung cấp nhiều tính năng:\n\n - Phát nhạc \n - Lời bài hát được đồng bộ hóa\n - Cá nhân hóa dữ liệu\n - v.v… \n\nSimpMusic luôn miễn phí và không có quảng cáo\n\nXây dựng với ❤️ bởi Nguyên Đức Tuấn Minh (Henry)</string>
     <string name="issue_tracker">Theo dõi lỗi</string>
     <string name="featured_playlists">Danh sách phát nổi bật</string>
     <string name="featured_inArtist">Nổi bật</string>
@@ -446,7 +446,7 @@
     <string name="contributor_name">Tên người đóng góp</string>
     <string name="contributor_email">Email người đóng góp</string>
     <string name="anonymous">Ẩn danh</string>
-    <string name="simpmusic_lyrics">SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">HYMusic Lyrics</string>
     <string name="lyrics_provider_simpmusic">Lời bài hát được cung cấp bởi SimpMusic Lyrics</string>
     <string name="backup_in_progress">Đang sao lưu</string>
     <string name="restore_in_progress">Đang tiến hành khôi phục</string>

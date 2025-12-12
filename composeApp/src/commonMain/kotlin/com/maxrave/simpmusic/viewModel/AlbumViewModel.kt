@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
@@ -29,11 +29,11 @@ import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.album
-import simpmusic.composeapp.generated.resources.downloaded
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.playlist_is_empty
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.album
+import hymusic.composeapp.generated.resources.downloaded
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.playlist_is_empty
 
 class AlbumViewModel(
     private val songRepository: SongRepository,

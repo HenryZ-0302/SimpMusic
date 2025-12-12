@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.Config
@@ -33,9 +33,9 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.added_local_playlist
-import simpmusic.composeapp.generated.resources.youtube_liked_music
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.added_local_playlist
+import hymusic.composeapp.generated.resources.youtube_liked_music
 
 class LibraryViewModel(
     private val dataStoreManager: DataStoreManager,

@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.Config
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.playlist
 
 class LibraryDynamicPlaylistViewModel(
     private val songRepository: SongRepository,

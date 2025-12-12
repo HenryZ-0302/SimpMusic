@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.service.test.notification
+﻿package com.maxrave.simpmusic.service.test.notification
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -22,9 +22,9 @@ import com.maxrave.simpmusic.MainActivity
 import com.maxrave.simpmusic.R
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.new_albums
-import simpmusic.composeapp.generated.resources.new_singles
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.new_albums
+import hymusic.composeapp.generated.resources.new_singles
 
 object NotificationHandler {
     private const val CHANNEL_ID = "transactions_reminder_channel"

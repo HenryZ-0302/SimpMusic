@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Композиція • %1$s</string>
     <string name="playlist_and_author">Список відтворення• %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">Про нас</string>
     <string name="version">Версія</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Купіть мені каву</string>
     <string name="paypal">PayPal</string>
     <string name="title">Назва</string>
@@ -233,7 +233,7 @@
     <string name="saved_to_local_playlist">Збережено в локальному плейлисті</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">якщо ви хочете скасувати синхронізацію цього плейлиста, перейдіть до локального плейлиста</string>
     <string name="log_in_to_get_YouTube_playlist">Увійдіть, щоб отримати YouTube плейлист</string>
-    <string name="sync_playlist_warning">SimpMusic автоматично створить плейлист YouTube Music. Ви впевнені?</string>
+    <string name="sync_playlist_warning">HYMusic автоматично створить плейлист YouTube Music. Ви впевнені?</string>
     <string name="syncing">Синхронізація</string>
     <string name="unsync_playlist_warning">"Скасувати синхронізацію цього плейлиста? Цей плейлист не буде видалено з YouTube Music"</string>
     <string name="unsyncing">Cкасування синхронізації</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Спочатку старіші</string>
     <string name="newer_first">Спочатку новіші</string>
     <string name="added_date">Дата додавання</string>
-    <string name="credit_app">Простий музичний застосунок з використанням YouTube Music для бекенду \n\nSimpMusic - це проєкт з відкритим вихідним кодом для потокової передачі музики з YouTube та YouTube Music без реклами та відстеження. SimpMusic надає багато можливостей:\n\n - Потокова музика\n - Синхронізовані тексти\n - Персоналізація даних\n - тощо... \n\nSimpMusic завжди безкоштовний і без реклами\n\nСтворено з ❤️ від Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">Простий музичний застосунок з використанням YouTube Music для бекенду \n\nSimpMusic - це проєкт з відкритим вихідним кодом для потокової передачі музики з YouTube та YouTube Music без реклами та відстеження. SimpMusic надає багато можливостей:\n\n - Потокова музика\n - Синхронізовані тексти\n - Персоналізація даних\n - тощо... \n\nSimpMusic завжди безкоштовний і без реклами\n\nСтворено з ❤️ від Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Відстежувач випусків</string>
     <string name="featured_playlists">Рекомендовані плейлисти</string>
     <string name="featured_inArtist">Рекомендовано</string>

@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -39,7 +39,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.maxrave.simpmusic.ui.theme.md_theme_dark_primary
 import com.maxrave.simpmusic.ui.theme.typo
 import org.jetbrains.compose.resources.stringResource
-import simpmusic.composeapp.generated.resources.*
+import hymusic.composeapp.generated.resources.*
 
 @Composable
 @ExperimentalMaterial3Api

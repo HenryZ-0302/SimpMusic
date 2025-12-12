@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.Config
@@ -28,9 +28,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.radio
-import simpmusic.composeapp.generated.resources.shuffle
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.radio
+import hymusic.composeapp.generated.resources.shuffle
 
 class ArtistViewModel(
     private val artistRepository: ArtistRepository,

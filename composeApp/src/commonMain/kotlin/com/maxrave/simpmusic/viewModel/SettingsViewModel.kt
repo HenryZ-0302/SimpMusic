@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import coil3.PlatformContext
@@ -39,16 +39,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.backup_create_failed
-import simpmusic.composeapp.generated.resources.backup_create_success
-import simpmusic.composeapp.generated.resources.backup_in_progress
-import simpmusic.composeapp.generated.resources.clear_canvas_cache
-import simpmusic.composeapp.generated.resources.clear_downloaded_cache
-import simpmusic.composeapp.generated.resources.clear_player_cache
-import simpmusic.composeapp.generated.resources.clear_thumbnail_cache
-import simpmusic.composeapp.generated.resources.restore_failed
-import simpmusic.composeapp.generated.resources.restore_in_progress
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.backup_create_failed
+import hymusic.composeapp.generated.resources.backup_create_success
+import hymusic.composeapp.generated.resources.backup_in_progress
+import hymusic.composeapp.generated.resources.clear_canvas_cache
+import hymusic.composeapp.generated.resources.clear_downloaded_cache
+import hymusic.composeapp.generated.resources.clear_player_cache
+import hymusic.composeapp.generated.resources.clear_thumbnail_cache
+import hymusic.composeapp.generated.resources.restore_failed
+import hymusic.composeapp.generated.resources.restore_in_progress
 
 class SettingsViewModel(
     private val dataStoreManager: DataStoreManager,

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">單曲 • %1$s</string>
     <string name="playlist_and_author">播放清單 • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">關於我們</string>
     <string name="version">版本</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">求贊助QAQ</string>
     <string name="paypal">Paypal</string>
     <string name="title">標題</string>
@@ -134,7 +134,7 @@
     <string name="albums_inArtist">專輯</string>
     <string name="singles_inArtist">單曲</string>
     <string name="fans_might_also_like_inArtist">您也可能喜歡</string>
-    <string name="crash_log">SimpMusic當機了\n將當機報告傳送給開發者</string>
+    <string name="crash_log">HYMusic當機了\n將當機報告傳送給開發者</string>
     <string name="crash">當機</string>
     <string name="send">傳送</string>
     <string name="mail_subject">回報</string>
@@ -233,7 +233,7 @@
     <string name="saved_to_local_playlist">已儲存到裝置播放清單</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">如果您想取消同步此播放列表，請前往裝置播放列表</string>
     <string name="log_in_to_get_YouTube_playlist">登入以取得YouTube播放清單</string>
-    <string name="sync_playlist_warning">SimpMusic將自動建立YouTube音樂播放清單。 你確定嗎？</string>
+    <string name="sync_playlist_warning">HYMusic將自動建立YouTube音樂播放清單。 你確定嗎？</string>
     <string name="syncing">正在同步</string>
     <string name="unsync_playlist_warning">"取消同步此播放清單？ 該播放清單不會從YouTube Music中刪除 "</string>
     <string name="unsyncing">正取消同步</string>
@@ -268,7 +268,7 @@
     <string name="older_first">由舊至新</string>
     <string name="newer_first">最新作品</string>
     <string name="added_date">已添加日期</string>
-    <string name="credit_app">SimpMusic是一個開放原始碼、零廣告、使用YouTube Music作為後端的簡單音樂應用程式 \n\n用於從YouTube和YouTube Music串流音樂。SimpMusic提供許多功能：\n\n - 串流音樂\n - 同步歌詞\n - 個人化資料\n - 等等... \n\nSimpMusic總是免費，無廣告\n\n由Tuan Minh Nguyen Duc (maxrave) 開發 ❤️</string>
+    <string name="credit_app">HYMusic是一個開放原始碼、零廣告、使用YouTube Music作為後端的簡單音樂應用程式 \n\n用於從YouTube和YouTube Music串流音樂。SimpMusic提供許多功能：\n\n - 串流音樂\n - 同步歌詞\n - 個人化資料\n - 等等... \n\nSimpMusic總是免費，無廣告\n\n由Tuan Minh Nguyen Duc (Henry) 開發 ❤️</string>
     <string name="issue_tracker">回報問題</string>
     <string name="featured_playlists">精選播放清單</string>
     <string name="featured_inArtist">已發布</string>
@@ -441,7 +441,7 @@
     <string name="contributor_name">貢獻者姓名或稱謂</string>
     <string name="contributor_email">貢獻者電子郵件</string>
     <string name="anonymous">匿名</string>
-    <string name="simpmusic_lyrics">SimpMusic 歌詞資料庫</string>
+    <string name="simpmusic_lyrics">HYMusic 歌詞資料庫</string>
     <string name="lyrics_provider_simpmusic">歌詞由 SimpMusic 歌詞資料庫提供</string>
     <string name="backup_in_progress">正在準備備份</string>
     <string name="restore_in_progress">正在準備還原</string>

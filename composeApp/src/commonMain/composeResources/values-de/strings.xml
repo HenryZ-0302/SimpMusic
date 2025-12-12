@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Song • %1$s</string>
     <string name="playlist_and_author">Playlist • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">Über uns</string>
     <string name="version">Version</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Spendiere mir einen Kaffee</string>
     <string name="paypal">PayPal</string>
     <string name="title">Titel</string>
@@ -233,7 +233,7 @@
     <string name="saved_to_local_playlist">In lokaler Playlist gespeichert</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">Wenn du die Synchronisierung dieser Playlist aufheben möchtest, gehe bitte zur lokalen Playlist</string>
     <string name="log_in_to_get_YouTube_playlist">Melde dich an, um die YouTube-Playlist zu erhalten</string>
-    <string name="sync_playlist_warning">SimpMusic erstellt automatisch eine YouTube Music-Playlist. Bist du dir sicher?</string>
+    <string name="sync_playlist_warning">HYMusic erstellt automatisch eine YouTube Music-Playlist. Bist du dir sicher?</string>
     <string name="syncing">Synchronisierung</string>
     <string name="unsync_playlist_warning">"Synchronisierung dieser Playlist aufheben? Diese Playlist wird nicht aus YouTube Music entfernt"</string>
     <string name="unsyncing">Synchronisierung wird aufgehoben</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Ältere zuerst</string>
     <string name="newer_first">Neue zuerst</string>
     <string name="added_date">Datum hinzugefügt</string>
-    <string name="credit_app">Eine einfache Musik-App mit YouTube Music als Backend \n\nSimpMusic ist ein Open-Source-Projekt zum Streamen von Musik von YouTube und YouTube Music ohne Werbung und Tracking. SimpMusic bietet viele Funktionen:\n\n - Musik streamen \n - Synchronisierte Liedtexte\n - Daten personalisieren\n - etc… \n\nSimpMusic ist immer kostenlos und ohne Werbung\n\nErstellen Sie mit ❤️ von Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">Eine einfache Musik-App mit YouTube Music als Backend \n\nSimpMusic ist ein Open-Source-Projekt zum Streamen von Musik von YouTube und YouTube Music ohne Werbung und Tracking. SimpMusic bietet viele Funktionen:\n\n - Musik streamen \n - Synchronisierte Liedtexte\n - Daten personalisieren\n - etc… \n\nSimpMusic ist immer kostenlos und ohne Werbung\n\nErstellen Sie mit ❤️ von Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Issue-Tracker</string>
     <string name="featured_playlists">Empfohlene Playlists</string>
     <string name="featured_inArtist">Zu hören in</string>
@@ -442,7 +442,7 @@
     <string name="contributor_name">Name des Mitwirkenden</string>
     <string name="contributor_email">E-Mail des Mitwirkenden</string>
     <string name="anonymous">Anonym</string>
-    <string name="simpmusic_lyrics">SimpMusic-Lyrics</string>
+    <string name="simpmusic_lyrics">HYMusic-Lyrics</string>
     <string name="lyrics_provider_simpmusic">Songtexte von SimpMusic-Lyrics bereitgestellt</string>
     <string name="backup_in_progress">Backup wird erstellt</string>
     <string name="restore_in_progress">Backup wird wiederhergestellt</string>

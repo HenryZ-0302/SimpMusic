@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen
+﻿package com.maxrave.simpmusic.ui.screen
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.AnimatedContent
@@ -117,8 +117,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.holder
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 import kotlin.time.Duration.Companion.seconds

@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.home
+﻿package com.maxrave.simpmusic.ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
@@ -24,7 +24,7 @@ import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.MoodViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.*
+import hymusic.composeapp.generated.resources.*
 
 @Composable
 fun MoodScreen(

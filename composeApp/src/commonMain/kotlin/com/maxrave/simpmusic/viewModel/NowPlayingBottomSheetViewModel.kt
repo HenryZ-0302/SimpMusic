@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.Config
@@ -37,19 +37,19 @@ import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.added_to_playlist
-import simpmusic.composeapp.generated.resources.added_to_queue
-import simpmusic.composeapp.generated.resources.added_to_youtube_playlist
-import simpmusic.composeapp.generated.resources.delete_song_from_playlist
-import simpmusic.composeapp.generated.resources.downloading
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.error_occurred
-import simpmusic.composeapp.generated.resources.play_next
-import simpmusic.composeapp.generated.resources.removed_download
-import simpmusic.composeapp.generated.resources.removed_from_YouTube_playlist
-import simpmusic.composeapp.generated.resources.share_url
-import simpmusic.composeapp.generated.resources.sleep_timer_off_done
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.added_to_playlist
+import hymusic.composeapp.generated.resources.added_to_queue
+import hymusic.composeapp.generated.resources.added_to_youtube_playlist
+import hymusic.composeapp.generated.resources.delete_song_from_playlist
+import hymusic.composeapp.generated.resources.downloading
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.error_occurred
+import hymusic.composeapp.generated.resources.play_next
+import hymusic.composeapp.generated.resources.removed_download
+import hymusic.composeapp.generated.resources.removed_from_YouTube_playlist
+import hymusic.composeapp.generated.resources.share_url
+import hymusic.composeapp.generated.resources.sleep_timer_off_done
 
 class NowPlayingBottomSheetViewModel(
     private val dataStoreManager: DataStoreManager,

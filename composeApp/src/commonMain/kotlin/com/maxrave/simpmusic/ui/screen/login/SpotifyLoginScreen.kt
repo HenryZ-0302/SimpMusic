@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.login
+﻿package com.maxrave.simpmusic.ui.screen.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,10 +50,10 @@ import dev.chrisbanes.haze.rememberHazeState
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.log_in_to_spotify
-import simpmusic.composeapp.generated.resources.login_success
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.log_in_to_spotify
+import hymusic.composeapp.generated.resources.login_success
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable

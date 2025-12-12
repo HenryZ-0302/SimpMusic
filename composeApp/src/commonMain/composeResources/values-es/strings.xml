@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Canción • %1$s</string>
     <string name="playlist_and_author">Lista de reproducción • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">Sobre nosotros</string>
     <string name="version">Versión</string>
     <string name="github">GitHub</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Cómprame un café</string>
     <string name="paypal">PayPal</string>
     <string name="title">Título</string>
@@ -134,7 +134,7 @@
     <string name="albums_inArtist">Álbumes</string>
     <string name="singles_inArtist">Sencillos</string>
     <string name="fans_might_also_like_inArtist">A los fans también les gusta</string>
-    <string name="crash_log">SimpMusic falló. Disculpa este problema.\nEnviar registro de errores al desarrollador</string>
+    <string name="crash_log">HYMusic falló. Disculpa este problema.\nEnviar registro de errores al desarrollador</string>
     <string name="crash">Falla</string>
     <string name="send">Enviar</string>
     <string name="mail_subject">Reportar error</string>
@@ -233,7 +233,7 @@
     <string name="saved_to_local_playlist">Guardado en la lista de reproducción local</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">si quieres desincronizar esta lista, por favor ve a la lista de reproducción local</string>
     <string name="log_in_to_get_YouTube_playlist">Inicia sesión para obtener la lista de reproducción de YouTube</string>
-    <string name="sync_playlist_warning">SimpMusic creará automáticamente una lista de reproducción de música de YouTube. ¿Estás seguro?</string>
+    <string name="sync_playlist_warning">HYMusic creará automáticamente una lista de reproducción de música de YouTube. ¿Estás seguro?</string>
     <string name="syncing">Sincronizando</string>
     <string name="unsync_playlist_warning">"¿Dessincronizar esta lista? Esta lista de reproducción no se eliminará de YouTube Music "</string>
     <string name="unsyncing">Dessincronizando</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Primero antiguo</string>
     <string name="newer_first">Primero nuevo</string>
     <string name="added_date">Fecha añadida</string>
-    <string name="credit_app">Una aplicación de música sencilla que utiliza YouTube Music como backend \n\nSimpMusic es un proyecto de código abierto para transmitir música desde YouTube y YouTube Music sin anuncios ni seguimiento. SimpMusic ofrece muchas funciones:\n\n - Transmisión de música \n - Letras sincronizadas\n - Personalizar datos\n - etc... \n\nSimpMusic es siempre gratuito y sin anuncios\n\nCompilado con ❤️ de Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">Una aplicación de música sencilla que utiliza YouTube Music como backend \n\nSimpMusic es un proyecto de código abierto para transmitir música desde YouTube y YouTube Music sin anuncios ni seguimiento. SimpMusic ofrece muchas funciones:\n\n - Transmisión de música \n - Letras sincronizadas\n - Personalizar datos\n - etc... \n\nSimpMusic es siempre gratuito y sin anuncios\n\nCompilado con ❤️ de Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Rastreador de errores</string>
     <string name="featured_playlists">Listas de reproducción destacadas</string>
     <string name="featured_inArtist">Destacado en</string>
@@ -442,7 +442,7 @@
     <string name="contributor_name">Nombre del contribuidor</string>
     <string name="contributor_email">Correo del contribuidor</string>
     <string name="anonymous">Anónimo</string>
-    <string name="simpmusic_lyrics">SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">HYMusic Lyrics</string>
     <string name="lyrics_provider_simpmusic">Letras proveídas por SimpMusic Lyrics</string>
     <string name="backup_in_progress">Copia de seguridad en curso</string>
     <string name="restore_in_progress">Restauración en curso</string>

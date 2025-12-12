@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -88,21 +88,21 @@ import com.maxrave.simpmusic.viewModel.HomeViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.album
-import simpmusic.composeapp.generated.resources.artists
-import simpmusic.composeapp.generated.resources.available_online
-import simpmusic.composeapp.generated.resources.description
-import simpmusic.composeapp.generated.resources.downloaded
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.holder_video
-import simpmusic.composeapp.generated.resources.playlist
-import simpmusic.composeapp.generated.resources.podcasts
-import simpmusic.composeapp.generated.resources.songs
-import simpmusic.composeapp.generated.resources.subscribers
-import simpmusic.composeapp.generated.resources.videos
-import simpmusic.composeapp.generated.resources.you
-import simpmusic.composeapp.generated.resources.your_youtube_playlists
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.album
+import hymusic.composeapp.generated.resources.artists
+import hymusic.composeapp.generated.resources.available_online
+import hymusic.composeapp.generated.resources.description
+import hymusic.composeapp.generated.resources.downloaded
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.holder_video
+import hymusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.podcasts
+import hymusic.composeapp.generated.resources.songs
+import hymusic.composeapp.generated.resources.subscribers
+import hymusic.composeapp.generated.resources.videos
+import hymusic.composeapp.generated.resources.you
+import hymusic.composeapp.generated.resources.your_youtube_playlists
 
 @Composable
 fun HomeItem(

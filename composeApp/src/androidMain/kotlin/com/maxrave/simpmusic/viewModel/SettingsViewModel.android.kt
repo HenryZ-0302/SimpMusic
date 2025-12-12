@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import android.app.usage.StorageStatsManager
 import android.content.Context
@@ -31,8 +31,8 @@ import multiplatform.network.cmptoast.ToastGravity
 import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.getString
 import org.koin.mp.KoinPlatform.getKoin
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.restore_success
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.restore_success
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

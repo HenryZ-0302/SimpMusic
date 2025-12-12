@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.SELECTED_LANGUAGE
@@ -28,11 +28,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.music_video
-import simpmusic.composeapp.generated.resources.new_release
-import simpmusic.composeapp.generated.resources.song
-import simpmusic.composeapp.generated.resources.view_count
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.music_video
+import hymusic.composeapp.generated.resources.new_release
+import hymusic.composeapp.generated.resources.song
+import hymusic.composeapp.generated.resources.view_count
 
 class HomeViewModel(
     private val dataStoreManager: DataStoreManager,

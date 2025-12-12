@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.library
+﻿package com.maxrave.simpmusic.ui.screen.library
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -148,28 +148,28 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.album_length
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.baseline_downloaded
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.baseline_pause_circle_24
-import simpmusic.composeapp.generated.resources.baseline_play_circle_24
-import simpmusic.composeapp.generated.resources.baseline_shuffle_24
-import simpmusic.composeapp.generated.resources.baseline_tips_and_updates_24
-import simpmusic.composeapp.generated.resources.cancel
-import simpmusic.composeapp.generated.resources.created_at
-import simpmusic.composeapp.generated.resources.download_button
-import simpmusic.composeapp.generated.resources.downloaded
-import simpmusic.composeapp.generated.resources.downloading
-import simpmusic.composeapp.generated.resources.reload
-import simpmusic.composeapp.generated.resources.sort_by
-import simpmusic.composeapp.generated.resources.suggest
-import simpmusic.composeapp.generated.resources.sync_playlist_warning
-import simpmusic.composeapp.generated.resources.unsync_playlist_warning
-import simpmusic.composeapp.generated.resources.warning
-import simpmusic.composeapp.generated.resources.yes
-import simpmusic.composeapp.generated.resources.your_playlist
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.album_length
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.baseline_downloaded
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.baseline_pause_circle_24
+import hymusic.composeapp.generated.resources.baseline_play_circle_24
+import hymusic.composeapp.generated.resources.baseline_shuffle_24
+import hymusic.composeapp.generated.resources.baseline_tips_and_updates_24
+import hymusic.composeapp.generated.resources.cancel
+import hymusic.composeapp.generated.resources.created_at
+import hymusic.composeapp.generated.resources.download_button
+import hymusic.composeapp.generated.resources.downloaded
+import hymusic.composeapp.generated.resources.downloading
+import hymusic.composeapp.generated.resources.reload
+import hymusic.composeapp.generated.resources.sort_by
+import hymusic.composeapp.generated.resources.suggest
+import hymusic.composeapp.generated.resources.sync_playlist_warning
+import hymusic.composeapp.generated.resources.unsync_playlist_warning
+import hymusic.composeapp.generated.resources.warning
+import hymusic.composeapp.generated.resources.yes
+import hymusic.composeapp.generated.resources.your_playlist
 
 private const val TAG = "LocalPlaylistScreen"
 

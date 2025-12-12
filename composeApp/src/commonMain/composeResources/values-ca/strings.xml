@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Cançó • %1$s</string>
     <string name="playlist_and_author">Llista de reproducció • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">Sobre nosaltres</string>
     <string name="version">Versió</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Compra\'m un cafè</string>
     <string name="paypal">PayPal</string>
     <string name="title">Títol</string>
@@ -134,7 +134,7 @@
     <string name="albums_inArtist">Àlbums</string>
     <string name="singles_inArtist">Singles</string>
     <string name="fans_might_also_like_inArtist">Els fans també poden agradar</string>
-    <string name="crash_log">SimpMusic s\'ha aturat. Disculpeu aquest problema.\nEnvieu el registre d\'error al desenvolupador</string>
+    <string name="crash_log">HYMusic s\'ha aturat. Disculpeu aquest problema.\nEnvieu el registre d\'error al desenvolupador</string>
     <string name="crash">Bloqueig</string>
     <string name="send">Envia</string>
     <string name="mail_subject">Informar d\'una fallada</string>
@@ -232,7 +232,7 @@
     <string name="saved_to_local_playlist">Desat a la llista de reproducció local</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">Si desitja dessincronitzar aquesta llista de reproducció, per favor, vagi a les llistes de reproducció locals</string>
     <string name="log_in_to_get_YouTube_playlist">Inicia la sessió per obtenir la llista de reproducció de YouTube</string>
-    <string name="sync_playlist_warning">SimpMusic crearà una llista de reproducció de YouTube Music automàticament. Està segur?</string>
+    <string name="sync_playlist_warning">HYMusic crearà una llista de reproducció de YouTube Music automàticament. Està segur?</string>
     <string name="syncing">Sincronitzant</string>
     <string name="unsync_playlist_warning">"Unsync this playlist? This playlist will not be removed from YouTube Music "</string>
     <string name="unsyncing">Unsyncing</string>
@@ -267,7 +267,7 @@
     <string name="older_first">Més antics primer</string>
     <string name="newer_first">Més nous primer</string>
     <string name="added_date">Data afegida</string>
-    <string name="credit_app">Una aplicació de música senzilla que utilitza YouTube Music per al backend \n\nSimpMusic és un projecte de codi obert per reproduir música de YouTube i YouTube Music sense anuncis ni seguiment. SimpMusic ofereix moltes funcions:\n\n - Reproducció de música en temps real \n - Lletres sincronitzades\n - Personalització de dades\n - etc... \n\nSimpMusic sempre és gratuït i sense anuncis\n\nCrea amb ❤️ de Tuan Minh Nguyen Duc (maxrave -dev)</string>
+    <string name="credit_app">Una aplicació de música senzilla que utilitza YouTube Music per al backend \n\nSimpMusic és un projecte de codi obert per reproduir música de YouTube i YouTube Music sense anuncis ni seguiment. SimpMusic ofereix moltes funcions:\n\n - Reproducció de música en temps real \n - Lletres sincronitzades\n - Personalització de dades\n - etc... \n\nSimpMusic sempre és gratuït i sense anuncis\n\nCrea amb ❤️ de Tuan Minh Nguyen Duc (Henry -dev)</string>
     <string name="issue_tracker">Detector de problemes</string>
     <string name="featured_playlists">Llistes de reproducció destacades</string>
     <string name="featured_inArtist">Destacat a</string>
@@ -439,7 +439,7 @@
     <string name="contributor_name">Nom de contribuïdor</string>
     <string name="contributor_email">Email de contribuïdor</string>
     <string name="anonymous">Anònim</string>
-    <string name="simpmusic_lyrics">SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">HYMusic Lyrics</string>
     <string name="lyrics_provider_simpmusic">Lletra de cançó proporcionada per SimpMusic Lyrics</string>
     <string name="backup_in_progress">Còpia de seguretat en progrés</string>
     <string name="restore_in_progress">Restauració en progrés</string>

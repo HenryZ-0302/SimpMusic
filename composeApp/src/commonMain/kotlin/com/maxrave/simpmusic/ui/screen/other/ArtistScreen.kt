@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.other
+﻿package com.maxrave.simpmusic.ui.screen.other
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -86,21 +86,21 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.albums
-import simpmusic.composeapp.generated.resources.description
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.featured_inArtist
-import simpmusic.composeapp.generated.resources.follow
-import simpmusic.composeapp.generated.resources.followed
-import simpmusic.composeapp.generated.resources.more
-import simpmusic.composeapp.generated.resources.no_description
-import simpmusic.composeapp.generated.resources.popular
-import simpmusic.composeapp.generated.resources.related_artists
-import simpmusic.composeapp.generated.resources.singles
-import simpmusic.composeapp.generated.resources.start_radio
-import simpmusic.composeapp.generated.resources.unknown
-import simpmusic.composeapp.generated.resources.videos
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.albums
+import hymusic.composeapp.generated.resources.description
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.featured_inArtist
+import hymusic.composeapp.generated.resources.follow
+import hymusic.composeapp.generated.resources.followed
+import hymusic.composeapp.generated.resources.more
+import hymusic.composeapp.generated.resources.no_description
+import hymusic.composeapp.generated.resources.popular
+import hymusic.composeapp.generated.resources.related_artists
+import hymusic.composeapp.generated.resources.singles
+import hymusic.composeapp.generated.resources.start_radio
+import hymusic.composeapp.generated.resources.unknown
+import hymusic.composeapp.generated.resources.videos
 
 @Composable
 @ExperimentalMaterial3Api

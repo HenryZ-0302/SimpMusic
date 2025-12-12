@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -68,13 +68,13 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.most_played
-import simpmusic.composeapp.generated.resources.no_favorite_playlists
-import simpmusic.composeapp.generated.resources.no_playlists_downloaded
-import simpmusic.composeapp.generated.resources.radio
-import simpmusic.composeapp.generated.resources.recently_added
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.most_played
+import hymusic.composeapp.generated.resources.no_favorite_playlists
+import hymusic.composeapp.generated.resources.no_playlists_downloaded
+import hymusic.composeapp.generated.resources.radio
+import hymusic.composeapp.generated.resources.recently_added
 import com.maxrave.domain.mediaservice.handler.PlaylistType as DomainPlaylistType
 
 @OptIn(ExperimentalMaterial3Api::class)

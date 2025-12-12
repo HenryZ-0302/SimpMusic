@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.other
+﻿package com.maxrave.simpmusic.ui.screen.other
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -119,25 +119,25 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.album_length
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.baseline_downloaded
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.baseline_pause_circle_24
-import simpmusic.composeapp.generated.resources.baseline_play_circle_24
-import simpmusic.composeapp.generated.resources.baseline_sensors_24
-import simpmusic.composeapp.generated.resources.baseline_shuffle_24
-import simpmusic.composeapp.generated.resources.download_button
-import simpmusic.composeapp.generated.resources.downloaded
-import simpmusic.composeapp.generated.resources.downloading
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.no_description
-import simpmusic.composeapp.generated.resources.playlist
-import simpmusic.composeapp.generated.resources.radio
-import simpmusic.composeapp.generated.resources.search
-import simpmusic.composeapp.generated.resources.unlimited
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.album_length
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.baseline_downloaded
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.baseline_pause_circle_24
+import hymusic.composeapp.generated.resources.baseline_play_circle_24
+import hymusic.composeapp.generated.resources.baseline_sensors_24
+import hymusic.composeapp.generated.resources.baseline_shuffle_24
+import hymusic.composeapp.generated.resources.download_button
+import hymusic.composeapp.generated.resources.downloaded
+import hymusic.composeapp.generated.resources.downloading
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.no_description
+import hymusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.radio
+import hymusic.composeapp.generated.resources.search
+import hymusic.composeapp.generated.resources.unlimited
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterial3Api::class)
 @Composable

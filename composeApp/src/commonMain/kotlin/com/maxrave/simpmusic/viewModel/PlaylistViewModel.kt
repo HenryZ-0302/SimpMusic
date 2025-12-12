@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
+﻿@file:Suppress("ktlint:standard:no-wildcard-imports")
 
 package com.maxrave.simpmusic.viewModel
 
@@ -44,19 +44,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.auto_created_by_youtube_music
-import simpmusic.composeapp.generated.resources.downloading
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.playlist
-import simpmusic.composeapp.generated.resources.playlist_is_empty
-import simpmusic.composeapp.generated.resources.radio
-import simpmusic.composeapp.generated.resources.radio_not_available
-import simpmusic.composeapp.generated.resources.shuffle
-import simpmusic.composeapp.generated.resources.shuffle_not_available
-import simpmusic.composeapp.generated.resources.synced
-import simpmusic.composeapp.generated.resources.syncing
-import simpmusic.composeapp.generated.resources.view_count
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.auto_created_by_youtube_music
+import hymusic.composeapp.generated.resources.downloading
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.playlist_is_empty
+import hymusic.composeapp.generated.resources.radio
+import hymusic.composeapp.generated.resources.radio_not_available
+import hymusic.composeapp.generated.resources.shuffle
+import hymusic.composeapp.generated.resources.shuffle_not_available
+import hymusic.composeapp.generated.resources.synced
+import hymusic.composeapp.generated.resources.syncing
+import hymusic.composeapp.generated.resources.view_count
 
 class PlaylistViewModel(
     private val songRepository: SongRepository,

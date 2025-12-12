@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.player
+﻿package com.maxrave.simpmusic.ui.screen.player
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -88,10 +88,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.five_seconds
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.five_seconds
 import kotlin.math.roundToLong
 
 @OptIn(ExperimentalMaterial3Api::class)

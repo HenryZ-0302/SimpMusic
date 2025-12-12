@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
@@ -56,27 +56,27 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.add_to_queue
-import simpmusic.composeapp.generated.resources.added_to_playlist
-import simpmusic.composeapp.generated.resources.added_to_queue
-import simpmusic.composeapp.generated.resources.added_to_youtube_playlist
-import simpmusic.composeapp.generated.resources.can_t_add_to_youtube_playlist
-import simpmusic.composeapp.generated.resources.can_t_delete_from_youtube_playlist
-import simpmusic.composeapp.generated.resources.delete
-import simpmusic.composeapp.generated.resources.delete_song_from_playlist
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.playlist
-import simpmusic.composeapp.generated.resources.playlist_is_empty
-import simpmusic.composeapp.generated.resources.removed_from_YouTube_playlist
-import simpmusic.composeapp.generated.resources.suggest
-import simpmusic.composeapp.generated.resources.synced
-import simpmusic.composeapp.generated.resources.syncing
-import simpmusic.composeapp.generated.resources.unsynced
-import simpmusic.composeapp.generated.resources.unsyncing
-import simpmusic.composeapp.generated.resources.updated
-import simpmusic.composeapp.generated.resources.updated_to_youtube_playlist
-import simpmusic.composeapp.generated.resources.updating
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.add_to_queue
+import hymusic.composeapp.generated.resources.added_to_playlist
+import hymusic.composeapp.generated.resources.added_to_queue
+import hymusic.composeapp.generated.resources.added_to_youtube_playlist
+import hymusic.composeapp.generated.resources.can_t_add_to_youtube_playlist
+import hymusic.composeapp.generated.resources.can_t_delete_from_youtube_playlist
+import hymusic.composeapp.generated.resources.delete
+import hymusic.composeapp.generated.resources.delete_song_from_playlist
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.playlist
+import hymusic.composeapp.generated.resources.playlist_is_empty
+import hymusic.composeapp.generated.resources.removed_from_YouTube_playlist
+import hymusic.composeapp.generated.resources.suggest
+import hymusic.composeapp.generated.resources.synced
+import hymusic.composeapp.generated.resources.syncing
+import hymusic.composeapp.generated.resources.unsynced
+import hymusic.composeapp.generated.resources.unsyncing
+import hymusic.composeapp.generated.resources.updated
+import hymusic.composeapp.generated.resources.updated_to_youtube_playlist
+import hymusic.composeapp.generated.resources.updating
 
 class LocalPlaylistViewModel(
     private val dataStoreManager: DataStoreManager,

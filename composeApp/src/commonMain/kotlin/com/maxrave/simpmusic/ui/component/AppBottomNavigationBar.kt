@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import com.maxrave.simpmusic.ui.navigation.destination.search.SearchDestination
 import com.maxrave.simpmusic.ui.theme.typo
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import simpmusic.composeapp.generated.resources.*
+import hymusic.composeapp.generated.resources.*
 import kotlin.reflect.KClass
 
 @Composable

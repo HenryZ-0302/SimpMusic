@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.home
+﻿package com.maxrave.simpmusic.ui.screen.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -51,10 +51,10 @@ import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.recently_added
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.recently_added
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import com.eygraber.uri.Uri
 import com.maxrave.common.DB_NAME
@@ -15,8 +15,8 @@ import kotlinx.coroutines.withContext
 import multiplatform.network.cmptoast.ToastGravity
 import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.getString
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.restore_success
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.restore_success
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

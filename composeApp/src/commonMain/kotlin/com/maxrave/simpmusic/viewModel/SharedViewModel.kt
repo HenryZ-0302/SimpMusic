@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.viewModelScope
@@ -89,14 +89,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.added_to_queue
-import simpmusic.composeapp.generated.resources.added_to_youtube_liked
-import simpmusic.composeapp.generated.resources.error
-import simpmusic.composeapp.generated.resources.play_next
-import simpmusic.composeapp.generated.resources.removed_from_youtube_liked
-import simpmusic.composeapp.generated.resources.shared
-import simpmusic.composeapp.generated.resources.updated
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.added_to_queue
+import hymusic.composeapp.generated.resources.added_to_youtube_liked
+import hymusic.composeapp.generated.resources.error
+import hymusic.composeapp.generated.resources.play_next
+import hymusic.composeapp.generated.resources.removed_from_youtube_liked
+import hymusic.composeapp.generated.resources.shared
+import hymusic.composeapp.generated.resources.updated
 import java.io.FileOutputStream
 import kotlin.math.abs
 import kotlin.reflect.KClass

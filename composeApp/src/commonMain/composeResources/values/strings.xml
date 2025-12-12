@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Song • %1$s</string>
     <string name="playlist_and_author">Playlist • %1$s</string>
@@ -118,7 +118,7 @@
     <string name="about_us">About us</string>
     <string name="version">Version</string>
     <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
     <string name="paypal">PayPal</string>
     <string name="title">Title</string>
@@ -137,7 +137,7 @@
     <string name="albums_inArtist">Albums</string>
     <string name="singles_inArtist">Singles</string>
     <string name="fans_might_also_like_inArtist">Fans might also like</string>
-    <string name="crash_log">SimpMusic crashed. Sorry for this problem.\nSend crash-log to developer</string>
+    <string name="crash_log">HYMusic crashed. Sorry for this problem.\nSend crash-log to developer</string>
     <string name="crash">Crash</string>
     <string name="send">Send</string>
     <string name="mail_subject">Report Crash</string>
@@ -220,7 +220,7 @@
     <string name="sleep_timer_set_error">Please set the correct format time</string>
     <string name="sleep_timer_warning">Remove sleep timer?</string>
     <string name="yes">Yes</string>
-    <string name="notification_channel_name" translatable="false">SimpMusic Playback Notification</string>
+    <string name="notification_channel_name" translatable="false">HYMusic Playback Notification</string>
     <string name="welcome_back">Welcome back,</string>
     <string name="upload_your_listening_history_to_youtube_music_server_it_will_make_yt_music_recommendation_system_better_working_only_if_logged_in">Upload your listening history to YouTube Music server, it will make YT Music recommendation system better. Working only if logged in</string>
     <string name="send_back_listening_data_to_google">Send back listening data to Google</string>
@@ -239,7 +239,7 @@
     <string name="saved_to_local_playlist">Saved to local playlist</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">if you want to unsync this playlist, please go to local playlist</string>
     <string name="log_in_to_get_YouTube_playlist">Log in to get YouTube Playlist</string>
-    <string name="sync_playlist_warning">SimpMusic will create a YouTube Music Playlist automatically. Are you sure?</string>
+    <string name="sync_playlist_warning">HYMusic will create a YouTube Music Playlist automatically. Are you sure?</string>
     <string name="syncing">Syncing</string>
     <string name="unsync_playlist_warning">"Unsync this playlist? This playlist will not be removed from YouTube Music "</string>
     <string name="unsyncing">Unsyncing</string>
@@ -274,9 +274,9 @@
     <string name="older_first">Older First</string>
     <string name="newer_first">Newer First</string>
     <string name="added_date">Added date</string>
-    <string name="credit_app">A simple music app using YouTube Music for backend \n\nSimpMusic is an open source project to stream music from YouTube and YouTube Music without ads and tracking. SimpMusic provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalize data\n - etc… \n\nSimpMusic is always free and no ads\n\nBuild with ❤️ from Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">A simple music app using YouTube Music for backend \n\nSimpMusic is an open source project to stream music from YouTube and YouTube Music without ads and tracking. SimpMusic provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalize data\n - etc… \n\nSimpMusic is always free and no ads\n\nBuild with ❤️ from Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Issue Tracker</string>
-    <string name="copyright" translatable="false">©2023-2025 Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="copyright" translatable="false">©2023-2025 Tuan Minh Nguyen Duc (Henry)</string>
     <string name="featured_playlists">Featured Playlists</string>
     <string name="podcasts" translatable="false">Podcasts</string>
     <string name="featured_inArtist">Featured on</string>
@@ -452,7 +452,7 @@
     <string name="contributor_name">Contributor name</string>
     <string name="contributor_email">Contributor email</string>
     <string name="anonymous">Anonymous</string>
-    <string name="simpmusic_lyrics">SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">HYMusic Lyrics</string>
     <string name="lyrics_provider_simpmusic">Lyrics provided by SimpMusic Lyrics</string>
     <string name="backup_in_progress">Backup in progress</string>
     <string name="restore_in_progress">Restore in progress</string>

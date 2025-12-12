@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Song_and_artist_name">Titre • %1$s</string>
     <string name="playlist_and_author">Liste de lecture • %1$s</string>
@@ -116,7 +116,7 @@
     <string name="about_us">Qui sommes-nous ?</string>
     <string name="version">Version</string>
     <string name="github">GitHub</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="maxrave_dev">Henry</string>
     <string name="buy_me_a_coffee">Offrez-moi un café ! ☕</string>
     <string name="paypal">PayPal</string>
     <string name="title">Titre</string>
@@ -134,7 +134,7 @@
     <string name="albums_inArtist">Albums</string>
     <string name="singles_inArtist">Singles</string>
     <string name="fans_might_also_like_inArtist">Vous aimeriez peut-être aussi</string>
-    <string name="crash_log">SimpMusic a planté. Désolé pour ce problème…\nEnvoyez le crash-log au développeur.</string>
+    <string name="crash_log">HYMusic a planté. Désolé pour ce problème…\nEnvoyez le crash-log au développeur.</string>
     <string name="crash">Plantage</string>
     <string name="send">Envoyer</string>
     <string name="mail_subject">Signaler un plantage</string>
@@ -233,7 +233,7 @@
     <string name="saved_to_local_playlist">Enregistré dans la playlist locale</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">si vous souhaitez désynchroniser cette playlist, veuillez accéder à la playlist locale.</string>
     <string name="log_in_to_get_YouTube_playlist">Connectez-vous pour obtenir une playlist YouTube.</string>
-    <string name="sync_playlist_warning">SimpMusic va créer une playlist YouTube Music automatiquement. Êtes-vous sûr ?</string>
+    <string name="sync_playlist_warning">HYMusic va créer une playlist YouTube Music automatiquement. Êtes-vous sûr ?</string>
     <string name="syncing">Synchronisation</string>
     <string name="unsync_playlist_warning">"Désynchroniser cette playlist ? Cette playlist ne sera pas supprimée de YouTube Music."</string>
     <string name="unsyncing">Désynchronisation</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Les plus anciens d\'abord</string>
     <string name="newer_first">Les plus récents d\'abord</string>
     <string name="added_date">Date d\'ajout</string>
-    <string name="credit_app">Une application musicale simple utilisant YouTube Music pour le backend \n\nSimpMusic est un projet open source pour diffuser de la musique à partir de YouTube et YouTube Music sans publicité ni suivi. SimpMusic offre de nombreuses fonctionnalités :\n\n - Streaming de musique \n - Paroles synchronisées\n - Personnaliser les données\n - etc… \n\nSimpMusic est toujours gratuit et sans publicité\n\nConstruit avec ❤️ de Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">Une application musicale simple utilisant YouTube Music pour le backend \n\nSimpMusic est un projet open source pour diffuser de la musique à partir de YouTube et YouTube Music sans publicité ni suivi. SimpMusic offre de nombreuses fonctionnalités :\n\n - Streaming de musique \n - Paroles synchronisées\n - Personnaliser les données\n - etc… \n\nSimpMusic est toujours gratuit et sans publicité\n\nConstruit avec ❤️ de Tuan Minh Nguyen Duc (Henry)</string>
     <string name="issue_tracker">Suivi des problèmes</string>
     <string name="featured_playlists">Playlists en Vedette</string>
     <string name="featured_inArtist">En vedette sur</string>

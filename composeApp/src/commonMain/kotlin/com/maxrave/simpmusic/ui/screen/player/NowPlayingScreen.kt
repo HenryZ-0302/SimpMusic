@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+﻿@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.maxrave.simpmusic.ui.screen.player
 
@@ -172,26 +172,26 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.artists
-import simpmusic.composeapp.generated.resources.baseline_fullscreen_24
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.description
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.holder_video
-import simpmusic.composeapp.generated.resources.like_and_dislike
-import simpmusic.composeapp.generated.resources.line_synced
-import simpmusic.composeapp.generated.resources.lyrics
-import simpmusic.composeapp.generated.resources.lyrics_provider_lrc
-import simpmusic.composeapp.generated.resources.lyrics_provider_simpmusic
-import simpmusic.composeapp.generated.resources.lyrics_provider_youtube
-import simpmusic.composeapp.generated.resources.now_playing_upper
-import simpmusic.composeapp.generated.resources.offline_mode
-import simpmusic.composeapp.generated.resources.published_at
-import simpmusic.composeapp.generated.resources.show
-import simpmusic.composeapp.generated.resources.spotify_lyrics_provider
-import simpmusic.composeapp.generated.resources.unsynced
-import simpmusic.composeapp.generated.resources.view_count
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.artists
+import hymusic.composeapp.generated.resources.baseline_fullscreen_24
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.description
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.holder_video
+import hymusic.composeapp.generated.resources.like_and_dislike
+import hymusic.composeapp.generated.resources.line_synced
+import hymusic.composeapp.generated.resources.lyrics
+import hymusic.composeapp.generated.resources.lyrics_provider_lrc
+import hymusic.composeapp.generated.resources.lyrics_provider_simpmusic
+import hymusic.composeapp.generated.resources.lyrics_provider_youtube
+import hymusic.composeapp.generated.resources.now_playing_upper
+import hymusic.composeapp.generated.resources.offline_mode
+import hymusic.composeapp.generated.resources.published_at
+import hymusic.composeapp.generated.resources.show
+import hymusic.composeapp.generated.resources.spotify_lyrics_provider
+import hymusic.composeapp.generated.resources.unsynced
+import hymusic.composeapp.generated.resources.view_count
 import kotlin.math.roundToLong
 
 private const val TAG = "NowPlayingScreen"

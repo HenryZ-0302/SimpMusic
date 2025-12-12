@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.library
+﻿package com.maxrave.simpmusic.ui.screen.library
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
@@ -58,15 +58,15 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.baseline_close_24
-import simpmusic.composeapp.generated.resources.baseline_search_24
-import simpmusic.composeapp.generated.resources.downloaded
-import simpmusic.composeapp.generated.resources.favorite
-import simpmusic.composeapp.generated.resources.followed
-import simpmusic.composeapp.generated.resources.most_played
-import simpmusic.composeapp.generated.resources.search
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.baseline_close_24
+import hymusic.composeapp.generated.resources.baseline_search_24
+import hymusic.composeapp.generated.resources.downloaded
+import hymusic.composeapp.generated.resources.favorite
+import hymusic.composeapp.generated.resources.followed
+import hymusic.composeapp.generated.resources.most_played
+import hymusic.composeapp.generated.resources.search
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable

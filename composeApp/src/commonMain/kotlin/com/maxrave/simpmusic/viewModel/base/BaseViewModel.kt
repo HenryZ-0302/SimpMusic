@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel.base
+﻿package com.maxrave.simpmusic.viewModel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,8 +18,8 @@ import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.StringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.loading
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.loading
 
 abstract class BaseViewModel :
     ViewModel(),

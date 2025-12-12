@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.other
+﻿package com.maxrave.simpmusic.ui.screen.other
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
@@ -97,21 +97,21 @@ import com.maxrave.simpmusic.viewModel.toStringRes
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.artists
-import simpmusic.composeapp.generated.resources.baseline_arrow_outward_24
-import simpmusic.composeapp.generated.resources.baseline_close_24
-import simpmusic.composeapp.generated.resources.baseline_history_24
-import simpmusic.composeapp.generated.resources.baseline_search_24
-import simpmusic.composeapp.generated.resources.clear_search_history
-import simpmusic.composeapp.generated.resources.error_occurred
-import simpmusic.composeapp.generated.resources.everything_you_need
-import simpmusic.composeapp.generated.resources.holder
-import simpmusic.composeapp.generated.resources.in_search
-import simpmusic.composeapp.generated.resources.no_results_found
-import simpmusic.composeapp.generated.resources.retry
-import simpmusic.composeapp.generated.resources.search_for_songs_artists_albums_playlists_and_more
-import simpmusic.composeapp.generated.resources.what_do_you_want_to_listen_to
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.artists
+import hymusic.composeapp.generated.resources.baseline_arrow_outward_24
+import hymusic.composeapp.generated.resources.baseline_close_24
+import hymusic.composeapp.generated.resources.baseline_history_24
+import hymusic.composeapp.generated.resources.baseline_search_24
+import hymusic.composeapp.generated.resources.clear_search_history
+import hymusic.composeapp.generated.resources.error_occurred
+import hymusic.composeapp.generated.resources.everything_you_need
+import hymusic.composeapp.generated.resources.holder
+import hymusic.composeapp.generated.resources.in_search
+import hymusic.composeapp.generated.resources.no_results_found
+import hymusic.composeapp.generated.resources.retry
+import hymusic.composeapp.generated.resources.search_for_songs_artists_albums_playlists_and_more
+import hymusic.composeapp.generated.resources.what_do_you_want_to_listen_to
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

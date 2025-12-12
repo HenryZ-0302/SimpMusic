@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -104,11 +104,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_keyboard_arrow_down_24
-import simpmusic.composeapp.generated.resources.baseline_more_vert_24
-import simpmusic.composeapp.generated.resources.now_playing_upper
-import simpmusic.composeapp.generated.resources.unavailable
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_keyboard_arrow_down_24
+import hymusic.composeapp.generated.resources.baseline_more_vert_24
+import hymusic.composeapp.generated.resources.now_playing_upper
+import hymusic.composeapp.generated.resources.unavailable
 import kotlin.math.abs
 
 private const val TAG = "LyricsView"

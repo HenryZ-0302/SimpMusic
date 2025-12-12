@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic
+﻿package com.maxrave.simpmusic
 
 import android.Manifest
 import android.content.ComponentName
@@ -41,10 +41,10 @@ import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import org.simpmusic.crashlytics.pushPlayerError
 import pub.devrel.easypermissions.EasyPermissions
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.explicit_content_blocked
-import simpmusic.composeapp.generated.resources.this_app_needs_to_access_your_notification
-import simpmusic.composeapp.generated.resources.time_out_check_internet_connection_or_change_piped_instance_in_settings
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.explicit_content_blocked
+import hymusic.composeapp.generated.resources.this_app_needs_to_access_your_notification
+import hymusic.composeapp.generated.resources.time_out_check_internet_connection_or_change_piped_instance_in_settings
 import java.util.Locale
 
 @Suppress("DEPRECATION")

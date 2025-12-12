@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.viewModel
+﻿package com.maxrave.simpmusic.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.SELECTED_LANGUAGE
@@ -26,15 +26,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.StringResource
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.albums
-import simpmusic.composeapp.generated.resources.all
-import simpmusic.composeapp.generated.resources.artists
-import simpmusic.composeapp.generated.resources.featured_playlists
-import simpmusic.composeapp.generated.resources.playlists
-import simpmusic.composeapp.generated.resources.podcasts
-import simpmusic.composeapp.generated.resources.songs
-import simpmusic.composeapp.generated.resources.videos
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.albums
+import hymusic.composeapp.generated.resources.all
+import hymusic.composeapp.generated.resources.artists
+import hymusic.composeapp.generated.resources.featured_playlists
+import hymusic.composeapp.generated.resources.playlists
+import hymusic.composeapp.generated.resources.podcasts
+import hymusic.composeapp.generated.resources.songs
+import hymusic.composeapp.generated.resources.videos
 
 // State cho tìm kiếm
 data class SearchScreenState(

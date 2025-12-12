@@ -7,14 +7,15 @@ import com.maxrave.simpmusic.MainActivity
 import org.koin.mp.KoinPlatform.getKoin
 
 actual fun openUrl(url: String) {
-    val context: MainActivity = getKoin().get()
-    val browserIntent =
-        Intent(
-            Intent.ACTION_VIEW,
-            url.toUri(),
-        )
-    browserIntent.setFlags(FLAG_ACTIVITY_NEW_TASK)
-    context.startActivity(browserIntent)
+    // TODO: 暂时禁用外部链接功能
+    // val context: MainActivity = getKoin().get()
+    // val browserIntent =
+    //     Intent(
+    //         Intent.ACTION_VIEW,
+    //         url.toUri(),
+    //     )
+    // browserIntent.setFlags(FLAG_ACTIVITY_NEW_TASK)
+    // context.startActivity(browserIntent)
 }
 
 actual fun shareUrl(

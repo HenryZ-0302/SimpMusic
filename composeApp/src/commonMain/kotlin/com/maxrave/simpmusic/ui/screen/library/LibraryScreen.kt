@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.library
+﻿package com.maxrave.simpmusic.ui.screen.library
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -81,25 +81,25 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_people_alt_24
-import simpmusic.composeapp.generated.resources.create
-import simpmusic.composeapp.generated.resources.downloaded_playlists
-import simpmusic.composeapp.generated.resources.favorite_playlists
-import simpmusic.composeapp.generated.resources.favorite_podcasts
-import simpmusic.composeapp.generated.resources.library
-import simpmusic.composeapp.generated.resources.mix_for_you
-import simpmusic.composeapp.generated.resources.no_YouTube_playlists
-import simpmusic.composeapp.generated.resources.no_favorite_playlists
-import simpmusic.composeapp.generated.resources.no_favorite_podcasts
-import simpmusic.composeapp.generated.resources.no_mixes_found
-import simpmusic.composeapp.generated.resources.no_playlists_added
-import simpmusic.composeapp.generated.resources.no_playlists_downloaded
-import simpmusic.composeapp.generated.resources.playlist_name
-import simpmusic.composeapp.generated.resources.playlist_name_cannot_be_empty
-import simpmusic.composeapp.generated.resources.your_library
-import simpmusic.composeapp.generated.resources.your_playlists
-import simpmusic.composeapp.generated.resources.your_youtube_playlists
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_people_alt_24
+import hymusic.composeapp.generated.resources.create
+import hymusic.composeapp.generated.resources.downloaded_playlists
+import hymusic.composeapp.generated.resources.favorite_playlists
+import hymusic.composeapp.generated.resources.favorite_podcasts
+import hymusic.composeapp.generated.resources.library
+import hymusic.composeapp.generated.resources.mix_for_you
+import hymusic.composeapp.generated.resources.no_YouTube_playlists
+import hymusic.composeapp.generated.resources.no_favorite_playlists
+import hymusic.composeapp.generated.resources.no_favorite_podcasts
+import hymusic.composeapp.generated.resources.no_mixes_found
+import hymusic.composeapp.generated.resources.no_playlists_added
+import hymusic.composeapp.generated.resources.no_playlists_downloaded
+import hymusic.composeapp.generated.resources.playlist_name
+import hymusic.composeapp.generated.resources.playlist_name_cannot_be_empty
+import hymusic.composeapp.generated.resources.your_library
+import hymusic.composeapp.generated.resources.your_playlists
+import hymusic.composeapp.generated.resources.your_youtube_playlists
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable

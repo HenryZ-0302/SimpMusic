@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic
+﻿package com.maxrave.simpmusic
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.unit.DpSize
@@ -26,10 +26,10 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.java.KoinJavaComponent.inject
 import org.koin.mp.KoinPlatform.getKoin
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.circle_app_icon
-import simpmusic.composeapp.generated.resources.explicit_content_blocked
-import simpmusic.composeapp.generated.resources.time_out_check_internet_connection_or_change_piped_instance_in_settings
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.circle_app_icon
+import hymusic.composeapp.generated.resources.explicit_content_blocked
+import hymusic.composeapp.generated.resources.time_out_check_internet_connection_or_change_piped_instance_in_settings
 
 @OptIn(ExperimentalMaterial3Api::class)
 fun main() =
@@ -58,7 +58,7 @@ fun main() =
         if (BuildKonfig.sentryDsn.isNotEmpty()) {
             Sentry.init { options ->
                 options.dsn = BuildKonfig.sentryDsn
-                options.release = "simpmusic-desktop@${VersionManager.getVersionName()}"
+                options.release = "hymusic-desktop@${VersionManager.getVersionName()}"
                 options.setDiagnosticLevel(SentryLevel.ERROR)
             }
         }
@@ -89,7 +89,7 @@ fun main() =
             onCloseRequest = {
                 onExitApplication()
             },
-            title = "SimpMusic",
+            title = "HYMusic",
             icon = painterResource(Res.drawable.circle_app_icon),
             undecorated = false,
             state = windowState,

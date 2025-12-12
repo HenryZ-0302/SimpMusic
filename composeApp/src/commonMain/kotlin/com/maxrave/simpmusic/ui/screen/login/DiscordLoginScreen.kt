@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.login
+﻿package com.maxrave.simpmusic.ui.screen.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +37,10 @@ import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.LogInViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
-import simpmusic.composeapp.generated.resources.log_in_to_discord
-import simpmusic.composeapp.generated.resources.login_success
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
+import hymusic.composeapp.generated.resources.log_in_to_discord
+import hymusic.composeapp.generated.resources.login_success
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

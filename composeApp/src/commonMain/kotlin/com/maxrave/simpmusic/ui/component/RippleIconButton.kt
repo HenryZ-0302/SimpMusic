@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.component
+﻿package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import simpmusic.composeapp.generated.resources.Res
-import simpmusic.composeapp.generated.resources.baseline_pause_24
-import simpmusic.composeapp.generated.resources.baseline_play_arrow_24
+import hymusic.composeapp.generated.resources.Res
+import hymusic.composeapp.generated.resources.baseline_pause_24
+import hymusic.composeapp.generated.resources.baseline_play_arrow_24
 
 @Composable
 fun RippleIconButton(

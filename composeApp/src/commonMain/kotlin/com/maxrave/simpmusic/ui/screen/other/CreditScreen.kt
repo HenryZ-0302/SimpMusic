@@ -1,4 +1,4 @@
-package com.maxrave.simpmusic.ui.screen.other
+﻿package com.maxrave.simpmusic.ui.screen.other
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -46,7 +46,7 @@ import dev.chrisbanes.haze.materials.HazeMaterials
 import dev.chrisbanes.haze.rememberHazeState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import simpmusic.composeapp.generated.resources.*
+import hymusic.composeapp.generated.resources.*
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable
