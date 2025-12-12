@@ -56,7 +56,8 @@ fun LiquidToggle(
     selected: () -> Boolean,
     onSelect: (Boolean) -> Unit,
     backdrop: Backdrop,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     val isLightTheme = !isSystemInDarkTheme()
     val accentColor =
@@ -65,6 +66,8 @@ fun LiquidToggle(
     val trackColor =
         if (isLightTheme) Color(0xFF787878).copy(0.2f)
         else Color(0xFF787880).copy(0.36f)
+    val disabledTrackColor = Color.Gray.copy(alpha = 0.3f)
+    val disabledThumbColor = Color.Gray.copy(alpha = 0.5f)
 
     val density = LocalDensity.current
     val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
@@ -139,7 +142,12 @@ fun LiquidToggle(
                 .clip(CapsuleShape)
                 .drawBehind {
                     val fraction = dampedDragAnimation.value
-                    drawRect(lerp(trackColor, accentColor, fraction))
+                    val color = if (enabled) {
+                        lerp(trackColor, accentColor, fraction)
+                    } else {
+                        disabledTrackColor
+                    }
+                    drawRect(color)
                 }
                 .size(64f.dp, 28f.dp)
         )
@@ -156,7 +164,7 @@ fun LiquidToggle(
                 .semantics {
                     role = Role.Switch
                 }
-                .then(dampedDragAnimation.modifier)
+                .then(if (enabled) dampedDragAnimation.modifier else Modifier)
                 .drawBackdrop(
                     backdrop = rememberCombinedBackdrop(
                         backdrop,
@@ -209,7 +217,12 @@ fun LiquidToggle(
                     },
                     onDrawSurface = {
                         val progress = dampedDragAnimation.pressProgress
-                        drawRect(Color.White.copy(alpha = 1f - progress))
+                        val color = if (enabled) {
+                            Color.White.copy(alpha = 1f - progress)
+                        } else {
+                            disabledThumbColor
+                        }
+                        drawRect(color)
                     }
                 )
                 .size(40f.dp, 24f.dp)

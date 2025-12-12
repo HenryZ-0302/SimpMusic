@@ -23,6 +23,7 @@ actual fun PlatformSwitch(
             onSelect = onCheckedChange,
             backdrop = backdrop,
             modifier = modifier,
+            enabled = enabled,
         )
     } else {
         Switch(
