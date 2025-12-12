@@ -190,7 +190,7 @@
     <string name="what_segments_will_be_skipped">Hansı bölümlər ötürüləcək</string>
     <string name="save">Saxla</string>
     <string name="saved">Saxlanıldı</string>
-    <string name="sponsor_block_intro">SponsorBlock YouTube videolarının yorucu hissələrini ötürmək üçün toplu mənbə sistemidir.\nƏtraflı məlumat: https://sponsor.ajay.app/\nSimpMusic-də SponsorBlock ancaq cihaz onlayndısa əlçatandır</string>
+    <string name="sponsor_block_intro">SponsorBlock YouTube videolarının yorucu hissələrini ötürmək üçün toplu mənbə sistemidir.\nƏtraflı məlumat: https://sponsor.ajay.app/\nHYMusic-də SponsorBlock ancaq cihaz onlayndısa əlçatandır</string>
     <string name="skip_sponsor_part_of_video">Videonun sponsor hissəsini ötür</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Gözlənilməz xəta baş verdi. Narahatçılıq üçün üzr istəyirik.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Tətbiqi yenidən başlat</string>
@@ -243,7 +243,7 @@
     <string name="email">E-Poçt</string>
     <string name="password">Parol</string>
     <string name="please_enter_your_email_and_password">E-poçt və parolunuzu qeyd edin</string>
-    <string name="translation_language_message">Dil kodun yaz (Məsələn: en) (2 hərf). SimpMusic dili ilə eynisini qurmaq istəyirsinizsə, düzəliş qutusun boş saxlayın.</string>
+    <string name="translation_language_message">Dil kodun yaz (Məsələn: en) (2 hərf). HYMusic dili ilə eynisini qurmaq istəyirsinizsə, düzəliş qutusun boş saxlayın.</string>
     <string name="invalid_language_code">Yanlış dil kodu</string>
     <string name="lyrics_provider_youtube">Lirika YouTube tərəfindən təmin edilib</string>
     <string name="limit_player_cache">Oynadıcı Keşkəsinə Hədd Qoy</string>
@@ -257,7 +257,7 @@
     <string name="suggest">Tövsiyə</string>
     <string name="reload">Təkrar yüklə</string>
     <string name="added_date">Əlavə edilmə tarixi</string>
-    <string name="credit_app">Geri çıxış üçün YouTube Music işlədən sadə musiqi tətbiqi \n\nSimpMusic reklam və izləmə olmadan YouTube və YouTube Music-dən musiqi yayımlamaq üçün açıq mənbə layihədir. SimpMusic bir çox xüsusiyyətləri təmin edir:\n\n - Musiqi yayımı\n - Sinxronlaşdırılan lirika\n - Məlumatları fərdiləşdir\n - və s... \n\nSimpMusic həmişə pulsuzdur və reklam yoxdur\n\nHenry (Henry) ❤️- ilə qurur</string>
+    <string name="credit_app">Geri çıxış üçün YouTube Music işlədən sadə musiqi tətbiqi \n\nHYMusic reklam və izləmə olmadan YouTube və YouTube Music-dən musiqi yayımlamaq üçün açıq mənbə layihədir. HYMusic bir çox xüsusiyyətləri təmin edir:\n\n - Musiqi yayımı\n - Sinxronlaşdırılan lirika\n - Məlumatları fərdiləşdir\n - və s... \n\nHYMusic həmişə pulsuzdur və reklam yoxdur\n\nHenry ❤️- ilə qurur</string>
     <string name="issue_tracker">Problem İzləyici</string>
     <string name="featured_playlists">Xüsusi Pleylistlər</string>
     <string name="featured_inArtist">Seçilənlər</string>
@@ -346,7 +346,7 @@
     <string name="loading">Yüklənilir</string>
     <string name="updating">Yenilənir</string>
     <string name="go_to_log_in_page">Giriş səhifəsinə keç</string>
-    <string name="log_in_warning">YouTube Music indi musiqi yayımı üçün daxil olmanızı tələb edir, Piped Serveri də hərdən işləyə bilməz. SimpMusic ilə daha yaxşı təcrübə əldə etmək üçün YouTube-a daxil olmalısınız.</string>
+    <string name="log_in_warning">YouTube Music indi musiqi yayımı üçün daxil olmanızı tələb edir, Piped Serveri də hərdən işləyə bilməz. HYMusic ilə daha yaxşı təcrübə əldə etmək üçün YouTube-a daxil olmalısınız.</string>
     <string name="spotify_canvas_cache">Spotify Canvas Keşkəsi</string>
     <string name="clear_canvas_cache">Canvas keşkəsin təmizlə</string>
     <string name="proxy">Proksi</string>

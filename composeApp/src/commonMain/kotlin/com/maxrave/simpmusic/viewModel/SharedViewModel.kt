@@ -1025,11 +1025,8 @@ class SharedViewModel(
             }
         }
 
-        val shouldSendLyricsToSimpMusic =
-            runBlocking {
-                dataStoreManager.helpBuildLyricsDatabase.first() == TRUE
-            } &&
-                lyricsProvider != LyricsProvider.SIMPMUSIC
+        // 歌词数据库上传功能已禁用
+        val shouldSendLyricsToSimpMusic = false
         if (_nowPlayingState.value?.songEntity?.videoId == videoId) {
             val track = _nowPlayingState.value?.track
             when (isTranslatedLyrics) {

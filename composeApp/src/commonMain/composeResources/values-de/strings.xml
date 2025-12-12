@@ -196,9 +196,9 @@
     <string name="skip_sponsor_part_of_video">Gesponserten Teil des Videos überspringen</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Ein unerwarteter Fehler ist aufgetreten. Entschuldigung für die Unannehmlichkeiten.</string>
     <string name="customactivityoncrash_error_activity_restart_app">App neu starten</string>
-    <string name="help_build_lyrics_database">Hilf SimpMusic-Lyrics beim Aufbau der Songtext-Datenbank</string>
-    <string name="help_build_lyrics_database_description">Sende deine gespeicherten Songtexte an die SimpMusic-Lyrics-Datenbank</string>
-    <string name="lyrics_database_description">Wir erstellen unsere eigene Songtext-Datenbank für SimpMusic und andere YouTube-Clients für nicht-kommerzielle Zwecke, unter Open-Source</string>
+    <string name="help_build_lyrics_database">Hilf HYMusic-Lyrics beim Aufbau der Songtext-Datenbank</string>
+    <string name="help_build_lyrics_database_description">Sende deine gespeicherten Songtexte an die HYMusic-Lyrics-Datenbank</string>
+    <string name="lyrics_database_description">Wir erstellen unsere eigene Songtext-Datenbank für HYMusic und andere YouTube-Clients für nicht-kommerzielle Zwecke, unter Open-Source</string>
     <string name="customactivityoncrash_error_activity_close_app">App schließen</string>
     <string name="customactivityoncrash_error_activity_error_details">Fehlerdetails</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Fehlerdetails</string>
@@ -250,7 +250,7 @@
     <string name="email">E-Mail</string>
     <string name="password">Passwort</string>
     <string name="please_enter_your_email_and_password">Bitte gebe deine E-Mail-Adresse und dein Passwort ein</string>
-    <string name="translation_language_message">Gebe den Sprachcode ein (z. B. de) (2 Buchstaben). Wenn du die Sprache SimpMusic nutzen möchtest, lasse dieses Feld leer.</string>
+    <string name="translation_language_message">Gebe den Sprachcode ein (z. B. de) (2 Buchstaben). Wenn du die Sprache HYMusic nutzen möchtest, lasse dieses Feld leer.</string>
     <string name="invalid_language_code">Ungültiger Sprachcode</string>
     <string name="lyrics_provider_youtube">Songtexte von YouTube</string>
     <string name="limit_player_cache">Player-Cache begrenzen</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Ältere zuerst</string>
     <string name="newer_first">Neue zuerst</string>
     <string name="added_date">Datum hinzugefügt</string>
-    <string name="credit_app">Eine einfache Musik-App mit YouTube Music als Backend \n\nSimpMusic ist ein Open-Source-Projekt zum Streamen von Musik von YouTube und YouTube Music ohne Werbung und Tracking. SimpMusic bietet viele Funktionen:\n\n - Musik streamen \n - Synchronisierte Liedtexte\n - Daten personalisieren\n - etc… \n\nSimpMusic ist immer kostenlos und ohne Werbung\n\nErstellen Sie mit ❤️ von Henry (Henry)</string>
+    <string name="credit_app">Eine einfache Musik-App mit YouTube Music als Backend \n\nHYMusic ist ein Open-Source-Projekt zum Streamen von Musik von YouTube und YouTube Music ohne Werbung und Tracking. HYMusic bietet viele Funktionen:\n\n - Musik streamen \n - Synchronisierte Liedtexte\n - Daten personalisieren\n - etc… \n\nHYMusic ist immer kostenlos und ohne Werbung\n\nErstellen Sie mit ❤️ von Henry</string>
     <string name="issue_tracker">Issue-Tracker</string>
     <string name="featured_playlists">Empfohlene Playlists</string>
     <string name="featured_inArtist">Zu hören in</string>
@@ -308,7 +308,7 @@
     <string name="enable_spotify_lyrics">Spotify Songtexte nutzen</string>
     <string name="spotify_lyrícs_info">Mehr Lyrics ohne Übersetzung</string>
     <string name="enable_canvas">Canvas nutzen</string>
-    <string name="canvas_info">Zeige Spotify Canvas in SimpMusic</string>
+    <string name="canvas_info">Zeige Spotify Canvas in HYMusic</string>
     <string name="spotify_lyrics_provider">Songtexte bereitgestellt von Spotify</string>
     <string name="offline_mode">Offline-Modus</string>
     <string name="added_to_youtube_liked">Zu YouTube \"Gefällt mir\" Playlist hinzugefügt</string>
@@ -357,7 +357,7 @@
     <string name="loading">Wird geladen</string>
     <string name="updating">Updating</string>
     <string name="go_to_log_in_page">Zur Anmeldeseite</string>
-    <string name="log_in_warning">YouTube Music erfordert jetzt das Einloggen um Musik zu streamen, Piped Instance kann manchmal nicht funktionieren. Du solltest dich bei YouTube anmelden, um ein besseres Erlebnis mit SimpMusic zu bekommen.</string>
+    <string name="log_in_warning">YouTube Music erfordert jetzt das Einloggen um Musik zu streamen, Piped Instance kann manchmal nicht funktionieren. Du solltest dich bei YouTube anmelden, um ein besseres Erlebnis mit HYMusic zu bekommen.</string>
     <string name="spotify_canvas_cache">Spotify Canvas-Cache</string>
     <string name="clear_canvas_cache">Leere Canvas-Cache</string>
     <string name="proxy">Proxy</string>
@@ -396,8 +396,8 @@
     <string name="other_version">Andere Version</string>
     <string name="later">später</string>
     <string name="give_a_star">Gebe einen Stern</string>
-    <string name="enjoying_simpmusic">Spaß an SimpMusic</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">Wenn dir SimpMusic gefällt, gib SimpMusic einen Stern auf Github oder lasse eine Rezension da</string>
+    <string name="enjoying_simpmusic">Spaß an HYMusic</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">Wenn dir HYMusic gefällt, gib HYMusic einen Stern auf Github oder lasse eine Rezension da</string>
     <string name="if_you_love_my_work_consider">"Wenn Sie meine Arbeit lieben, denken Sie darüber nach "</string>
     <string name="buying_me_a_coffee">Mir einen Kaffee zu kaufen.</string>
     <string name="fade_audio_effect">Fade Audioeffekt</string>
@@ -443,7 +443,7 @@
     <string name="contributor_email">E-Mail des Mitwirkenden</string>
     <string name="anonymous">Anonym</string>
     <string name="simpmusic_lyrics">HYMusic-Lyrics</string>
-    <string name="lyrics_provider_simpmusic">Songtexte von SimpMusic-Lyrics bereitgestellt</string>
+    <string name="lyrics_provider_simpmusic">Songtexte von HYMusic-Lyrics bereitgestellt</string>
     <string name="backup_in_progress">Backup wird erstellt</string>
     <string name="restore_in_progress">Backup wird wiederhergestellt</string>
     <string name="backup_downloaded">Backup der heruntergeladenen Daten</string>

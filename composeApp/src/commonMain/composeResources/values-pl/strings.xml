@@ -189,7 +189,7 @@
     <string name="what_segments_will_be_skipped">Jakie segmenty zostaną pominięte</string>
     <string name="save">Zapisz</string>
     <string name="saved">Zapisano</string>
-    <string name="sponsor_block_intro">SponsorBlock to system crowdsourcingu umożliwiający pomijanie irytujących fragmentów filmów w serwisie YouTube.\nWięcej informacji: https://sponsor.ajay.app/\nW SimpMusic funkcja SponsorBlock jest dostępna tylko wtedy, gdy urządzenie jest w trybie online</string>
+    <string name="sponsor_block_intro">SponsorBlock to system crowdsourcingu umożliwiający pomijanie irytujących fragmentów filmów w serwisie YouTube.\nWięcej informacji: https://sponsor.ajay.app/\nW HYMusic funkcja SponsorBlock jest dostępna tylko wtedy, gdy urządzenie jest w trybie online</string>
     <string name="skip_sponsor_part_of_video">Pomiń część filmu sponsora</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Wystąpił nieoczekiwany błąd. Przepraszamy za niedogodności.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Zrestartuj aplikację</string>
@@ -242,7 +242,7 @@
     <string name="email">E-mail</string>
     <string name="password">Hasło</string>
     <string name="please_enter_your_email_and_password">Wprowadź swój email i hasło</string>
-    <string name="translation_language_message">Wpisz kod języka (Eg: en) (2 litery). Jeśli chcesz ustawić ten sam język SimpMusic, proszę ustawić pole edycji puste.</string>
+    <string name="translation_language_message">Wpisz kod języka (Eg: en) (2 litery). Jeśli chcesz ustawić ten sam język HYMusic, proszę ustawić pole edycji puste.</string>
     <string name="invalid_language_code">Niepoprawny kod języka</string>
     <string name="lyrics_provider_youtube">Teksty piosenek dostarczone przez YouTube</string>
     <string name="limit_player_cache">Limit pamięci podręcznej odtwarzacza</string>
@@ -256,7 +256,7 @@
     <string name="suggest">Sugestia</string>
     <string name="reload">Przeładować</string>
     <string name="added_date">Dodana data</string>
-    <string name="credit_app">Prosta aplikacja muzyczna wykorzystująca YouTube Music jako zaplecze \n\nSimpMusic to projekt typu open source umożliwiający strumieniowe przesyłanie muzyki z YouTube i YouTube Music bez reklam i śledzenia. SimpMusic zapewnia wiele funkcji:\n\n – Przesyłanie strumieniowe muzyki \n – Zsynchronizowane teksty\n – Personalizacja danych\n – itp… \n\nSimpMusic jest zawsze darmowy i nie zawiera reklam\n\nTwórz za pomocą ❤️ od Henry (Henry)</string>
+    <string name="credit_app">Prosta aplikacja muzyczna wykorzystująca YouTube Music jako zaplecze \n\nHYMusic to projekt typu open source umożliwiający strumieniowe przesyłanie muzyki z YouTube i YouTube Music bez reklam i śledzenia. HYMusic zapewnia wiele funkcji:\n\n – Przesyłanie strumieniowe muzyki \n – Zsynchronizowane teksty\n – Personalizacja danych\n – itp… \n\nHYMusic jest zawsze darmowy i nie zawiera reklam\n\nTwórz za pomocą ❤️ od Henry</string>
     <string name="issue_tracker">Lista problemow</string>
     <string name="featured_playlists">Polecane playlisty</string>
     <string name="featured_inArtist">Polecane</string>
@@ -298,7 +298,7 @@
     <string name="enable_spotify_lyrics">Włącz teksty piosenek Spotify</string>
     <string name="spotify_lyrícs_info">Więcej tekstu bez tłumaczenia</string>
     <string name="enable_canvas">Włącz Canvas</string>
-    <string name="canvas_info">Pokaż Spotify Canvas w SimpMusic</string>
+    <string name="canvas_info">Pokaż Spotify Canvas w HYMusic</string>
     <string name="spotify_lyrics_provider">Tekst piosenki dostarczony przez Spotify</string>
     <string name="offline_mode">Tryb offline</string>
     <string name="added_to_youtube_liked">Dodano do polubień YouTube</string>

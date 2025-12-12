@@ -192,13 +192,13 @@
     <string name="what_segments_will_be_skipped">Hangi kısımlar atlanacak</string>
     <string name="save">Kaydet</string>
     <string name="saved">Kaydedildi</string>
-    <string name="sponsor_block_intro">SponsorBlock, YouTube videolarının rahatsız edici bölümlerini atlamak için kitle kaynaklı bir sistemdir.\nDaha fazla bilgi: https://sponsor.ajay.app/\nSimpMusic\'te SponsorBlock yalnızca cihaz çevrimiçi olduğunda kullanılabilir</string>
+    <string name="sponsor_block_intro">SponsorBlock, YouTube videolarının rahatsız edici bölümlerini atlamak için kitle kaynaklı bir sistemdir.\nDaha fazla bilgi: https://sponsor.ajay.app/\nHYMusic\'te SponsorBlock yalnızca cihaz çevrimiçi olduğunda kullanılabilir</string>
     <string name="skip_sponsor_part_of_video">Videonun tanıtım bölümünü atla</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Beklenmedik bir hata oluştu. Verdiğimiz rahatsızlıktan dolayı özür dileriz.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Uygulamayı yeniden başlat</string>
     <string name="help_build_lyrics_database">HYMusic şarkı sözlerinin şarkı sözü veritabanını oluşturmasına yardımcı olun</string>
-    <string name="help_build_lyrics_database_description">Kaydettiğiniz şarkı sözlerini SimpMusic şarkı sözleri veritabanına gönderin</string>
-    <string name="lyrics_database_description">Ticari olmayan amaçlar için SimpMusic ve diğer YouTube istemcileri için kendi şarkı sözü veritabanımızı oluşturuyoruz, açık kaynaklı</string>
+    <string name="help_build_lyrics_database_description">Kaydettiğiniz şarkı sözlerini HYMusic şarkı sözleri veritabanına gönderin</string>
+    <string name="lyrics_database_description">Ticari olmayan amaçlar için HYMusic ve diğer YouTube istemcileri için kendi şarkı sözü veritabanımızı oluşturuyoruz, açık kaynaklı</string>
     <string name="customactivityoncrash_error_activity_close_app">Uygulamayı kapat</string>
     <string name="customactivityoncrash_error_activity_error_details">Hata ayrıntıları</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Hata ayrıntıları</string>
@@ -250,7 +250,7 @@
     <string name="email">E-Posta</string>
     <string name="password">Şifre</string>
     <string name="please_enter_your_email_and_password">Lütfen e-posta ve şifrenizi girin</string>
-    <string name="translation_language_message">Dil kodunu yazın (Örn: en) (2 harf). SimpMusic\'in dili ile aynı şekilde ayarlamak istiyorsanız, lütfen düzenleme kutusunu boş bırakın.</string>
+    <string name="translation_language_message">Dil kodunu yazın (Örn: en) (2 harf). HYMusic\'in dili ile aynı şekilde ayarlamak istiyorsanız, lütfen düzenleme kutusunu boş bırakın.</string>
     <string name="invalid_language_code">Geçersiz dil kodu</string>
     <string name="lyrics_provider_youtube">Şarkı sözleri YouTube tarafından sağlanmıştır</string>
     <string name="limit_player_cache">Oynatıcı Önbelleğini Sınırla</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Eskiden Yeniye</string>
     <string name="newer_first">Yeniden Eskiye</string>
     <string name="added_date">Tarih eklendi</string>
-    <string name="credit_app">Arka uç olarak YouTube Music\'i kullanan basit bir müzik uygulaması \n\nSimpMusic, reklamlar ve izleme olmadan YouTube ve YouTube Music\'ten müzik akışı sağlayan açık kaynaklı bir projedir. SimpMusic birçok özellik sunar:\n\n - Müzik akışı \n - Senkronize şarkı sözleri\n - Verileri kişiselleştirin\n - vb… \n\nSimpMusic her zaman ücretsizdir ve reklam içermez\n\nHenry\'tan ❤️ ile oluşturun (Henry)</string>
+    <string name="credit_app">Arka uç olarak YouTube Music\'i kullanan basit bir müzik uygulaması \n\nHYMusic, reklamlar ve izleme olmadan YouTube ve YouTube Music\'ten müzik akışı sağlayan açık kaynaklı bir projedir. HYMusic birçok özellik sunar:\n\n - Müzik akışı \n - Senkronize şarkı sözleri\n - Verileri kişiselleştirin\n - vb… \n\nHYMusic her zaman ücretsizdir ve reklam içermez\n\nHenry\'tan ❤️ ile oluşturun (Henry)</string>
     <string name="issue_tracker">Sorun Takibi</string>
     <string name="featured_playlists">Öne Çıkan Oynatma Listeleri</string>
     <string name="featured_inArtist">Bulunduğu listeler</string>
@@ -357,7 +357,7 @@
     <string name="loading">Yükleniyor</string>
     <string name="updating">Güncelleniyor</string>
     <string name="go_to_log_in_page">Giriş sayfasına git</string>
-    <string name="log_in_warning">YouTube Music artık müzik akışı için oturum açmanızı gerektiriyor, Piped Instance bazen de çalışmıyor. SimpMusic ile daha iyi bir deneyim elde etmek için YouTube\'da oturum açmalısınız.</string>
+    <string name="log_in_warning">YouTube Music artık müzik akışı için oturum açmanızı gerektiriyor, Piped Instance bazen de çalışmıyor. HYMusic ile daha iyi bir deneyim elde etmek için YouTube\'da oturum açmalısınız.</string>
     <string name="spotify_canvas_cache">Spotify Canvas Önbelleği</string>
     <string name="clear_canvas_cache">Canvas önbelleğini temizle</string>
     <string name="proxy">Proxy</string>
@@ -397,7 +397,7 @@
     <string name="later">Daha sonra</string>
     <string name="give_a_star">Yıldız bırak</string>
     <string name="enjoying_simpmusic">HYMusic\'in keyfini çıkarın</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">HYMusic\'i kullanmaktan hoşlanıyorsanız, GitHub\'da SimpMusic\'i yıldızlayın veya</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">HYMusic\'i kullanmaktan hoşlanıyorsanız, GitHub\'da HYMusic\'i yıldızlayın veya</string>
     <string name="if_you_love_my_work_consider">"Eğer çalışmalarımı seviyorsanız"</string>
     <string name="buying_me_a_coffee">bana bir kavhe ısmarla.</string>
     <string name="fade_audio_effect">Ses efektini soldur</string>
@@ -443,7 +443,7 @@
     <string name="contributor_email">Katkıda bulunanın e-postası</string>
     <string name="anonymous">Anonim</string>
     <string name="simpmusic_lyrics">HYMusic Şarkı Sözleri</string>
-    <string name="lyrics_provider_simpmusic">Şarkı sözleri SimpMusic tarafından sağlanmıştır</string>
+    <string name="lyrics_provider_simpmusic">Şarkı sözleri HYMusic tarafından sağlanmıştır</string>
     <string name="backup_in_progress">Yedekleme devam ediyor</string>
     <string name="restore_in_progress">Geri yükleme devam ediyor</string>
     <string name="backup_downloaded">İndirilen verileri yedekleyin</string>

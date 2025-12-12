@@ -191,13 +191,13 @@
     <string name="what_segments_will_be_skipped">Quins segments se saltaran</string>
     <string name="save">Desa</string>
     <string name="saved">Desat</string>
-    <string name="sponsor_block_intro">SponsorBlock és un sistema de col·laboració oberta per saltar parts molestes dels vídeos de YouTube.\nMés informació: https://sponsor.ajay.app/\nA SimpMusic, SponsorBlock només està disponible quan el dispositiu està en línia </string>
+    <string name="sponsor_block_intro">SponsorBlock és un sistema de col·laboració oberta per saltar parts molestes dels vídeos de YouTube.\nMés informació: https://sponsor.ajay.app/\nA HYMusic, SponsorBlock només està disponible quan el dispositiu està en línia </string>
     <string name="skip_sponsor_part_of_video">Omet la part del patrocinador del vídeo</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">S\'ha produït un error inesperat. Disculpeu les molèsties.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Reinicieu l\'aplicació</string>
-    <string name="help_build_lyrics_database">Ajuda a SimpMusic lyrics a omplir la base de dades de lletres de cançons</string>
-    <string name="help_build_lyrics_database_description">Envia les lletres de cançons del dispositiu a la base de dades de SimpMusic lyrics</string>
-    <string name="lyrics_database_description">Estem creant la nostra pròpia base de dades de lletres de cançons per a SimpMusic i altres clients de YouTube amb finalitats no comercials, de codi obert a</string>
+    <string name="help_build_lyrics_database">Ajuda a HYMusic lyrics a omplir la base de dades de lletres de cançons</string>
+    <string name="help_build_lyrics_database_description">Envia les lletres de cançons del dispositiu a la base de dades de HYMusic lyrics</string>
+    <string name="lyrics_database_description">Estem creant la nostra pròpia base de dades de lletres de cançons per a HYMusic i altres clients de YouTube amb finalitats no comercials, de codi obert a</string>
     <string name="customactivityoncrash_error_activity_close_app">Tanca l\'aplicació</string>
     <string name="customactivityoncrash_error_activity_error_details">Detalls de l\'error</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Detalls de l\'error</string>
@@ -249,7 +249,7 @@
     <string name="email">Correu electrònic</string>
     <string name="password">Contrasenya</string>
     <string name="please_enter_your_email_and_password">Si us plau, introdueix el teu correu electrònic i la teva contrasenya</string>
-    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with SimpMusic\'s language, please make edit box empty.</string>
+    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with HYMusic\'s language, please make edit box empty.</string>
     <string name="invalid_language_code">Invalid language code</string>
     <string name="lyrics_provider_youtube">Lyrics proporcionada per Spotify</string>
     <string name="limit_player_cache">Limit Player Cache</string>
@@ -267,7 +267,7 @@
     <string name="older_first">Més antics primer</string>
     <string name="newer_first">Més nous primer</string>
     <string name="added_date">Data afegida</string>
-    <string name="credit_app">Una aplicació de música senzilla que utilitza YouTube Music per al backend \n\nSimpMusic és un projecte de codi obert per reproduir música de YouTube i YouTube Music sense anuncis ni seguiment. SimpMusic ofereix moltes funcions:\n\n - Reproducció de música en temps real \n - Lletres sincronitzades\n - Personalització de dades\n - etc... \n\nSimpMusic sempre és gratuït i sense anuncis\n\nCrea amb ❤️ de Henry (Henry -dev)</string>
+    <string name="credit_app">Una aplicació de música senzilla que utilitza YouTube Music per al backend \n\nHYMusic és un projecte de codi obert per reproduir música de YouTube i YouTube Music sense anuncis ni seguiment. HYMusic ofereix moltes funcions:\n\n - Reproducció de música en temps real \n - Lletres sincronitzades\n - Personalització de dades\n - etc... \n\nHYMusic sempre és gratuït i sense anuncis\n\nCrea amb ❤️ de Henry (Henry -dev)</string>
     <string name="issue_tracker">Detector de problemes</string>
     <string name="featured_playlists">Llistes de reproducció destacades</string>
     <string name="featured_inArtist">Destacat a</string>
@@ -307,7 +307,7 @@
     <string name="enable_spotify_lyrics">Activa les lletres de Spotify</string>
     <string name="spotify_lyrícs_info">Més lletres sense traducció</string>
     <string name="enable_canvas">Activa Canvas</string>
-    <string name="canvas_info">Mostra Spotify Canvas a SimpMusic</string>
+    <string name="canvas_info">Mostra Spotify Canvas a HYMusic</string>
     <string name="spotify_lyrics_provider">Lyrics proporcionada per Spotify</string>
     <string name="offline_mode">Mode fora de línia</string>
     <string name="added_to_youtube_liked">S\'ha afegit a YouTube M\'agrada</string>
@@ -356,7 +356,7 @@
     <string name="loading">Carregant</string>
     <string name="updating">Actualitzant</string>
     <string name="go_to_log_in_page">Ves a la pàgina d\'inici de sessió</string>
-    <string name="log_in_warning">YouTube Music ara requereix que iniciï la sessió per a transmetre música, les instàncies de Piped poden no funcionar correctament en algun moment. Hauria d\'iniciar la sessió a YouTube per tindre una millor experiència amb SimpMusic</string>
+    <string name="log_in_warning">YouTube Music ara requereix que iniciï la sessió per a transmetre música, les instàncies de Piped poden no funcionar correctament en algun moment. Hauria d\'iniciar la sessió a YouTube per tindre una millor experiència amb HYMusic</string>
     <string name="spotify_canvas_cache">Memòria cau d\'Spotify Canvas</string>
     <string name="clear_canvas_cache">Esborra la memòria cau de canvas</string>
     <string name="proxy">Proxy</string>
@@ -395,8 +395,8 @@
     <string name="other_version">Altra versió</string>
     <string name="later">Més tard</string>
     <string name="give_a_star">Dona una estrella</string>
-    <string name="enjoying_simpmusic">Està gaudint de SimpMusic?</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">Si està gaudint de SimpMusic, doni-li una estrella a GitHub o deixi una ressenya a</string>
+    <string name="enjoying_simpmusic">Està gaudint de HYMusic?</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">Si està gaudint de HYMusic, doni-li una estrella a GitHub o deixi una ressenya a</string>
     <string name="if_you_love_my_work_consider">"Si t'agrada el meu treball, considera"</string>
     <string name="buying_me_a_coffee">invitar-me a un cafè.</string>
     <string name="fade_audio_effect">Efecte d\'atenuació de l\'àudio</string>
@@ -440,7 +440,7 @@
     <string name="contributor_email">Email de contribuïdor</string>
     <string name="anonymous">Anònim</string>
     <string name="simpmusic_lyrics">HYMusic Lyrics</string>
-    <string name="lyrics_provider_simpmusic">Lletra de cançó proporcionada per SimpMusic Lyrics</string>
+    <string name="lyrics_provider_simpmusic">Lletra de cançó proporcionada per HYMusic Lyrics</string>
     <string name="backup_in_progress">Còpia de seguretat en progrés</string>
     <string name="restore_in_progress">Restauració en progrés</string>
     <string name="backup_downloaded">Fer una còpia de seguretat de les dades descarregades</string>

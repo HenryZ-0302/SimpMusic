@@ -197,13 +197,13 @@
     <string name="what_segments_will_be_skipped">What segments will be skipped</string>
     <string name="save">Save</string>
     <string name="saved">Saved</string>
-    <string name="sponsor_block_intro">SponsorBlock is a crowd-sourced system for skipping annoying parts of YouTube videos.\nMore information: https://sponsor.ajay.app/\nIn SimpMusic, SponsorBlock is only available when the device is online</string>
+    <string name="sponsor_block_intro">SponsorBlock is a crowd-sourced system for skipping annoying parts of YouTube videos.\nMore information: https://sponsor.ajay.app/\nIn HYMusic, SponsorBlock is only available when the device is online</string>
     <string name="skip_sponsor_part_of_video">Skip sponsor part of video</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">An unexpected error occurred. Sorry for the inconvenience.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Restart app</string>
-    <string name="help_build_lyrics_database">Help SimpMusic lyrics build the lyrics database</string>
-    <string name="help_build_lyrics_database_description">Send your saved lyrics to SimpMusic lyrics's database</string>
-    <string name="lyrics_database_description">We are building our own lyrics database for SimpMusic and other YouTube clients for non-commercial purposes, open-sourced at</string>
+    <string name="help_build_lyrics_database">Help HYMusic lyrics build the lyrics database</string>
+    <string name="help_build_lyrics_database_description">Send your saved lyrics to HYMusic lyrics's database</string>
+    <string name="lyrics_database_description">We are building our own lyrics database for HYMusic and other YouTube clients for non-commercial purposes, open-sourced at</string>
     <string name="customactivityoncrash_error_activity_close_app">Close app</string>
     <string name="customactivityoncrash_error_activity_error_details">Error details</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Error details</string>
@@ -256,7 +256,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="please_enter_your_email_and_password">Please enter your email and password</string>
-    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with SimpMusic's language, please make edit box empty.</string>
+    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with HYMusic's language, please make edit box empty.</string>
     <string name="invalid_language_code">Invalid language code</string>
     <string name="lyrics_provider_youtube">Lyrics provided by YouTube</string>
     <string name="limit_player_cache">Limit Player Cache</string>
@@ -274,9 +274,9 @@
     <string name="older_first">Older First</string>
     <string name="newer_first">Newer First</string>
     <string name="added_date">Added date</string>
-    <string name="credit_app">A simple music app using YouTube Music for backend \n\nSimpMusic is an open source project to stream music from YouTube and YouTube Music without ads and tracking. SimpMusic provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalize data\n - etc… \n\nSimpMusic is always free and no ads\n\nBuild with ❤️ from Henry (Henry)</string>
+    <string name="credit_app">A simple music app using YouTube Music for backend \n\nHYMusic is an open source project to stream music from YouTube and YouTube Music without ads and tracking. HYMusic provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalize data\n - etc… \n\nHYMusic is always free and no ads\n\nBuild with ❤️ from Henry</string>
     <string name="issue_tracker">Issue Tracker</string>
-    <string name="copyright" translatable="false">©2023-2025 Henry (Henry)</string>
+    <string name="copyright" translatable="false">©2023-2025 Henry</string>
     <string name="featured_playlists">Featured Playlists</string>
     <string name="podcasts" translatable="false">Podcasts</string>
     <string name="featured_inArtist">Featured on</string>
@@ -316,7 +316,7 @@
     <string name="enable_spotify_lyrics">Enable Spotify Lyrics</string>
     <string name="spotify_lyrícs_info">More lyrics without translation</string>
     <string name="enable_canvas">Enable Canvas</string>
-    <string name="canvas_info">Show Spotify Canvas in SimpMusic</string>
+    <string name="canvas_info">Show Spotify Canvas in HYMusic</string>
     <string name="spotify_lyrics_provider">Lyrics provided by Spotify</string>
     <string name="offline_mode">Offline mode</string>
     <string name="added_to_youtube_liked">Added to YouTube Liked</string>
@@ -365,7 +365,7 @@
     <string name="loading">Loading</string>
     <string name="updating">Updating</string>
     <string name="go_to_log_in_page">Go to log in page</string>
-    <string name="log_in_warning">YouTube Music now requires you to log in to stream music, Piped Instance sometime can't work too. You should log in to YouTube to get better experience with SimpMusic.</string>
+    <string name="log_in_warning">YouTube Music now requires you to log in to stream music, Piped Instance sometime can't work too. You should log in to YouTube to get better experience with HYMusic.</string>
     <string name="spotify_canvas_cache">Spotify Canvas Cache</string>
     <string name="clear_canvas_cache">Clear canvas cache</string>
     <string name="proxy">Proxy</string>
@@ -405,8 +405,8 @@
     <string name="other_version">Other version</string>
     <string name="later">Later</string>
     <string name="give_a_star">Give a star</string>
-    <string name="enjoying_simpmusic">Enjoying SimpMusic</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">If you enjoy using SimpMusic, star SimpMusic on GitHub or leave a review on</string>
+    <string name="enjoying_simpmusic">Enjoying HYMusic</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">If you enjoy using HYMusic, star HYMusic on GitHub or leave a review on</string>
     <string name="if_you_love_my_work_consider">"If you love my work, consider "</string>
     <string name="buying_me_a_coffee">buying me a coffee.</string>
     <string name="fade_audio_effect">Fade audio effect</string>
@@ -453,7 +453,7 @@
     <string name="contributor_email">Contributor email</string>
     <string name="anonymous">Anonymous</string>
     <string name="simpmusic_lyrics">HYMusic Lyrics</string>
-    <string name="lyrics_provider_simpmusic">Lyrics provided by SimpMusic Lyrics</string>
+    <string name="lyrics_provider_simpmusic">Lyrics provided by HYMusic Lyrics</string>
     <string name="backup_in_progress">Backup in progress</string>
     <string name="restore_in_progress">Restore in progress</string>
     <string name="backup_downloaded">Backup downloaded data</string>

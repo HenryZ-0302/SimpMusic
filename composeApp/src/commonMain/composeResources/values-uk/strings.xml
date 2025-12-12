@@ -134,7 +134,7 @@
     <string name="albums_inArtist">Альбоми</string>
     <string name="singles_inArtist">Сингли</string>
     <string name="fans_might_also_like_inArtist">Фанатам може також сподобатися</string>
-    <string name="crash_log">В SimpMusic стався збій. Вибачте за цю проблему.\nНадішліть журнал збою розробнику</string>
+    <string name="crash_log">В HYMusic стався збій. Вибачте за цю проблему.\nНадішліть журнал збою розробнику</string>
     <string name="crash">Збій</string>
     <string name="send">Відправити</string>
     <string name="mail_subject">Повідомити про збій</string>
@@ -192,13 +192,13 @@
     <string name="what_segments_will_be_skipped">Які сегменти будуть пропущені</string>
     <string name="save">Зберегти</string>
     <string name="saved">Збережено</string>
-    <string name="sponsor_block_intro">SponsorBlock — це система краудсорсингу, яка дозволяє пропускати дратівливі фрагменти відео на YouTube.\nДетальніше: https://sponsor.ajay.app/\nУ SimpMusic функція SponsorBlock доступна лише в режимі онлайн</string>
+    <string name="sponsor_block_intro">SponsorBlock — це система краудсорсингу, яка дозволяє пропускати дратівливі фрагменти відео на YouTube.\nДетальніше: https://sponsor.ajay.app/\nУ HYMusic функція SponsorBlock доступна лише в режимі онлайн</string>
     <string name="skip_sponsor_part_of_video">Пропустити частину відео зі спонсором</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Виникла неочікувана помилка. Вибачте за незручності.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Перезапустити додаток</string>
-    <string name="help_build_lyrics_database">Допоможіть SimpMusic перекласти тексти пісень</string>
-    <string name="help_build_lyrics_database_description">Надішліть ваші збережені тексти пісень в базу даних SimpMusic</string>
-    <string name="lyrics_database_description">Ми розробляємо нашу власну базу даних текстів пісень для SimpMusic та інших YouTube клієнтів для некомерційних цілей, з відкритим кодом</string>
+    <string name="help_build_lyrics_database">Допоможіть HYMusic перекласти тексти пісень</string>
+    <string name="help_build_lyrics_database_description">Надішліть ваші збережені тексти пісень в базу даних HYMusic</string>
+    <string name="lyrics_database_description">Ми розробляємо нашу власну базу даних текстів пісень для HYMusic та інших YouTube клієнтів для некомерційних цілей, з відкритим кодом</string>
     <string name="customactivityoncrash_error_activity_close_app">Закрити застосунок</string>
     <string name="customactivityoncrash_error_activity_error_details">Деталі помилки</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Деталі помилки</string>
@@ -250,7 +250,7 @@
     <string name="email">Адреса електронної пошти</string>
     <string name="password">Пароль</string>
     <string name="please_enter_your_email_and_password">Будь ласка, введіть адресу електронної пошти та пароль</string>
-    <string name="translation_language_message">Введіть код мови (наприклад: en) (2 літери). Якщо ви хочете встановити ту саму мову, що й у SimpMusic, залиште поле для редагування порожнім.</string>
+    <string name="translation_language_message">Введіть код мови (наприклад: en) (2 літери). Якщо ви хочете встановити ту саму мову, що й у HYMusic, залиште поле для редагування порожнім.</string>
     <string name="invalid_language_code">Невірний код мови</string>
     <string name="lyrics_provider_youtube">Тексти пісень надані YouTube</string>
     <string name="limit_player_cache">Обмежити кеш плеєра</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Спочатку старіші</string>
     <string name="newer_first">Спочатку новіші</string>
     <string name="added_date">Дата додавання</string>
-    <string name="credit_app">Простий музичний застосунок з використанням YouTube Music для бекенду \n\nSimpMusic - це проєкт з відкритим вихідним кодом для потокової передачі музики з YouTube та YouTube Music без реклами та відстеження. SimpMusic надає багато можливостей:\n\n - Потокова музика\n - Синхронізовані тексти\n - Персоналізація даних\n - тощо... \n\nSimpMusic завжди безкоштовний і без реклами\n\nСтворено з ❤️ від Henry (Henry)</string>
+    <string name="credit_app">Простий музичний застосунок з використанням YouTube Music для бекенду \n\nHYMusic - це проєкт з відкритим вихідним кодом для потокової передачі музики з YouTube та YouTube Music без реклами та відстеження. HYMusic надає багато можливостей:\n\n - Потокова музика\n - Синхронізовані тексти\n - Персоналізація даних\n - тощо... \n\nHYMusic завжди безкоштовний і без реклами\n\nСтворено з ❤️ від Henry</string>
     <string name="issue_tracker">Відстежувач випусків</string>
     <string name="featured_playlists">Рекомендовані плейлисти</string>
     <string name="featured_inArtist">Рекомендовано</string>
@@ -310,7 +310,7 @@
     <string name="enable_spotify_lyrics">Увімкнути Spotify Lyrics</string>
     <string name="spotify_lyrícs_info">Більше текстів пісень без перекладу</string>
     <string name="enable_canvas">Увімкнути Canvas</string>
-    <string name="canvas_info">Показувати Spotify Canvas у SimpMusic</string>
+    <string name="canvas_info">Показувати Spotify Canvas у HYMusic</string>
     <string name="spotify_lyrics_provider">Тексти пісень надані Spotify</string>
     <string name="offline_mode">Автономний режим</string>
     <string name="added_to_youtube_liked">Додано у вподобані на YouTube</string>
@@ -359,7 +359,7 @@
     <string name="loading">Завантаження</string>
     <string name="updating">Оновлення</string>
     <string name="go_to_log_in_page">Перейти на сторінку входу</string>
-    <string name="log_in_warning">YouTube Music тепер вимагає входу для потокової передачі музики, Piped Instance іноді теж не працює. Вам слід увійти на YouTube, щоб отримати кращий досвід роботи з SimpMusic.</string>
+    <string name="log_in_warning">YouTube Music тепер вимагає входу для потокової передачі музики, Piped Instance іноді теж не працює. Вам слід увійти на YouTube, щоб отримати кращий досвід роботи з HYMusic.</string>
     <string name="spotify_canvas_cache">Кеш Spotify Canvas</string>
     <string name="clear_canvas_cache">Очистити кеш Canvas</string>
     <string name="proxy">Проксі</string>
@@ -398,8 +398,8 @@
     <string name="other_version">Інші версії</string>
     <string name="later">Пізніше</string>
     <string name="give_a_star">Дати зірку</string>
-    <string name="enjoying_simpmusic">Подобається SimpMusic</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">Якщо вам подобається користуватися SimpMusic, оцініть SimpMusic на GitHub, або залиште свій відгук на</string>
+    <string name="enjoying_simpmusic">Подобається HYMusic</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">Якщо вам подобається користуватися HYMusic, оцініть HYMusic на GitHub, або залиште свій відгук на</string>
     <string name="if_you_love_my_work_consider">"Якщо ви любите мою роботу, подумайте "</string>
     <string name="buying_me_a_coffee">купити мені каву.</string>
     <string name="fade_audio_effect">Ефект затухання звуку</string>
@@ -444,8 +444,8 @@
     <string name="contributor_name">Ім\'я учасника</string>
     <string name="contributor_email">Електронна пошта учасника</string>
     <string name="anonymous">Анонімно</string>
-    <string name="simpmusic_lyrics">Тексти пісень SimpMusic</string>
-    <string name="lyrics_provider_simpmusic">Тексти пісень надано SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">Тексти пісень HYMusic</string>
+    <string name="lyrics_provider_simpmusic">Тексти пісень надано HYMusic Lyrics</string>
     <string name="backup_in_progress">Виконується резервне копіювання</string>
     <string name="restore_in_progress">Виконується відновлення</string>
     <string name="backup_downloaded">Резервне копіювання завантажених даних</string>

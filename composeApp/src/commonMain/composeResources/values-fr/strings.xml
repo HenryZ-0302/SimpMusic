@@ -192,13 +192,13 @@
     <string name="what_segments_will_be_skipped">Quels sont les segments à ignorer ?</string>
     <string name="save">Sauvegarder</string>
     <string name="saved">Sauvegarde</string>
-    <string name="sponsor_block_intro">SponsorBlock est un système qui permet de sauter les parties gênantes des vidéos YouTube.\nPlus d\'informations : https://sponsor.ajay.app/\nDans SimpMusic, SponsorBlock n\'est disponible que lorsque l\'appareil est en ligne.</string>
+    <string name="sponsor_block_intro">SponsorBlock est un système qui permet de sauter les parties gênantes des vidéos YouTube.\nPlus d\'informations : https://sponsor.ajay.app/\nDans HYMusic, SponsorBlock n\'est disponible que lorsque l\'appareil est en ligne.</string>
     <string name="skip_sponsor_part_of_video">Ignorer la partie sponsorisée de la vidéo</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">Une erreur inattendue s\'est produite. Désolé pour la gêne occasionnée…</string>
     <string name="customactivityoncrash_error_activity_restart_app">Redémarrer l\'application</string>
-    <string name="help_build_lyrics_database">Aidez SimpMusic à créer la base de données des paroles</string>
-    <string name="help_build_lyrics_database_description">Envoyez vos paroles enregistrées à la base de données des paroles de SimpMusic</string>
-    <string name="lyrics_database_description">Nous construisons notre propre base de données de paroles pour SimpMusic et d\'autres clients YouTube à des fins non commerciales, en open source sur</string>
+    <string name="help_build_lyrics_database">Aidez HYMusic à créer la base de données des paroles</string>
+    <string name="help_build_lyrics_database_description">Envoyez vos paroles enregistrées à la base de données des paroles de HYMusic</string>
+    <string name="lyrics_database_description">Nous construisons notre propre base de données de paroles pour HYMusic et d\'autres clients YouTube à des fins non commerciales, en open source sur</string>
     <string name="customactivityoncrash_error_activity_close_app">Fermer l\'application</string>
     <string name="customactivityoncrash_error_activity_error_details">Détails de l\'erreur</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Détails de l\'erreur</string>
@@ -250,7 +250,7 @@
     <string name="email">E-mail</string>
     <string name="password">Mot de passe</string>
     <string name="please_enter_your_email_and_password">Veuillez entrer votre e-mail et votre mot de passe.</string>
-    <string name="translation_language_message">Saisissez le code de langue (par exemple : en) (2 lettres). Si vous souhaitez définir la même langue que celle de SimpMusic, veuillez laisser la zone d\'édition vide.</string>
+    <string name="translation_language_message">Saisissez le code de langue (par exemple : en) (2 lettres). Si vous souhaitez définir la même langue que celle de HYMusic, veuillez laisser la zone d\'édition vide.</string>
     <string name="invalid_language_code">Code de langue invalide</string>
     <string name="lyrics_provider_youtube">Paroles fournies par YouTube</string>
     <string name="limit_player_cache">Limiter le cache du lecteur</string>
@@ -268,7 +268,7 @@
     <string name="older_first">Les plus anciens d\'abord</string>
     <string name="newer_first">Les plus récents d\'abord</string>
     <string name="added_date">Date d\'ajout</string>
-    <string name="credit_app">Une application musicale simple utilisant YouTube Music pour le backend \n\nSimpMusic est un projet open source pour diffuser de la musique à partir de YouTube et YouTube Music sans publicité ni suivi. SimpMusic offre de nombreuses fonctionnalités :\n\n - Streaming de musique \n - Paroles synchronisées\n - Personnaliser les données\n - etc… \n\nSimpMusic est toujours gratuit et sans publicité\n\nConstruit avec ❤️ de Henry (Henry)</string>
+    <string name="credit_app">Une application musicale simple utilisant YouTube Music pour le backend \n\nHYMusic est un projet open source pour diffuser de la musique à partir de YouTube et YouTube Music sans publicité ni suivi. HYMusic offre de nombreuses fonctionnalités :\n\n - Streaming de musique \n - Paroles synchronisées\n - Personnaliser les données\n - etc… \n\nHYMusic est toujours gratuit et sans publicité\n\nConstruit avec ❤️ de Henry</string>
     <string name="issue_tracker">Suivi des problèmes</string>
     <string name="featured_playlists">Playlists en Vedette</string>
     <string name="featured_inArtist">En vedette sur</string>
@@ -308,7 +308,7 @@
     <string name="enable_spotify_lyrics">Activer les paroles Spotify</string>
     <string name="spotify_lyrícs_info">Plus de paroles sans traduction</string>
     <string name="enable_canvas">Activer la toile</string>
-    <string name="canvas_info">Afficher la toile Spotify dans SimpMusic</string>
+    <string name="canvas_info">Afficher la toile Spotify dans HYMusic</string>
     <string name="spotify_lyrics_provider">Paroles fournies par Spotify</string>
     <string name="offline_mode">Mode hors-ligne</string>
     <string name="added_to_youtube_liked">Ajouté aux favoris YouTube</string>
@@ -357,7 +357,7 @@
     <string name="loading">Chargement</string>
     <string name="updating">Mise à jour</string>
     <string name="go_to_log_in_page">Accéder à la page de connexion</string>
-    <string name="log_in_warning">YouTube Music nécessite désormais que vous vous connectiez pour diffuser de la musique. Piped Instance ne peut parfois pas fonctionner non plus. Vous devez vous connecter à YouTube pour bénéficier d\'une meilleure expérience avec SimpMusic.</string>
+    <string name="log_in_warning">YouTube Music nécessite désormais que vous vous connectiez pour diffuser de la musique. Piped Instance ne peut parfois pas fonctionner non plus. Vous devez vous connecter à YouTube pour bénéficier d\'une meilleure expérience avec HYMusic.</string>
     <string name="spotify_canvas_cache">Cache de la toile Spotify</string>
     <string name="clear_canvas_cache">Vider le cache de la toile</string>
     <string name="proxy">Proxy</string>
@@ -396,8 +396,8 @@
     <string name="other_version">Autre version</string>
     <string name="later">Plus tard</string>
     <string name="give_a_star">Donner une étoile</string>
-    <string name="enjoying_simpmusic">Vous appréciez SimpMusic</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">Si vous aimez utiliser SimpMusic, donnez une étoile à SimpMusic sur GitHub ou laissez un avis sur</string>
+    <string name="enjoying_simpmusic">Vous appréciez HYMusic</string>
+    <string name="if_you_enjoy_using_simpmusic_star_HYMusic_on_github_or_leave_a_review_on">Si vous aimez utiliser HYMusic, donnez une étoile à HYMusic sur GitHub ou laissez un avis sur</string>
     <string name="if_you_love_my_work_consider">"Si vous aimez mon travail, considérez "</string>
     <string name="buying_me_a_coffee">m\'offrir un café.</string>
     <string name="fade_audio_effect">Effet de fondu audio</string>
@@ -442,8 +442,8 @@
     <string name="contributor_name">Nom du contributeur</string>
     <string name="contributor_email">Email du contributeur</string>
     <string name="anonymous">Anonyme</string>
-    <string name="simpmusic_lyrics">Paroles de SimpMusic</string>
-    <string name="lyrics_provider_simpmusic">Paroles fournies par SimpMusic</string>
+    <string name="simpmusic_lyrics">Paroles de HYMusic</string>
+    <string name="lyrics_provider_simpmusic">Paroles fournies par HYMusic</string>
     <string name="backup_in_progress">Sauvegarde en cours</string>
     <string name="restore_in_progress">Restauration en cours</string>
     <string name="backup_downloaded">Sauvegarder les données téléchargées</string>
