@@ -1620,6 +1620,8 @@ fun SettingScreen(
                         navController.navigate(CreditDestination)
                     },
                 )
+                // 更新检查功能已禁用
+                /*
                 SettingItem(
                     title = stringResource(Res.string.auto_check_for_update),
                     subtitle = stringResource(Res.string.auto_check_for_update_description),
@@ -1667,6 +1669,7 @@ fun SettingScreen(
                         sharedViewModel.checkForUpdate()
                     },
                 )
+                */
                 SettingItem(
                     title = stringResource(Res.string.author),
                     subtitle = stringResource(Res.string.maxrave_dev),

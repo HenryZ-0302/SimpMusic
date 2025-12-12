@@ -225,6 +225,8 @@ fun App(viewModel: SharedViewModel = koinInject()) {
         }
     }
 
+    // 更新检查功能已禁用
+    /*
     LaunchedEffect(updateData) {
         val response = updateData ?: return@LaunchedEffect
         if (viewModel.showedUpdateDialog &&
@@ -233,6 +235,7 @@ fun App(viewModel: SharedViewModel = koinInject()) {
             shouldShowUpdateDialog = true
         }
     }
+    */
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     LaunchedEffect(navBackStackEntry) {
@@ -486,6 +489,8 @@ fun App(viewModel: SharedViewModel = koinInject()) {
                     )
                 }
 
+                // 更新弹窗已禁用
+                /*
                 if (shouldShowUpdateDialog) {
                     val response = updateData ?: return@Scaffold
                     AlertDialog(
@@ -606,6 +611,7 @@ fun App(viewModel: SharedViewModel = koinInject()) {
                         },
                     )
                 }
+                */
             },
         )
     }
