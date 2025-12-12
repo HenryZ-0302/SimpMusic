@@ -40,7 +40,8 @@ fun ReviewDialog(
         confirmButton = {
             TextButton(onClick = {
                 onDoneReview.invoke()
-                uriHandler.openUri("https://github.com/maxrave-dev/SimpMusic")
+                // TODO: 替换为你自己的链接
+                // uriHandler.openUri("https://github.com/maxrave-dev/SimpMusic")
             }) {
                 Text(
                     stringResource(Res.string.give_a_star),
@@ -69,35 +70,7 @@ fun ReviewDialog(
         },
         text = {
             Text(
-                buildAnnotatedString {
-                    append(stringResource(Res.string.if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on))
-                    withLink(
-                        LinkAnnotation.Url(
-                            "https://www.producthunt.com/products/simpmusic",
-                            TextLinkStyles(style = SpanStyle(textDecoration = TextDecoration.Underline, color = seed)),
-                        ) {
-                            onDoneReview.invoke()
-                            onDismissRequest.invoke()
-                            uriHandler.openUri("https://www.producthunt.com/products/simpmusic")
-                        },
-                    ) {
-                        append(" ProductHunt")
-                    }
-                    append("\n")
-                    append(stringResource(Res.string.if_you_love_my_work_consider))
-                    withLink(
-                        LinkAnnotation.Url(
-                            "https://buymeacoffee.com/maxrave",
-                            TextLinkStyles(style = SpanStyle(textDecoration = TextDecoration.Underline, color = seed)),
-                        ) {
-                            onDoneReview.invoke()
-                            onDismissRequest.invoke()
-                            uriHandler.openUri("https://buymeacoffee.com/maxrave")
-                        },
-                    ) {
-                        append(stringResource(Res.string.buying_me_a_coffee))
-                    }
-                },
+                stringResource(Res.string.if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on),
                 textAlign = TextAlign.Center,
                 style = typo().bodySmall,
             )
