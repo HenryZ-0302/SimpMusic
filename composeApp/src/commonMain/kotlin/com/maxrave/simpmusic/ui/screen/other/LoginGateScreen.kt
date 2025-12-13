@@ -196,6 +196,15 @@ fun LoginGateScreen(
                         return@Button
                     }
                     
+                    // 注册模式验证密码强度
+                    if (!isLoginMode) {
+                        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$")
+                        if (!passwordRegex.matches(password)) {
+                            errorMessage = "Password must be 8+ chars with uppercase, lowercase, number, and special char (@\$!%*?&)"
+                            return@Button
+                        }
+                    }
+                    
                     // 验证邮箱必须是 gmail.com
                     if (!email.lowercase().endsWith("@gmail.com")) {
                         errorMessage = "Only Gmail addresses are allowed"

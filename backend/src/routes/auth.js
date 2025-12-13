@@ -17,6 +17,15 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ error: 'Email and password are required' });
         }
 
+        // 验证密码强度
+        // 至少8位，包含大小写字母、数字和特殊字符
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                error: 'Password must be at least 8 characters and contain uppercase, lowercase, number, and special character (@$!%*?&)'
+            });
+        }
+
         // 检查邮箱是否已注册
         const existingUser = await prisma.user.findUnique({
             where: { email }
