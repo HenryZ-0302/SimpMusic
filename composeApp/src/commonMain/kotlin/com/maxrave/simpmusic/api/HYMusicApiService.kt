@@ -43,6 +43,10 @@ class HYMusicApiService(
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn
     
+    // 是否已完成初始化（Token 恢复完成）
+    private val _isInitialized = MutableStateFlow(false)
+    val isInitialized: StateFlow<Boolean> = _isInitialized
+    
     private val _currentUser = MutableStateFlow<UserInfo?>(null)
     val currentUser: StateFlow<UserInfo?> = _currentUser
     
@@ -58,6 +62,7 @@ class HYMusicApiService(
         // 启动时从 DataStore 恢复登录状态
         scope.launch {
             restoreLoginState()
+            _isInitialized.value = true
         }
     }
     

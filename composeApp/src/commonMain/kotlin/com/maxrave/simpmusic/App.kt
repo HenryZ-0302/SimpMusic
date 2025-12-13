@@ -118,8 +118,14 @@ fun App(
     viewModel: SharedViewModel = koinInject(),
     apiService: HYMusicApiService = koinInject()
 ) {
-    // 登录状态检查
+    // 等待初始化完成（Token 恢复）
+    val isInitialized by apiService.isInitialized.collectAsStateWithLifecycle()
     val isLoggedIn by apiService.isLoggedIn.collectAsStateWithLifecycle()
+    
+    // 初始化中，显示空白避免闪烁
+    if (!isInitialized) {
+        return
+    }
     
     // 如果未登录，显示登录界面
     if (!isLoggedIn) {
