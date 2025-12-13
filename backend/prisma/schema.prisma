@@ -125,3 +125,15 @@ model DailyStats {
   
   createdAt     DateTime @default(now())
 }
+
+// 公告（管理员发布）
+model Announcement {
+  id            String   @id @default(uuid())
+  title         String
+  content       String
+  isActive      Boolean  @default(true)
+  priority      Int      @default(0)  // 优先级，数字越大越靠前
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

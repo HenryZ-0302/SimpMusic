@@ -7,6 +7,7 @@ const { execSync } = require('child_process');
 const authRoutes = require('./routes/auth');
 const syncRoutes = require('./routes/sync');
 const adminRoutes = require('./routes/admin');
+const announcementsRoutes = require('./routes/announcements');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -33,6 +34,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/sync', syncRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/announcements', announcementsRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

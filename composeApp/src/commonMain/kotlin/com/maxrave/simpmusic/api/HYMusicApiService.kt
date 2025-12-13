@@ -347,4 +347,93 @@ class HYMusicApiService(
         
         return executeRequest(request) { json.decodeFromString(it) }
     }
+    
+    // ==================== 公告 API ====================
+    
+    /**
+     * 获取活跃公告（所有用户）
+     */
+    suspend fun getAnnouncements(): Result<List<AnnouncementItem>> {
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/announcements")
+            .get()
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 获取所有公告（管理员）
+     */
+    suspend fun adminGetAllAnnouncements(): Result<List<AnnouncementItem>> {
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/announcements/all")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .get()
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 创建公告（管理员）
+     */
+    suspend fun adminCreateAnnouncement(title: String, content: String, priority: Int = 0): Result<AnnouncementItem> {
+        val body = json.encodeToString(mapOf(
+            "title" to title,
+            "content" to content,
+            "priority" to priority.toString()
+        ))
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/announcements")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .post(body.toRequestBody(jsonMediaType))
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 更新公告（管理员）
+     */
+    suspend fun adminUpdateAnnouncement(id: String, title: String? = null, content: String? = null, isActive: Boolean? = null): Result<AnnouncementItem> {
+        val bodyMap = mutableMapOf<String, String>()
+        title?.let { bodyMap["title"] = it }
+        content?.let { bodyMap["content"] = it }
+        isActive?.let { bodyMap["isActive"] = it.toString() }
+        
+        val body = json.encodeToString(bodyMap)
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/announcements/$id")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .put(body.toRequestBody(jsonMediaType))
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 删除公告（管理员）
+     */
+    suspend fun adminDeleteAnnouncement(id: String): Result<ApiMessageResponse> {
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/announcements/$id")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .delete()
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
 }
+
+// 公告数据
+@Serializable
+data class AnnouncementItem(
+    val id: String,
+    val title: String,
+    val content: String,
+    val isActive: Boolean = true,
+    val priority: Int = 0,
+    val createdAt: String? = null,
+    val updatedAt: String? = null
+)
