@@ -23,8 +23,8 @@ import org.koin.dsl.module
 
 val viewModelModule =
     module {
-        // HYMusic API 服务 (单例)
-        single { HYMusicApiService() }
+        // HYMusic API 服务 (单例，注入 DataStoreManager)
+        single { HYMusicApiService(get()) }
         
         single {
             SharedViewModel(

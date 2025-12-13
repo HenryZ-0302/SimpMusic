@@ -1,8 +1,14 @@
 package com.maxrave.simpmusic.api
 
+import com.maxrave.domain.manager.DataStoreManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -15,7 +21,9 @@ import java.util.concurrent.TimeUnit
 /**
  * HYMusic 后端 API 服务
  */
-class HYMusicApiService {
+class HYMusicApiService(
+    private val dataStoreManager: DataStoreManager
+) {
     
     private val json = Json {
         ignoreUnknownKeys = true
@@ -29,6 +37,7 @@ class HYMusicApiService {
         .build()
     
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     
     // 用户登录状态
     private val _isLoggedIn = MutableStateFlow(false)
@@ -37,15 +46,64 @@ class HYMusicApiService {
     private val _currentUser = MutableStateFlow<UserInfo?>(null)
     val currentUser: StateFlow<UserInfo?> = _currentUser
     
-    // Token 存储
+    // Token 存储 (内存缓存)
     private var authToken: String? = null
     
+    companion object {
+        private const val KEY_HYMUSIC_TOKEN = "hymusic_auth_token"
+        private const val KEY_HYMUSIC_USER = "hymusic_user_json"
+    }
+    
+    init {
+        // 启动时从 DataStore 恢复登录状态
+        scope.launch {
+            restoreLoginState()
+        }
+    }
+    
     /**
-     * 设置认证 Token
+     * 从 DataStore 恢复登录状态
      */
-    fun setToken(token: String?) {
+    private suspend fun restoreLoginState() {
+        val savedToken = dataStoreManager.getString(KEY_HYMUSIC_TOKEN).first()
+        if (!savedToken.isNullOrEmpty()) {
+            authToken = savedToken
+            _isLoggedIn.value = true
+            
+            // 恢复用户信息
+            val savedUserJson = dataStoreManager.getString(KEY_HYMUSIC_USER).first()
+            if (!savedUserJson.isNullOrEmpty()) {
+                try {
+                    _currentUser.value = json.decodeFromString<UserInfo>(savedUserJson)
+                } catch (e: Exception) {
+                    // 如果解析失败，尝试从服务器获取
+                    getMe()
+                }
+            } else {
+                // 尝试从服务器获取用户信息
+                getMe()
+            }
+        }
+    }
+    
+    /**
+     * 设置认证 Token 并持久化
+     */
+    private suspend fun setTokenAndPersist(token: String?, user: UserInfo? = null) {
         authToken = token
         _isLoggedIn.value = token != null
+        
+        if (token != null) {
+            dataStoreManager.putString(KEY_HYMUSIC_TOKEN, token)
+            user?.let {
+                _currentUser.value = it
+                dataStoreManager.putString(KEY_HYMUSIC_USER, json.encodeToString(it))
+            }
+        } else {
+            dataStoreManager.putString(KEY_HYMUSIC_TOKEN, "")
+            dataStoreManager.putString(KEY_HYMUSIC_USER, "")
+            _currentUser.value = null
+        }
     }
     
     private suspend fun <T> executeRequest(
@@ -74,8 +132,9 @@ class HYMusicApiService {
         return executeRequest(request) { responseBody ->
             val response = json.decodeFromString<AuthResponse>(responseBody)
             if (response.token != null) {
-                setToken(response.token)
-                _currentUser.value = response.user
+                runBlocking {
+                    setTokenAndPersist(response.token, response.user)
+                }
             }
             response
         }
@@ -94,8 +153,9 @@ class HYMusicApiService {
         return executeRequest(request) { responseBody ->
             val response = json.decodeFromString<AuthResponse>(responseBody)
             if (response.token != null) {
-                setToken(response.token)
-                _currentUser.value = response.user
+                runBlocking {
+                    setTokenAndPersist(response.token, response.user)
+                }
             }
             response
         }
@@ -113,8 +173,12 @@ class HYMusicApiService {
         
         return executeRequest(request) { responseBody ->
             val response = json.decodeFromString<AuthResponse>(responseBody)
-            response.user?.also { _currentUser.value = it }
-                ?: throw Exception(response.error ?: "Unknown error")
+            response.user?.also { 
+                _currentUser.value = it
+                scope.launch {
+                    dataStoreManager.putString(KEY_HYMUSIC_USER, json.encodeToString(it))
+                }
+            } ?: throw Exception(response.error ?: "Unknown error")
         }
     }
     
@@ -122,8 +186,9 @@ class HYMusicApiService {
      * 登出
      */
     fun logout() {
-        setToken(null)
-        _currentUser.value = null
+        scope.launch {
+            setTokenAndPersist(null)
+        }
     }
     
     // ========== 数据同步 ==========
