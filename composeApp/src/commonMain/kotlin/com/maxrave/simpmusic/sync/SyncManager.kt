@@ -20,9 +20,6 @@ import kotlinx.coroutines.launch
 /**
  * 数据同步管理器
  * 负责本地数据与云端的同步
- * 
- * 注意：目前只实现上传功能（备份），不实现下载功能（恢复）
- * 因为 SongEntity 有复杂的必填字段，从云端恢复需要更多信息
  */
 class SyncManager(
     private val apiService: HYMusicApiService,
@@ -72,7 +69,9 @@ class SyncManager(
     val lastSyncTime: StateFlow<Long?> = _lastSyncTime
     
     /**
-     * 登录后触发全量同步（只上传）
+     * 登录后触发全量同步
+     * - 从云端下载数据合并到本地
+     * - 然后上传本地数据到云端
      */
     fun onLoginSuccess() {
         if (!apiService.isLoggedIn.value) return
@@ -81,7 +80,10 @@ class SyncManager(
             try {
                 _syncState.value = SyncState.Syncing
                 
-                // 上传本地数据到云端
+                // 1. 下载云端数据合并到本地
+                downloadAndMerge()
+                
+                // 2. 上传本地数据到云端
                 uploadAll()
                 
                 _lastSyncTime.value = System.currentTimeMillis()
@@ -90,6 +92,34 @@ class SyncManager(
                 _syncState.value = SyncState.Failed(e.message ?: "Sync failed")
             }
         }
+    }
+    
+    /**
+     * 下载云端数据并合并到本地
+     */
+    private suspend fun downloadAndMerge() {
+        val result = apiService.syncGetAll()
+        result.fold(
+            onSuccess = { response ->
+                // 合并收藏 - 只添加本地没有的
+                response.favorites.forEach { cloudFav ->
+                    val localSong = songRepository.getSongById(cloudFav.videoId).first()
+                    if (localSong == null) {
+                        // 本地没有，从云端添加
+                        songRepository.insertSong(cloudFav.toSongEntity())
+                    }
+                }
+                
+                // 合并播放历史
+                response.history.forEach { cloudHistory ->
+                    val localSong = songRepository.getSongById(cloudHistory.videoId).first()
+                    if (localSong == null) {
+                        songRepository.insertSong(cloudHistory.toSongEntity())
+                    }
+                }
+            },
+            onFailure = { /* 下载失败不影响，继续上传 */ }
+        )
     }
     
     /**
@@ -183,7 +213,7 @@ private fun SongEntity.toSyncFavoriteItem() = SyncFavoriteItem(
     title = title,
     artist = artistName?.firstOrNull(),
     thumbnail = thumbnails,
-    duration = duration?.toIntOrNull()
+    duration = durationSeconds
 )
 
 private fun SongEntity.toSyncHistoryItem() = SyncHistoryItem(
@@ -191,7 +221,7 @@ private fun SongEntity.toSyncHistoryItem() = SyncHistoryItem(
     title = title,
     artist = artistName?.firstOrNull(),
     thumbnail = thumbnails,
-    duration = duration?.toIntOrNull()
+    duration = durationSeconds
 )
 
 private fun LocalPlaylistEntity.toSyncPlaylistItem() = SyncPlaylistItem(
@@ -199,5 +229,39 @@ private fun LocalPlaylistEntity.toSyncPlaylistItem() = SyncPlaylistItem(
     title = title,
     description = null,
     thumbnail = thumbnail,
-    songs = null // 暂时不同步播放列表内歌曲
+    songs = null
+)
+
+// ========== 扩展函数：SyncItem 转 Entity ==========
+
+private fun SyncFavoriteItem.toSongEntity() = SongEntity(
+    videoId = videoId,
+    title = title,
+    artistName = artist?.let { listOf(it) },
+    thumbnails = thumbnail,
+    duration = duration?.let { "${it / 60}:${String.format("%02d", it % 60)}" } ?: "0:00",
+    durationSeconds = duration ?: 0,
+    isAvailable = true,
+    isExplicit = false,
+    likeStatus = "LIKE",
+    videoType = "MUSIC_VIDEO_TYPE_ATV",
+    category = null,
+    resultType = null,
+    liked = true
+)
+
+private fun SyncHistoryItem.toSongEntity() = SongEntity(
+    videoId = videoId,
+    title = title,
+    artistName = artist?.let { listOf(it) },
+    thumbnails = thumbnail,
+    duration = duration?.let { "${it / 60}:${String.format("%02d", it % 60)}" } ?: "0:00",
+    durationSeconds = duration ?: 0,
+    isAvailable = true,
+    isExplicit = false,
+    likeStatus = "INDIFFERENT",
+    videoType = "MUSIC_VIDEO_TYPE_ATV",
+    category = null,
+    resultType = null,
+    totalPlayTime = 1
 )
