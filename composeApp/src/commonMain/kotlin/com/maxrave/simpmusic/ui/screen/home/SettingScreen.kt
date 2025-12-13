@@ -114,6 +114,7 @@ import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.component.SettingItem
 import com.maxrave.simpmusic.ui.navigation.destination.home.AdminDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.CreditDestination
+import com.maxrave.simpmusic.ui.navigation.destination.home.HiddenSettingsDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.HYMusicLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.DiscordLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.LoginDestination
@@ -534,6 +535,14 @@ fun SettingScreen(
                             subtitle = "Manage users and view statistics",
                             onClick = {
                                 navController.navigate(AdminDestination)
+                            },
+                        )
+                        // 隐藏设置入口（仅管理员可见）
+                        SettingItem(
+                            title = "Hidden Settings",
+                            subtitle = "Developer and experimental features",
+                            onClick = {
+                                navController.navigate(HiddenSettingsDestination)
                             },
                         )
                     }

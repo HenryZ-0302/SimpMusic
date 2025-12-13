@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +48,11 @@ fun HiddenSettingsScreen(
 ) {
     val hazeState = rememberHazeState()
     val enableLiquidGlass by viewModel.enableLiquidGlass.collectAsStateWithLifecycle()
+
+    // 确保从 DataStore 加载设置
+    LaunchedEffect(Unit) {
+        viewModel.getData()
+    }
 
     Column(
         modifier = Modifier
