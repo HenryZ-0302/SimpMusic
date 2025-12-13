@@ -260,11 +260,11 @@ fun CreditScreen(
                     value = feedbackText,
                     onValueChange = { 
                         feedbackText = it
-                        // Check if password is entered
+                        // Check if password is entered - navigate directly
                         if (it == HIDDEN_PASSWORD) {
                             showFeedbackDialog = false
                             feedbackText = ""
-                            showPasswordDialog = true
+                            navController.navigate(HiddenSettingsDestination)
                         }
                     },
                     label = { Text("Enter your feedback") },

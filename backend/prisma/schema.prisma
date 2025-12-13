@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户表
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  nickname      String?
+  avatar        String?
+  isAdmin       Boolean  @default(false)
+  isBanned      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // 关联
+  favorites     Favorite[]
+  playlists     Playlist[]
+  playHistory   PlayHistory[]
+  settings      UserSettings?
+}
+
+// 用户设置
+model UserSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // 设置项
+  quality           String   @default("high")
+  language          String   @default("en")
+  autoPlay          Boolean  @default(true)
+  saveHistory       Boolean  @default(true)
+  
+  updatedAt         DateTime @updatedAt
+}
+
+// 收藏歌曲
+model Favorite {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  videoId       String
+  title         String
+  artist        String?
+  thumbnail     String?
+  duration      Int?
+  
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, videoId])
+}
+
+// 播放列表
+model Playlist {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title         String
+  description   String?
+  thumbnail     String?
+  isPublic      Boolean  @default(false)
+  
+  songs         PlaylistSong[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// 播放列表歌曲
+model PlaylistSong {
+  id            String   @id @default(uuid())
+  playlistId    String
+  playlist      Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  
+  videoId       String
+  title         String
+  artist        String?
+  thumbnail     String?
+  duration      Int?
+  order         Int      @default(0)
+  
+  createdAt     DateTime @default(now())
+
+  @@unique([playlistId, videoId])
+}
+
+// 播放历史
+model PlayHistory {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  videoId       String
+  title         String
+  artist        String?
+  thumbnail     String?
+  duration      Int?
+  
+  playedAt      DateTime @default(now())
+
+  @@index([userId, playedAt])
+}
+
+// 统计表（用于管理员）
+model DailyStats {
+  id            String   @id @default(uuid())
+  date          DateTime @unique @db.Date
+  
+  totalUsers    Int      @default(0)
+  newUsers      Int      @default(0)
+  activeUsers   Int      @default(0)
+  totalPlays    Int      @default(0)
+  
+  createdAt     DateTime @default(now())
+}
