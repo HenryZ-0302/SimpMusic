@@ -494,15 +494,16 @@ fun SettingScreen(
                     smallSubtitle = true,
                     switch = (blurPlayerBackground to { viewModel.setBlurPlayerBackground(it) }),
                 )
-                if (getPlatform() == Platform.Android) {
-                    SettingItem(
-                        title = stringResource(Res.string.enable_liquid_glass_effect),
-                        subtitle = stringResource(Res.string.enable_liquid_glass_effect_description),
-                        smallSubtitle = true,
-                        switch = (enableLiquidGlass to { viewModel.setEnableLiquidGlass(it) }),
-                        isEnable = getPlatform() == Platform.Android,
-                    )
-                }
+                // Liquid Glass setting moved to hidden settings
+                // if (getPlatform() == Platform.Android) {
+                //     SettingItem(
+                //         title = stringResource(Res.string.enable_liquid_glass_effect),
+                //         subtitle = stringResource(Res.string.enable_liquid_glass_effect_description),
+                //         smallSubtitle = true,
+                //         switch = (enableLiquidGlass to { viewModel.setEnableLiquidGlass(it) }),
+                //         isEnable = getPlatform() == Platform.Android,
+                //     )
+                // }
             }
         }
         item(key = "content") {
