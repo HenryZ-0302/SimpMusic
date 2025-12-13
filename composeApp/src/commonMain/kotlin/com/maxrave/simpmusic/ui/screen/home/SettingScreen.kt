@@ -516,21 +516,22 @@ fun SettingScreen(
                     color = white,
                     modifier = Modifier.padding(vertical = 8.dp),
                 )
-                // HYMusic Account - 显示当前用户信息
+                // HYMusic Account - 显示当前用户信息和登出按钮
                 val apiService: HYMusicApiService = koinInject()
                 val currentUser by apiService.currentUser.collectAsStateWithLifecycle()
-                SettingItem(
-                    title = currentUser?.nickname ?: currentUser?.email ?: "HYMusic Account",
-                    subtitle = if (currentUser != null) "Tap to logout" else "Sync your data across devices",
-                    onClick = {
-                        if (currentUser != null) {
-                            // 登出
+                if (currentUser != null) {
+                    SettingItem(
+                        title = currentUser?.nickname ?: currentUser?.email ?: "Account",
+                        subtitle = currentUser?.email ?: "",
+                    )
+                    SettingItem(
+                        title = "Logout",
+                        subtitle = "Tap to logout from HYMusic",
+                        onClick = {
                             apiService.logout()
-                        } else {
-                            navController.navigate(HYMusicLoginDestination)
-                        }
-                    },
-                )
+                        },
+                    )
+                }
                 SettingItem(
                     title = stringResource(Res.string.youtube_account),
                     subtitle = stringResource(Res.string.manage_your_youtube_accounts),

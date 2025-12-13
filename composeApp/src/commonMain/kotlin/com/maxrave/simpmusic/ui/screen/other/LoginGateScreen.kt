@@ -187,6 +187,12 @@ fun LoginGateScreen(
                         return@Button
                     }
                     
+                    // 验证邮箱必须是 gmail.com
+                    if (!email.lowercase().endsWith("@gmail.com")) {
+                        errorMessage = "Only Gmail addresses are allowed"
+                        return@Button
+                    }
+                    
                     isLoading = true
                     errorMessage = null
                     
