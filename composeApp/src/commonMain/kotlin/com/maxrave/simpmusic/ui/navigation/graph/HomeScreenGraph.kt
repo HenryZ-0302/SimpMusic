@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.maxrave.simpmusic.ui.navigation.destination.home.CreditDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.HiddenSettingsDestination
+import com.maxrave.simpmusic.ui.navigation.destination.home.HYMusicLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.MoodDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.NotificationDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.RecentlySongsDestination
@@ -17,6 +18,7 @@ import com.maxrave.simpmusic.ui.screen.home.RecentlySongsScreen
 import com.maxrave.simpmusic.ui.screen.home.SettingScreen
 import com.maxrave.simpmusic.ui.screen.other.CreditScreen
 import com.maxrave.simpmusic.ui.screen.other.HiddenSettingsScreen
+import com.maxrave.simpmusic.ui.screen.other.HYMusicLoginScreen
 
 fun NavGraphBuilder.homeScreenGraph(
     innerPadding: PaddingValues,
@@ -54,6 +56,12 @@ fun NavGraphBuilder.homeScreenGraph(
     }
     composable<HiddenSettingsDestination> {
         HiddenSettingsScreen(
+            paddingValues = innerPadding,
+            navController = navController,
+        )
+    }
+    composable<HYMusicLoginDestination> {
+        HYMusicLoginScreen(
             paddingValues = innerPadding,
             navController = navController,
         )

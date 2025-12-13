@@ -112,6 +112,7 @@ import com.maxrave.simpmusic.ui.component.EndOfPage
 import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.component.SettingItem
 import com.maxrave.simpmusic.ui.navigation.destination.home.CreditDestination
+import com.maxrave.simpmusic.ui.navigation.destination.home.HYMusicLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.DiscordLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.LoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.SpotifyLoginDestination
@@ -513,6 +514,14 @@ fun SettingScreen(
                     style = typo().labelMedium,
                     color = white,
                     modifier = Modifier.padding(vertical = 8.dp),
+                )
+                // HYMusic Account
+                SettingItem(
+                    title = "HYMusic Account",
+                    subtitle = "Sync your data across devices",
+                    onClick = {
+                        navController.navigate(HYMusicLoginDestination)
+                    },
                 )
                 SettingItem(
                     title = stringResource(Res.string.youtube_account),

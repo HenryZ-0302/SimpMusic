@@ -1,5 +1,6 @@
 package com.maxrave.simpmusic.di
 
+import com.maxrave.simpmusic.api.HYMusicApiService
 import com.maxrave.simpmusic.viewModel.AlbumViewModel
 import com.maxrave.simpmusic.viewModel.ArtistViewModel
 import com.maxrave.simpmusic.viewModel.HomeViewModel
@@ -22,6 +23,9 @@ import org.koin.dsl.module
 
 val viewModelModule =
     module {
+        // HYMusic API 服务 (单例)
+        single { HYMusicApiService() }
+        
         single {
             SharedViewModel(
                 get(),
