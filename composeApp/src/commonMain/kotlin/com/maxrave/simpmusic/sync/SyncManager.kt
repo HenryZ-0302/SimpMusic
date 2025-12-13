@@ -98,27 +98,45 @@ class SyncManager(
      * 下载云端数据并合并到本地
      */
     private suspend fun downloadAndMerge() {
+        println("[SyncManager] downloadAndMerge started")
         val result = apiService.syncGetAll()
         result.fold(
             onSuccess = { response ->
+                println("[SyncManager] Got ${response.favorites.size} favorites from cloud")
                 // 合并收藏 - 只添加本地没有的
                 response.favorites.forEach { cloudFav ->
-                    val localSong = songRepository.getSongById(cloudFav.videoId).first()
-                    if (localSong == null) {
-                        // 本地没有，从云端添加
-                        songRepository.insertSong(cloudFav.toSongEntity())
+                    println("[SyncManager] Processing favorite: ${cloudFav.videoId} - ${cloudFav.title}")
+                    try {
+                        val localSong = songRepository.getSongById(cloudFav.videoId).first()
+                        if (localSong == null) {
+                            println("[SyncManager] Inserting song: ${cloudFav.videoId}")
+                            songRepository.insertSong(cloudFav.toSongEntity())
+                            println("[SyncManager] Inserted successfully")
+                        } else {
+                            println("[SyncManager] Song already exists locally")
+                        }
+                    } catch (e: Exception) {
+                        println("[SyncManager] Error inserting song: ${e.message}")
                     }
                 }
                 
+                println("[SyncManager] Got ${response.history.size} history items from cloud")
                 // 合并播放历史
                 response.history.forEach { cloudHistory ->
-                    val localSong = songRepository.getSongById(cloudHistory.videoId).first()
-                    if (localSong == null) {
-                        songRepository.insertSong(cloudHistory.toSongEntity())
+                    try {
+                        val localSong = songRepository.getSongById(cloudHistory.videoId).first()
+                        if (localSong == null) {
+                            songRepository.insertSong(cloudHistory.toSongEntity())
+                        }
+                    } catch (e: Exception) {
+                        println("[SyncManager] Error inserting history: ${e.message}")
                     }
                 }
+                println("[SyncManager] downloadAndMerge completed")
             },
-            onFailure = { /* 下载失败不影响，继续上传 */ }
+            onFailure = { e ->
+                println("[SyncManager] downloadAndMerge failed: ${e.message}")
+            }
         )
     }
     
