@@ -112,6 +112,7 @@ import com.maxrave.simpmusic.ui.component.CenterLoadingBox
 import com.maxrave.simpmusic.ui.component.EndOfPage
 import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.component.SettingItem
+import com.maxrave.simpmusic.ui.navigation.destination.home.AdminDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.CreditDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.HYMusicLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.DiscordLoginDestination
@@ -524,6 +525,16 @@ fun SettingScreen(
                         title = currentUser?.nickname ?: currentUser?.email ?: "Account",
                         subtitle = currentUser?.email ?: "",
                     )
+                    // 管理员入口（仅管理员可见）
+                    if (currentUser?.isAdmin == true) {
+                        SettingItem(
+                            title = "Admin Panel",
+                            subtitle = "Manage users and view statistics",
+                            onClick = {
+                                navController.navigate(AdminDestination)
+                            },
+                        )
+                    }
                     SettingItem(
                         title = "Logout",
                         subtitle = "Tap to logout from HYMusic",

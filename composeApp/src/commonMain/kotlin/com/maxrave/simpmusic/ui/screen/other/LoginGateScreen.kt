@@ -87,6 +87,32 @@ fun LoginGateScreen(
             
             Spacer(modifier = Modifier.height(24.dp))
             
+            // 注册模式显示昵称输入（必填，放在 Email 上面）
+            if (!isLoginMode) {
+                OutlinedTextField(
+                    value = nickname,
+                    onValueChange = { 
+                        nickname = it
+                        errorMessage = null
+                    },
+                    label = { Text("Nickname") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color(0xFF6C63FF),
+                        unfocusedBorderColor = Color.White.copy(alpha = 0.3f),
+                        focusedLabelColor = Color(0xFF6C63FF),
+                        unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
+                        cursorColor = Color.White,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                    )
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            
             // Email 输入
             OutlinedTextField(
                 value = email,
@@ -134,29 +160,6 @@ fun LoginGateScreen(
                 )
             )
             
-            // 注册模式显示昵称输入
-            if (!isLoginMode) {
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                OutlinedTextField(
-                    value = nickname,
-                    onValueChange = { nickname = it },
-                    label = { Text("Nickname (optional)") },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF6C63FF),
-                        unfocusedBorderColor = Color.White.copy(alpha = 0.3f),
-                        focusedLabelColor = Color(0xFF6C63FF),
-                        unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
-                        cursorColor = Color.White,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                    )
-                )
-            }
-            
             Spacer(modifier = Modifier.height(24.dp))
             
             // 错误消息
@@ -184,6 +187,12 @@ fun LoginGateScreen(
                 onClick = {
                     if (email.isBlank() || password.isBlank()) {
                         errorMessage = "Email and password are required"
+                        return@Button
+                    }
+                    
+                    // 注册模式验证昵称必填
+                    if (!isLoginMode && nickname.isBlank()) {
+                        errorMessage = "Nickname is required"
                         return@Button
                     }
                     
