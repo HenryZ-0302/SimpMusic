@@ -18,6 +18,7 @@ import com.maxrave.simpmusic.viewModel.RecentlySongsViewModel
 import com.maxrave.simpmusic.viewModel.SearchViewModel
 import com.maxrave.simpmusic.viewModel.SettingsViewModel
 import com.maxrave.simpmusic.viewModel.SharedViewModel
+import com.maxrave.simpmusic.sync.SyncManager
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -25,6 +26,9 @@ val viewModelModule =
     module {
         // HYMusic API 服务 (单例，注入 DataStoreManager)
         single { HYMusicApiService(get()) }
+        
+        // 数据同步管理器 (单例)
+        single { SyncManager(get(), get(), get()) }
         
         single {
             SharedViewModel(

@@ -219,6 +219,13 @@ fun LoginGateScreen(
                                 if (response.error != null) {
                                     errorMessage = response.error
                                 } else if (response.token != null) {
+                                    // 触发数据同步
+                                    try {
+                                        val syncManager = org.koin.java.KoinJavaComponent.getKoin().get<com.maxrave.simpmusic.sync.SyncManager>()
+                                        syncManager.onLoginSuccess()
+                                    } catch (e: Exception) {
+                                        // 同步失败不影响登录
+                                    }
                                     onLoginSuccess()
                                 }
                             },

@@ -546,6 +546,21 @@ fun SettingScreen(
                             },
                         )
                     }
+                    // 云同步
+                    val syncManager: com.maxrave.simpmusic.sync.SyncManager = koinInject()
+                    val syncState by syncManager.syncState.collectAsStateWithLifecycle()
+                    SettingItem(
+                        title = "Cloud Sync",
+                        subtitle = when (syncState) {
+                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Syncing -> "Syncing..."
+                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Success -> "Synced"
+                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Failed -> "Sync failed"
+                            else -> "Tap to sync your data"
+                        },
+                        onClick = {
+                            syncManager.syncNow()
+                        },
+                    )
                     // 登出
                     SettingItem(
                         title = "Logout",
