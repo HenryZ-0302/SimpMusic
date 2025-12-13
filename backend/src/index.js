@@ -1,12 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { PrismaClient } = require('@prisma/client');
+const { execSync } = require('child_process');
 
 const authRoutes = require('./routes/auth');
 const syncRoutes = require('./routes/sync');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -37,7 +40,23 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 HYMusic API running on port ${PORT}`);
-});
+// Start server with DB initialization
+async function main() {
+    try {
+        // 尝试初始化数据库
+        console.log('📦 Initializing database...');
+        execSync('npx prisma db push --skip-generate', { stdio: 'inherit' });
+        console.log('✅ Database initialized');
+    } catch (error) {
+        console.log('⚠️ Database init skipped (may already exist)');
+    }
+
+    await prisma.$connect();
+    console.log('✅ Database connected');
+
+    app.listen(PORT, () => {
+        console.log(`🚀 HYMusic API running on port ${PORT}`);
+    });
+}
+
+main().catch(console.error);
