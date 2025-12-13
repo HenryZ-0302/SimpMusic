@@ -153,16 +153,27 @@ class SyncManager(
      * 上传收藏歌曲
      */
     suspend fun uploadFavorites() {
-        if (!apiService.isLoggedIn.value) return
+        if (!apiService.isLoggedIn.value) {
+            println("[SyncManager] uploadFavorites: not logged in, skip")
+            return
+        }
         
         try {
             val likedSongs = songRepository.getLikedSongs().first()
-            if (likedSongs.isEmpty()) return
+            println("[SyncManager] uploadFavorites: found ${likedSongs.size} liked songs")
+            if (likedSongs.isEmpty()) {
+                println("[SyncManager] uploadFavorites: no songs to upload")
+                return
+            }
             
             val syncItems = likedSongs.map { it.toSyncFavoriteItem() }
-            apiService.syncFavorites(syncItems)
+            val result = apiService.syncFavorites(syncItems)
+            result.fold(
+                onSuccess = { println("[SyncManager] uploadFavorites: success, uploaded ${syncItems.size} songs") },
+                onFailure = { e -> println("[SyncManager] uploadFavorites: failed - ${e.message}") }
+            )
         } catch (e: Exception) {
-            // 同步失败不影响本地使用
+            println("[SyncManager] uploadFavorites: exception - ${e.message}")
         }
     }
     
