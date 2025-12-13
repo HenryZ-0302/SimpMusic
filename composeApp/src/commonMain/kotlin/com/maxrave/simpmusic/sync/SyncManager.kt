@@ -70,8 +70,6 @@ class SyncManager(
     
     /**
      * 登录后触发全量同步
-     * - 从云端下载数据合并到本地
-     * - 然后上传本地数据到云端
      */
     fun onLoginSuccess() {
         if (!apiService.isLoggedIn.value) return
@@ -98,29 +96,21 @@ class SyncManager(
      * 下载云端数据并合并到本地
      */
     private suspend fun downloadAndMerge() {
-        println("[SyncManager] downloadAndMerge started")
         val result = apiService.syncGetAll()
         result.fold(
             onSuccess = { response ->
-                println("[SyncManager] Got ${response.favorites.size} favorites from cloud")
                 // 合并收藏 - 只添加本地没有的
                 response.favorites.forEach { cloudFav ->
-                    println("[SyncManager] Processing favorite: ${cloudFav.videoId} - ${cloudFav.title}")
                     try {
                         val localSong = songRepository.getSongById(cloudFav.videoId).first()
                         if (localSong == null) {
-                            println("[SyncManager] Inserting song: ${cloudFav.videoId}")
                             songRepository.insertSong(cloudFav.toSongEntity())
-                            println("[SyncManager] Inserted successfully")
-                        } else {
-                            println("[SyncManager] Song already exists locally")
                         }
                     } catch (e: Exception) {
-                        println("[SyncManager] Error inserting song: ${e.message}")
+                        // 忽略单个歌曲的插入错误
                     }
                 }
                 
-                println("[SyncManager] Got ${response.history.size} history items from cloud")
                 // 合并播放历史
                 response.history.forEach { cloudHistory ->
                     try {
@@ -129,14 +119,11 @@ class SyncManager(
                             songRepository.insertSong(cloudHistory.toSongEntity())
                         }
                     } catch (e: Exception) {
-                        println("[SyncManager] Error inserting history: ${e.message}")
+                        // 忽略单个歌曲的插入错误
                     }
                 }
-                println("[SyncManager] downloadAndMerge completed")
             },
-            onFailure = { e ->
-                println("[SyncManager] downloadAndMerge failed: ${e.message}")
-            }
+            onFailure = { /* 下载失败不影响，继续上传 */ }
         )
     }
     
@@ -153,27 +140,16 @@ class SyncManager(
      * 上传收藏歌曲
      */
     suspend fun uploadFavorites() {
-        if (!apiService.isLoggedIn.value) {
-            println("[SyncManager] uploadFavorites: not logged in, skip")
-            return
-        }
+        if (!apiService.isLoggedIn.value) return
         
         try {
             val likedSongs = songRepository.getLikedSongs().first()
-            println("[SyncManager] uploadFavorites: found ${likedSongs.size} liked songs")
-            if (likedSongs.isEmpty()) {
-                println("[SyncManager] uploadFavorites: no songs to upload")
-                return
-            }
+            if (likedSongs.isEmpty()) return
             
             val syncItems = likedSongs.map { it.toSyncFavoriteItem() }
-            val result = apiService.syncFavorites(syncItems)
-            result.fold(
-                onSuccess = { println("[SyncManager] uploadFavorites: success, uploaded ${syncItems.size} songs") },
-                onFailure = { e -> println("[SyncManager] uploadFavorites: failed - ${e.message}") }
-            )
+            apiService.syncFavorites(syncItems)
         } catch (e: Exception) {
-            println("[SyncManager] uploadFavorites: exception - ${e.message}")
+            // 同步失败不影响本地使用
         }
     }
     

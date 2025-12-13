@@ -12,6 +12,7 @@ router.use(authMiddleware);
 router.get('/all', async (req, res) => {
     try {
         const userId = req.user.id;
+        console.log(`📤 [Sync Get All] User: ${userId}`);
 
         const [favorites, playlists, history, settings] = await Promise.all([
             prisma.favorite.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } }),
@@ -28,9 +29,10 @@ router.get('/all', async (req, res) => {
             prisma.userSettings.findUnique({ where: { userId } })
         ]);
 
+        console.log(`✅ [Sync Get All] Favorites: ${favorites.length}, Playlists: ${playlists.length}, History: ${history.length}`);
         res.json({ favorites, playlists, history, settings });
     } catch (error) {
-        console.error('Sync all error:', error);
+        console.error('❌ [Sync Get All] Error:', error);
         res.status(500).json({ error: 'Failed to fetch sync data' });
     }
 });
@@ -38,11 +40,19 @@ router.get('/all', async (req, res) => {
 // 同步收藏
 router.post('/favorites', async (req, res) => {
     try {
-        const { favorites } = req.body; // Array of { videoId, title, artist, thumbnail, duration }
+        const { favorites } = req.body;
         const userId = req.user.id;
+
+        console.log(`📥 [Sync Favorites] User: ${userId}, Count: ${favorites?.length || 0}`);
+
+        if (!favorites || favorites.length === 0) {
+            console.log(`⚠️ [Sync Favorites] No favorites to sync`);
+            return res.json({ message: 'No favorites to sync', count: 0 });
+        }
 
         // 批量创建或更新
         for (const fav of favorites) {
+            console.log(`   → Syncing: ${fav.videoId} - ${fav.title}`);
             await prisma.favorite.upsert({
                 where: { userId_videoId: { userId, videoId: fav.videoId } },
                 create: { userId, ...fav },
@@ -50,9 +60,10 @@ router.post('/favorites', async (req, res) => {
             });
         }
 
+        console.log(`✅ [Sync Favorites] Success: ${favorites.length} songs synced`);
         res.json({ message: 'Favorites synced', count: favorites.length });
     } catch (error) {
-        console.error('Sync favorites error:', error);
+        console.error('❌ [Sync Favorites] Error:', error);
         res.status(500).json({ error: 'Failed to sync favorites' });
     }
 });
