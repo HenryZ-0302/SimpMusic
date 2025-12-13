@@ -4,14 +4,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.maxrave.simpmusic.api.AdminUserInfo
@@ -49,9 +57,20 @@ fun AdminScreen(
     var stats by remember { mutableStateOf<StatsInfo?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showDeleteDialog by remember { mutableStateOf<AdminUserInfo?>(null) }
     
     // 检查是否是管理员
     val isAdmin = currentUser?.isAdmin == true
+    
+    // 刷新用户列表
+    fun refreshUsers() {
+        scope.launch {
+            apiService.adminGetUsers().fold(
+                onSuccess = { response -> users = response.users },
+                onFailure = { e -> errorMessage = e.message }
+            )
+        }
+    }
     
     // 加载数据
     LaunchedEffect(Unit) {
@@ -59,12 +78,8 @@ fun AdminScreen(
             scope.launch {
                 // 加载统计
                 apiService.adminGetStats().fold(
-                    onSuccess = { response ->
-                        stats = response.stats
-                    },
-                    onFailure = { e ->
-                        errorMessage = e.message
-                    }
+                    onSuccess = { response -> stats = response.stats },
+                    onFailure = { e -> errorMessage = e.message }
                 )
                 
                 // 加载用户列表
@@ -100,7 +115,8 @@ fun AdminScreen(
                 Text(
                     text = "Access Denied\nAdmin privileges required",
                     style = typo().titleMedium,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = Color.White.copy(alpha = 0.7f),
+                    textAlign = TextAlign.Center
                 )
             }
         } else if (isLoading) {
@@ -114,7 +130,7 @@ fun AdminScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 // 统计卡片
                 item {
@@ -124,7 +140,7 @@ fun AdminScreen(
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     StatsCard(stats)
                 }
                 
@@ -139,24 +155,35 @@ fun AdminScreen(
                     )
                 }
                 
-                items(users) { user ->
+                items(users, key = { it.id }) { user ->
                     UserCard(
                         user = user,
+                        currentUserId = currentUser?.id,
                         onBanToggle = {
                             scope.launch {
                                 apiService.adminBanUser(user.id, !user.isBanned).fold(
                                     onSuccess = {
-                                        // 刷新列表
                                         users = users.map { 
                                             if (it.id == user.id) it.copy(isBanned = !it.isBanned) else it 
                                         }
                                     },
-                                    onFailure = { e ->
-                                        errorMessage = e.message
-                                    }
+                                    onFailure = { e -> errorMessage = e.message }
                                 )
                             }
-                        }
+                        },
+                        onAdminToggle = {
+                            scope.launch {
+                                apiService.adminSetUserAdmin(user.id, !user.isAdmin).fold(
+                                    onSuccess = {
+                                        users = users.map { 
+                                            if (it.id == user.id) it.copy(isAdmin = !it.isAdmin) else it 
+                                        }
+                                    },
+                                    onFailure = { e -> errorMessage = e.message }
+                                )
+                            }
+                        },
+                        onDelete = { showDeleteDialog = user }
                     )
                 }
                 
@@ -165,6 +192,38 @@ fun AdminScreen(
                 }
             }
         }
+    }
+    
+    // 删除确认对话框
+    showDeleteDialog?.let { user ->
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = null },
+            title = { Text("Delete User") },
+            text = { Text("Are you sure you want to delete ${user.nickname ?: user.email}? This action cannot be undone.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            apiService.adminDeleteUser(user.id).fold(
+                                onSuccess = {
+                                    users = users.filter { it.id != user.id }
+                                    showDeleteDialog = null
+                                },
+                                onFailure = { e -> errorMessage = e.message }
+                            )
+                        }
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
+                ) {
+                    Text("Delete")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = null }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
     
     // TopAppBar
@@ -203,51 +262,98 @@ private fun StatsCard(stats: StatsInfo?) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.1f)
+            containerColor = Color.Transparent
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(20.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xFF6C63FF).copy(alpha = 0.3f),
+                            Color(0xFF4ECDC4).copy(alpha = 0.3f)
+                        )
+                    ),
+                    shape = RoundedCornerShape(20.dp)
+                )
+                .padding(20.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                StatItem("Total Users", stats?.totalUsers?.toString() ?: "0")
-                StatItem("Today", stats?.todayUsers?.toString() ?: "0")
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                StatItem("Favorites", stats?.totalFavorites?.toString() ?: "0")
-                StatItem("Playlists", stats?.totalPlaylists?.toString() ?: "0")
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                StatItem("Play History", stats?.totalPlayHistory?.toString() ?: "0")
+            Column {
+                // 第一行 - 主要统计
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    StatItemEnhanced("Total Users", stats?.totalUsers ?: 0, Color(0xFF6C63FF))
+                    StatItemEnhanced("Today", stats?.todayUsers ?: 0, Color(0xFF4ECDC4))
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                HorizontalDivider(color = Color.White.copy(alpha = 0.2f))
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                // 第二行 - 内容统计
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    StatItemSmall("Favorites", stats?.totalFavorites ?: 0)
+                    StatItemSmall("Playlists", stats?.totalPlaylists ?: 0)
+                    StatItemSmall("History", stats?.totalPlayHistory ?: 0)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun StatItem(label: String, value: String) {
-    Column {
+private fun StatItemEnhanced(label: String, value: Int, color: Color) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = 16.dp)
+    ) {
+        // 数字圆形背景
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(color.copy(alpha = 0.3f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = value.toString(),
+                style = typo().headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = value,
-            style = typo().titleLarge,
+            text = label,
+            style = typo().bodySmall,
+            color = Color.White.copy(alpha = 0.8f)
+        )
+    }
+}
+
+@Composable
+private fun StatItemSmall(label: String, value: Int) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = value.toString(),
+            style = typo().titleMedium,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
         Text(
             text = label,
-            style = typo().bodySmall,
+            style = typo().labelSmall,
             color = Color.White.copy(alpha = 0.7f)
         )
     }
@@ -256,25 +362,33 @@ private fun StatItem(label: String, value: String) {
 @Composable
 private fun UserCard(
     user: AdminUserInfo,
-    onBanToggle: () -> Unit
+    currentUserId: String?,
+    onBanToggle: () -> Unit,
+    onAdminToggle: () -> Unit,
+    onDelete: () -> Unit
 ) {
+    var showMenu by remember { mutableStateOf(false) }
+    val isSelf = user.id == currentUserId
+    
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (user.isBanned) 
-                Color.Red.copy(alpha = 0.2f) 
-            else 
-                Color.White.copy(alpha = 0.1f)
+            containerColor = when {
+                user.isBanned -> Color.Red.copy(alpha = 0.15f)
+                user.isAdmin -> Color(0xFF6C63FF).copy(alpha = 0.15f)
+                else -> Color.White.copy(alpha = 0.08f)
+            }
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // 用户信息
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -283,60 +397,90 @@ private fun UserCard(
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White
                     )
+                    
+                    // 标签
                     if (user.isAdmin) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Card(
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFF6C63FF)
-                            ),
-                            shape = RoundedCornerShape(4.dp)
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Badge(
+                            containerColor = Color(0xFF6C63FF),
+                            contentColor = Color.White
                         ) {
-                            Text(
-                                text = "Admin",
-                                style = typo().labelSmall,
-                                color = Color.White,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                            )
+                            Text("Admin", fontSize = 10.sp, modifier = Modifier.padding(horizontal = 4.dp))
                         }
                     }
                     if (user.isBanned) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Card(
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.Red
-                            ),
-                            shape = RoundedCornerShape(4.dp)
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Badge(
+                            containerColor = Color.Red,
+                            contentColor = Color.White
                         ) {
-                            Text(
-                                text = "Banned",
-                                style = typo().labelSmall,
-                                color = Color.White,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                            )
+                            Text("Banned", fontSize = 10.sp, modifier = Modifier.padding(horizontal = 4.dp))
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                
+                Spacer(modifier = Modifier.height(2.dp))
+                
                 Text(
                     text = user.email,
                     style = typo().bodySmall,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = Color.White.copy(alpha = 0.6f)
                 )
             }
             
-            // Ban/Unban 按钮
-            Button(
-                onClick = onBanToggle,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (user.isBanned) Color.Green else Color.Red
-                ),
-                shape = RoundedCornerShape(8.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
-            ) {
-                Text(
-                    text = if (user.isBanned) "Unban" else "Ban",
-                    style = typo().labelSmall
-                )
+            // 操作按钮
+            Box {
+                IconButton(onClick = { showMenu = true }) {
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = "More",
+                        tint = Color.White.copy(alpha = 0.7f)
+                    )
+                }
+                
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    // 封禁/解封
+                    DropdownMenuItem(
+                        text = { Text(if (user.isBanned) "Unban" else "Ban") },
+                        onClick = {
+                            showMenu = false
+                            onBanToggle()
+                        },
+                        enabled = !isSelf
+                    )
+                    
+                    // 管理员权限
+                    DropdownMenuItem(
+                        text = { Text(if (user.isAdmin) "Remove Admin" else "Make Admin") },
+                        onClick = {
+                            showMenu = false
+                            onAdminToggle()
+                        },
+                        enabled = !isSelf
+                    )
+                    
+                    HorizontalDivider()
+                    
+                    // 删除
+                    DropdownMenuItem(
+                        text = { Text("Delete", color = Color.Red) },
+                        onClick = {
+                            showMenu = false
+                            onDelete()
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = null,
+                                tint = Color.Red
+                            )
+                        },
+                        enabled = !isSelf
+                    )
+                }
             }
         }
     }

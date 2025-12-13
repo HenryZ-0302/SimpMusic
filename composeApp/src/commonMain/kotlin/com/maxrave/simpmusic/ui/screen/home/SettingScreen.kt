@@ -509,18 +509,20 @@ fun SettingScreen(
                 // }
             }
         }
-        item(key = "content") {
+        // 账号分类 (Account)
+        item(key = "account") {
             Column {
-                Text(
-                    text = stringResource(Res.string.content),
-                    style = typo().labelMedium,
-                    color = white,
-                    modifier = Modifier.padding(vertical = 8.dp),
-                )
-                // HYMusic Account - 显示当前用户信息和登出按钮
                 val apiService: HYMusicApiService = koinInject()
                 val currentUser by apiService.currentUser.collectAsStateWithLifecycle()
+                
                 if (currentUser != null) {
+                    Text(
+                        text = "Account",
+                        style = typo().labelMedium,
+                        color = white,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
+                    // 用户信息
                     SettingItem(
                         title = currentUser?.nickname ?: currentUser?.email ?: "Account",
                         subtitle = currentUser?.email ?: "",
@@ -535,6 +537,7 @@ fun SettingScreen(
                             },
                         )
                     }
+                    // 登出
                     SettingItem(
                         title = "Logout",
                         subtitle = "Tap to logout from HYMusic",
@@ -543,6 +546,16 @@ fun SettingScreen(
                         },
                     )
                 }
+            }
+        }
+        item(key = "content") {
+            Column {
+                Text(
+                    text = stringResource(Res.string.content),
+                    style = typo().labelMedium,
+                    color = white,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
                 SettingItem(
                     title = stringResource(Res.string.youtube_account),
                     subtitle = stringResource(Res.string.manage_your_youtube_accounts),

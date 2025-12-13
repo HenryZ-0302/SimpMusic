@@ -243,4 +243,31 @@ class HYMusicApiService {
         
         return executeRequest(request) { json.decodeFromString(it) }
     }
+    
+    /**
+     * 设置/取消用户管理员权限（管理员）
+     */
+    suspend fun adminSetUserAdmin(userId: String, isAdmin: Boolean): Result<ApiMessageResponse> {
+        val body = json.encodeToString(mapOf("isAdmin" to isAdmin))
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/admin/users/$userId/admin")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .post(body.toRequestBody(jsonMediaType))
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 删除用户（管理员）
+     */
+    suspend fun adminDeleteUser(userId: String): Result<ApiMessageResponse> {
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/admin/users/$userId")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .delete()
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
 }
