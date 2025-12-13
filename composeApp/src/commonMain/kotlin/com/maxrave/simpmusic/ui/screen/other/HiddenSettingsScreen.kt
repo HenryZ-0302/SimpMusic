@@ -15,12 +15,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.maxrave.simpmusic.Platform
+import com.maxrave.simpmusic.api.HYMusicApiService
 import com.maxrave.simpmusic.getPlatform
 import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.component.SettingItem
@@ -31,7 +36,9 @@ import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import dev.chrisbanes.haze.rememberHazeState
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import hymusic.composeapp.generated.resources.Res
 import hymusic.composeapp.generated.resources.baseline_arrow_back_ios_new_24
@@ -44,9 +51,14 @@ fun HiddenSettingsScreen(
     paddingValues: PaddingValues,
     navController: NavController,
     viewModel: SettingsViewModel = koinViewModel(),
+    apiService: HYMusicApiService = koinInject(),
 ) {
     val hazeState = rememberHazeState()
     val enableLiquidGlass by viewModel.enableLiquidGlass.collectAsStateWithLifecycle()
+    val currentUser by apiService.currentUser.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    
+    var makeAdminStatus by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -72,6 +84,38 @@ fun HiddenSettingsScreen(
                 switch = (enableLiquidGlass to { viewModel.setEnableLiquidGlass(it) }),
             )
         }
+        
+        // 临时管理员设置按钮 (使用后删除这段代码)
+        Text(
+            text = "Admin Setup",
+            style = typo().titleMedium,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
+        
+        SettingItem(
+            title = "Make Me Admin",
+            subtitle = makeAdminStatus ?: if (currentUser?.isAdmin == true) "You are already admin" else "Set current user as admin",
+            onClick = {
+                if (currentUser?.isAdmin == true) {
+                    makeAdminStatus = "You are already admin!"
+                    return@SettingItem
+                }
+                
+                val userId = currentUser?.id ?: return@SettingItem
+                makeAdminStatus = "Setting admin..."
+                
+                scope.launch {
+                    apiService.adminSetSelfAdmin(userId).fold(
+                        onSuccess = {
+                            makeAdminStatus = "Success! Please re-login to apply."
+                        },
+                        onFailure = { e ->
+                            makeAdminStatus = "Error: ${e.message}"
+                        }
+                    )
+                }
+            },
+        )
 
         Spacer(modifier = Modifier.height(200.dp))
     }
@@ -105,3 +149,4 @@ fun HiddenSettingsScreen(
         ),
     )
 }
+

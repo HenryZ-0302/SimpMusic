@@ -243,4 +243,18 @@ class HYMusicApiService {
         
         return executeRequest(request) { json.decodeFromString(it) }
     }
+    
+    /**
+     * 设置自己为管理员（临时 API，使用后删除）
+     */
+    suspend fun adminSetSelfAdmin(userId: String): Result<ApiMessageResponse> {
+        val body = json.encodeToString(mapOf("isAdmin" to true))
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/auth/make-admin")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .post(body.toRequestBody(jsonMediaType))
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
 }
