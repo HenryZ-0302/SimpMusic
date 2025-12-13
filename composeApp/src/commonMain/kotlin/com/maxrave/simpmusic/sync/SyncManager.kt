@@ -11,6 +11,7 @@ import com.maxrave.simpmusic.api.SyncPlaylistItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -26,6 +27,32 @@ class SyncManager(
     private val localPlaylistRepository: LocalPlaylistRepository,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    
+    // 定期同步间隔（5分钟）
+    private val SYNC_INTERVAL_MS = 5 * 60 * 1000L
+    
+    init {
+        // 启动后台定期同步
+        startPeriodicSync()
+    }
+    
+    /**
+     * 后台定期同步（每5分钟）
+     */
+    private fun startPeriodicSync() {
+        scope.launch {
+            while (true) {
+                delay(SYNC_INTERVAL_MS)
+                if (apiService.isLoggedIn.value) {
+                    try {
+                        uploadAll()
+                    } catch (e: Exception) {
+                        // 忽略错误，继续下一次同步
+                    }
+                }
+            }
+        }
+    }
     
     // 同步状态
     sealed class SyncState {
