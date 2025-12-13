@@ -113,6 +113,13 @@ class HYMusicApiService(
         try {
             val response = client.newCall(request).execute()
             val body = response.body?.string() ?: "{}"
+            
+            // 检测 403 状态码 - 用户被封禁，自动登出
+            if (response.code == 403) {
+                setTokenAndPersist(null)
+                return@withContext Result.failure(Exception("User is banned"))
+            }
+            
             Result.success(parser(body))
         } catch (e: Exception) {
             Result.failure(e)
