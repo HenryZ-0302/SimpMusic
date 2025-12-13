@@ -20,6 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.maxrave.simpmusic.extension.greyScale
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.ui.theme.white
+import com.maxrave.simpmusic.viewModel.SharedViewModel
+import com.maxrave.domain.manager.DataStoreManager
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.koinInject
 
 @Composable
 fun SettingItem(
@@ -37,6 +41,8 @@ fun SettingItem(
             onDisable.invoke()
         }
     }
+    val sharedViewModel: SharedViewModel = koinInject()
+    val isLiquidGlassEnabled by sharedViewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
     Box(
         Modifier
             .then(
@@ -105,7 +111,7 @@ fun SettingItem(
                         switch.second.invoke(it)
                     },
                     enabled = isEnable,
-                    useLiquidGlass = true,
+                    useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE,
                 )
             }
         }

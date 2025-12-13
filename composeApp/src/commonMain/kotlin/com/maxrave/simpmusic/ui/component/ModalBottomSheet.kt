@@ -833,6 +833,7 @@ fun QueueBottomSheet(
     var clickMoreIndex by rememberSaveable { mutableIntStateOf(0) }
     val screenDataState by sharedViewModel.nowPlayingScreenData.collectAsStateWithLifecycle()
     val songEntity by sharedViewModel.nowPlayingState.map { it?.songEntity }.collectAsState(null)
+    val isLiquidGlassEnabled by sharedViewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
     val queueData by musicServiceHandler.queueData.collectAsStateWithLifecycle()
     val queue by remember {
         derivedStateOf {
@@ -1015,7 +1016,7 @@ fun QueueBottomSheet(
                                     dataStoreManager.setEndlessQueue(it)
                                 }
                             },
-                            useLiquidGlass = true,
+                            useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE,
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                     }

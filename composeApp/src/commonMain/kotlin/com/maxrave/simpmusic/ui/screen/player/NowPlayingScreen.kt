@@ -124,6 +124,7 @@ import coil3.toBitmap
 import com.kmpalette.rememberPaletteState
 import com.maxrave.common.Config.MAIN_PLAYER
 import com.maxrave.logger.Logger
+import com.maxrave.domain.manager.DataStoreManager
 import com.maxrave.simpmusic.Platform
 import com.maxrave.simpmusic.expect.ui.MediaPlayerView
 import com.maxrave.simpmusic.expect.ui.MediaPlayerViewWithSubtitle
@@ -277,6 +278,7 @@ fun NowPlayingScreenContent(
     val likeStatus by sharedViewModel.likeStatus.collectAsStateWithLifecycle()
 
     val shouldShowVideo by sharedViewModel.getVideo.collectAsStateWithLifecycle()
+    val isLiquidGlassEnabled by sharedViewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
     // State
     val isInPipMode = rememberIsInPipMode()
 
@@ -1180,7 +1182,7 @@ fun NowPlayingScreenContent(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .padding(horizontal = 14.dp),
-                                                useLiquidGlass = true,
+                                                useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE,
                                             )
                                         }
                                         // Time Layout
@@ -1213,7 +1215,7 @@ fun NowPlayingScreenContent(
                                         PlatformPlayerControlLayout(
                                             controllerState = controllerState,
                                             onUIEvent = { sharedViewModel.onUIEvent(it) },
-                                            useLiquidGlass = true,
+                                            useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE,
                                         )
                                     } else {
                                         Spacer(Modifier.height(16.dp))

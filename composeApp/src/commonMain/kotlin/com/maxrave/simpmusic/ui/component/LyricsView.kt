@@ -87,6 +87,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.maxrave.domain.data.model.streams.TimeLine
 import com.maxrave.logger.Logger
+import com.maxrave.domain.manager.DataStoreManager
 import com.maxrave.simpmusic.extension.KeepScreenOn
 import com.maxrave.simpmusic.extension.animateScrollAndCentralizeItem
 import com.maxrave.simpmusic.extension.formatDuration
@@ -413,6 +414,7 @@ fun FullscreenLyricsSheet(
     val screenDataState by sharedViewModel.nowPlayingScreenData.collectAsStateWithLifecycle()
     val timelineState by sharedViewModel.timeline.collectAsStateWithLifecycle()
     val controllerState by sharedViewModel.controllerState.collectAsStateWithLifecycle()
+    val isLiquidGlassEnabled by sharedViewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
 
     val sheetState =
         rememberModalBottomSheetState(
@@ -665,7 +667,7 @@ fun FullscreenLyricsSheet(
                                     )
                                 },
                                 modifier = Modifier.fillMaxWidth(),
-                                useLiquidGlass = true
+                                useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE
                             )
                         }
                         LazyColumn {
@@ -715,7 +717,7 @@ fun FullscreenLyricsSheet(
                                     PlatformPlayerControlLayout(
                                         controllerState = controllerState,
                                         onUIEvent = { sharedViewModel.onUIEvent(it) },
-                                        useLiquidGlass = true
+                                        useLiquidGlass = isLiquidGlassEnabled == DataStoreManager.TRUE
                                     )
                                 }
                                 AnimatedVisibility(
