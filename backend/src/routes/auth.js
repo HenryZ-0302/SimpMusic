@@ -164,27 +164,6 @@ router.put('/me', authMiddleware, async (req, res) => {
     }
 });
 
-// 临时API: 设置自己为管理员 (使用后删除此接口)
-router.post('/make-admin', authMiddleware, async (req, res) => {
-    try {
-        const user = await prisma.user.update({
-            where: { id: req.user.id },
-            data: { isAdmin: true }
-        });
-
-        res.json({
-            message: 'You are now admin',
-            user: {
-                id: user.id,
-                email: user.email,
-                isAdmin: user.isAdmin
-            }
-        });
-    } catch (error) {
-        console.error('Make admin error:', error);
-        res.status(500).json({ error: 'Failed to set admin' });
-    }
-});
-
 module.exports = router;
+
 

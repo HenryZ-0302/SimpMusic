@@ -258,15 +258,7 @@ fun CreditScreen(
             text = {
                 OutlinedTextField(
                     value = feedbackText,
-                    onValueChange = { 
-                        feedbackText = it
-                        // Check if password is entered - navigate directly
-                        if (it == HIDDEN_PASSWORD) {
-                            showFeedbackDialog = false
-                            feedbackText = ""
-                            navController.navigate(HiddenSettingsDestination)
-                        }
-                    },
+                    onValueChange = { feedbackText = it },
                     label = { Text("Enter your feedback") },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 3,
@@ -274,8 +266,16 @@ fun CreditScreen(
             },
             confirmButton = {
                 TextButton(onClick = { 
-                    showFeedbackDialog = false
-                    feedbackText = ""
+                    // Check if password is entered - navigate to hidden settings
+                    if (feedbackText == HIDDEN_PASSWORD) {
+                        showFeedbackDialog = false
+                        feedbackText = ""
+                        navController.navigate(HiddenSettingsDestination)
+                    } else {
+                        // Just close dialog for normal feedback
+                        showFeedbackDialog = false
+                        feedbackText = ""
+                    }
                 }) {
                     Text("Send")
                 }
