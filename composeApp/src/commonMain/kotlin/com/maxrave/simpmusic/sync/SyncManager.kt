@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 /**
  * 数据同步管理器
@@ -236,6 +239,8 @@ private fun LocalPlaylistEntity.toSyncPlaylistItem() = SyncPlaylistItem(
 
 // ========== 扩展函数：SyncItem 转 Entity ==========
 
+private fun currentLocalDateTime() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+
 private fun SyncFavoriteItem.toSongEntity() = SongEntity(
     videoId = videoId,
     title = title,
@@ -243,13 +248,7 @@ private fun SyncFavoriteItem.toSongEntity() = SongEntity(
     thumbnails = thumbnail,
     duration = duration?.toString(),
     liked = true,
-    inLibrary = kotlinx.datetime.Clock.System.now().toEpochMilliseconds().let { 
-        kotlinx.datetime.Instant.fromEpochMilliseconds(it) 
-    }.let { 
-        kotlinx.datetime.TimeZone.currentSystemDefault().let { tz ->
-            it.toLocalDateTime(tz)
-        }
-    }
+    inLibrary = currentLocalDateTime()
 )
 
 private fun SyncHistoryItem.toSongEntity() = SongEntity(
@@ -259,11 +258,5 @@ private fun SyncHistoryItem.toSongEntity() = SongEntity(
     thumbnails = thumbnail,
     duration = duration?.toString(),
     totalPlayTime = 1,
-    inLibrary = kotlinx.datetime.Clock.System.now().toEpochMilliseconds().let { 
-        kotlinx.datetime.Instant.fromEpochMilliseconds(it) 
-    }.let { 
-        kotlinx.datetime.TimeZone.currentSystemDefault().let { tz ->
-            it.toLocalDateTime(tz)
-        }
-    }
+    inLibrary = currentLocalDateTime()
 )
