@@ -2,6 +2,7 @@
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import com.maxrave.simpmusic.api.HYMusicApiService
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -515,12 +516,19 @@ fun SettingScreen(
                     color = white,
                     modifier = Modifier.padding(vertical = 8.dp),
                 )
-                // HYMusic Account
+                // HYMusic Account - 显示当前用户信息
+                val apiService: HYMusicApiService = koinInject()
+                val currentUser by apiService.currentUser.collectAsStateWithLifecycle()
                 SettingItem(
-                    title = "HYMusic Account",
-                    subtitle = "Sync your data across devices",
+                    title = currentUser?.nickname ?: currentUser?.email ?: "HYMusic Account",
+                    subtitle = if (currentUser != null) "Tap to logout" else "Sync your data across devices",
                     onClick = {
-                        navController.navigate(HYMusicLoginDestination)
+                        if (currentUser != null) {
+                            // 登出
+                            apiService.logout()
+                        } else {
+                            navController.navigate(HYMusicLoginDestination)
+                        }
                     },
                 )
                 SettingItem(

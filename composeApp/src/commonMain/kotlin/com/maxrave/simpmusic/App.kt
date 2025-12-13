@@ -81,6 +81,8 @@ import com.maxrave.simpmusic.ui.theme.fontFamily
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.utils.VersionManager
 import com.maxrave.simpmusic.viewModel.SharedViewModel
+import com.maxrave.simpmusic.api.HYMusicApiService
+import com.maxrave.simpmusic.ui.screen.other.LoginGateScreen
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownTypography
 import dev.chrisbanes.haze.hazeEffect
@@ -112,7 +114,26 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class, ExperimentalFoundationApi::class)
 @Composable
-fun App(viewModel: SharedViewModel = koinInject()) {
+fun App(
+    viewModel: SharedViewModel = koinInject(),
+    apiService: HYMusicApiService = koinInject()
+) {
+    // 登录状态检查
+    val isLoggedIn by apiService.isLoggedIn.collectAsStateWithLifecycle()
+    
+    // 如果未登录，显示登录界面
+    if (!isLoggedIn) {
+        AppTheme {
+            LoginGateScreen(
+                apiService = apiService,
+                onLoginSuccess = {
+                    // 登录成功后会自动更新 isLoggedIn 状态
+                }
+            )
+        }
+        return
+    }
+    
     val windowSize = currentWindowAdaptiveInfo().windowSizeClass
     val navController = rememberNavController()
 
