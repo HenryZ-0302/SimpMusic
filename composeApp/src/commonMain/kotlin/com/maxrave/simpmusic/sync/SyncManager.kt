@@ -104,7 +104,8 @@ class SyncManager(
                     try {
                         val localSong = songRepository.getSongById(cloudFav.videoId).first()
                         if (localSong == null) {
-                            songRepository.insertSong(cloudFav.toSongEntity())
+                            // 必须调用 .first() 来收集 Flow，否则 insertSong 不会执行
+                            songRepository.insertSong(cloudFav.toSongEntity()).first()
                         }
                     } catch (e: Exception) {
                         // 忽略单个歌曲的插入错误
@@ -116,7 +117,7 @@ class SyncManager(
                     try {
                         val localSong = songRepository.getSongById(cloudHistory.videoId).first()
                         if (localSong == null) {
-                            songRepository.insertSong(cloudHistory.toSongEntity())
+                            songRepository.insertSong(cloudHistory.toSongEntity()).first()
                         }
                     } catch (e: Exception) {
                         // 忽略单个歌曲的插入错误
