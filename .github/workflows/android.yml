@@ -41,6 +41,35 @@ jobs:
           sed -i 's/SimpMusic/HYMusic/g' core/service/kizzy/src/commonMain/kotlin/com/my/kizzy/DiscordRPC.kt
           sed -i '/Visit/d' core/service/kizzy/src/commonMain/kotlin/com/my/kizzy/DiscordRPC.kt
 
+      - name: Generate HYMusic app icons
+        run: |
+          sudo apt-get update && sudo apt-get install -y imagemagick webp
+          # Download the logo (use a hosted version)
+          curl -o /tmp/hymusic_logo.png "https://fra.cloud.appwrite.io/v1/storage/buckets/683f1f620010ba0fa5b1/files/69007bc8001a28a7cea8/view?project=67ec0369002bd8a96885"
+          # Generate different sizes
+          for size in 48 72 96 144 192; do
+            convert /tmp/hymusic_logo.png -resize ${size}x${size} /tmp/ic_launcher_${size}.png
+          done
+          # Copy to mipmap folders
+          cp /tmp/ic_launcher_48.png composeApp/src/androidMain/res/mipmap-mdpi/ic_launcher.png
+          cp /tmp/ic_launcher_72.png composeApp/src/androidMain/res/mipmap-hdpi/ic_launcher.png
+          cp /tmp/ic_launcher_96.png composeApp/src/androidMain/res/mipmap-xhdpi/ic_launcher.png
+          cp /tmp/ic_launcher_144.png composeApp/src/androidMain/res/mipmap-xxhdpi/ic_launcher.png
+          cp /tmp/ic_launcher_192.png composeApp/src/androidMain/res/mipmap-xxxhdpi/ic_launcher.png
+          # Also for round and foreground
+          cp /tmp/ic_launcher_48.png composeApp/src/androidMain/res/mipmap-mdpi/ic_launcher_round.png
+          cp /tmp/ic_launcher_72.png composeApp/src/androidMain/res/mipmap-hdpi/ic_launcher_round.png
+          cp /tmp/ic_launcher_96.png composeApp/src/androidMain/res/mipmap-xhdpi/ic_launcher_round.png
+          cp /tmp/ic_launcher_144.png composeApp/src/androidMain/res/mipmap-xxhdpi/ic_launcher_round.png
+          cp /tmp/ic_launcher_192.png composeApp/src/androidMain/res/mipmap-xxxhdpi/ic_launcher_round.png
+          cp /tmp/ic_launcher_48.png composeApp/src/androidMain/res/mipmap-mdpi/ic_launcher_foreground.png
+          cp /tmp/ic_launcher_72.png composeApp/src/androidMain/res/mipmap-hdpi/ic_launcher_foreground.png
+          cp /tmp/ic_launcher_96.png composeApp/src/androidMain/res/mipmap-xhdpi/ic_launcher_foreground.png
+          cp /tmp/ic_launcher_144.png composeApp/src/androidMain/res/mipmap-xxhdpi/ic_launcher_foreground.png
+          cp /tmp/ic_launcher_192.png composeApp/src/androidMain/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+          # Remove old webp files
+          find composeApp/src/androidMain/res -name "ic_launcher*.webp" -delete
+
       - name: Update build product flavor
         run: |
           echo "" >> ./gradle.properties
