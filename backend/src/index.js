@@ -47,7 +47,7 @@ async function main() {
     try {
         // 尝试初始化数据库
         console.log('📦 Initializing database...');
-        execSync('npx prisma db push --skip-generate --accept-data-loss', { stdio: 'inherit' });
+        execSync('npx prisma db push --skip-generate', { stdio: 'inherit' });
         console.log('✅ Database initialized');
     } catch (error) {
         console.log('⚠️ Database init skipped (may already exist)');
