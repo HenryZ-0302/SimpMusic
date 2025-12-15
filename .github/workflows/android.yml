@@ -39,7 +39,7 @@ jobs:
       - name: Patch Discord RPC branding
         run: |
           sed -i 's/SimpMusic/HYMusic/g' core/service/kizzy/src/commonMain/kotlin/com/my/kizzy/DiscordRPC.kt
-          sed -i 's/buttons = listOf(/buttons = emptyList(), \/\//g' core/service/kizzy/src/commonMain/kotlin/com/my/kizzy/DiscordRPC.kt
+          sed -i '/Visit/d' core/service/kizzy/src/commonMain/kotlin/com/my/kizzy/DiscordRPC.kt
 
       - name: Update build product flavor
         run: |
