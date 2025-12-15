@@ -555,29 +555,83 @@ fun SettingScreen(
                         is com.maxrave.simpmusic.sync.SyncManager.SyncState.Failed -> "Failed"
                         else -> "Ready"
                     }
+                    
+                    // 确认对话框状态
+                    var showUploadConfirm by remember { mutableStateOf(false) }
+                    var showDownloadConfirm by remember { mutableStateOf(false) }
+                    var showFullSyncConfirm by remember { mutableStateOf(false) }
+                    
+                    // 上传确认对话框
+                    if (showUploadConfirm) {
+                        androidx.compose.material3.AlertDialog(
+                            onDismissRequest = { showUploadConfirm = false },
+                            title = { Text("Upload to Cloud") },
+                            text = { Text("This will upload all your local data (favorites, playlists, history, settings) to the cloud. Are you sure?") },
+                            confirmButton = {
+                                androidx.compose.material3.TextButton(onClick = {
+                                    showUploadConfirm = false
+                                    syncManager.uploadNow()
+                                }) { Text("Upload") }
+                            },
+                            dismissButton = {
+                                androidx.compose.material3.TextButton(onClick = { showUploadConfirm = false }) { Text("Cancel") }
+                            }
+                        )
+                    }
+                    
+                    // 下载确认对话框
+                    if (showDownloadConfirm) {
+                        androidx.compose.material3.AlertDialog(
+                            onDismissRequest = { showDownloadConfirm = false },
+                            title = { Text("Download from Cloud") },
+                            text = { Text("This will restore your data from the cloud. Local data will be merged with cloud data. Are you sure?") },
+                            confirmButton = {
+                                androidx.compose.material3.TextButton(onClick = {
+                                    showDownloadConfirm = false
+                                    syncManager.downloadNow()
+                                }) { Text("Download") }
+                            },
+                            dismissButton = {
+                                androidx.compose.material3.TextButton(onClick = { showDownloadConfirm = false }) { Text("Cancel") }
+                            }
+                        )
+                    }
+                    
+                    // 全量同步确认对话框
+                    if (showFullSyncConfirm) {
+                        androidx.compose.material3.AlertDialog(
+                            onDismissRequest = { showFullSyncConfirm = false },
+                            title = { Text("Full Sync") },
+                            text = { Text("This will download cloud data first, then upload your local data. Are you sure?") },
+                            confirmButton = {
+                                androidx.compose.material3.TextButton(onClick = {
+                                    showFullSyncConfirm = false
+                                    syncManager.syncNow()
+                                }) { Text("Sync") }
+                            },
+                            dismissButton = {
+                                androidx.compose.material3.TextButton(onClick = { showFullSyncConfirm = false }) { Text("Cancel") }
+                            }
+                        )
+                    }
+                    
                     // 上传到云端
                     SettingItem(
                         title = "Upload to Cloud",
                         subtitle = "Upload local data to cloud ($syncSubtitle)",
-                        onClick = {
-                            syncManager.uploadNow()
-                        },
+                        onClick = { showUploadConfirm = true },
                     )
                     // 从云端下载
                     SettingItem(
                         title = "Download from Cloud",
                         subtitle = "Restore data from cloud ($syncSubtitle)",
-                        onClick = {
-                            syncManager.downloadNow()
-                        },
+                        onClick = { showDownloadConfirm = true },
                     )
                     // 全量同步
                     SettingItem(
                         title = "Full Sync",
                         subtitle = "Download then upload ($syncSubtitle)",
-                        onClick = {
-                            syncManager.syncNow()
-                        },
+                        onClick = { showFullSyncConfirm = true },
                     )
                     // 登出
                     SettingItem(
