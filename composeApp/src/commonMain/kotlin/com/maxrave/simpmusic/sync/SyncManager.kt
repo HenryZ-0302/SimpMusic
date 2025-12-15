@@ -2,6 +2,7 @@ package com.maxrave.simpmusic.sync
 
 import com.maxrave.domain.data.entities.LocalPlaylistEntity
 import com.maxrave.domain.data.entities.SongEntity
+import com.maxrave.domain.manager.DataStoreManager
 import com.maxrave.domain.repository.LocalPlaylistRepository
 import com.maxrave.domain.repository.SongRepository
 import com.maxrave.simpmusic.api.HYMusicApiService
@@ -9,7 +10,6 @@ import com.maxrave.simpmusic.api.SyncFavoriteItem
 import com.maxrave.simpmusic.api.SyncHistoryItem
 import com.maxrave.simpmusic.api.SyncPlaylistItem
 import com.maxrave.simpmusic.api.SyncSettingsRequest
-import com.maxrave.simpmusic.data.dataStore.DataStoreManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
  * - 收藏歌曲 (Favorites)
  * - 播放列表 (Playlists)
  * - 播放历史 (History)
- * - 用户设置 (Settings)
+ * - 用户设置 (Settings) - 全部设置
  */
 class SyncManager(
     private val apiService: HYMusicApiService,
@@ -41,29 +41,20 @@ class SyncManager(
     private val SYNC_INTERVAL_MS = 5 * 60 * 1000L
     
     init {
-        // 启动后台定期同步
         startPeriodicSync()
     }
     
-    /**
-     * 后台定期同步（每5分钟）
-     */
     private fun startPeriodicSync() {
         scope.launch {
             while (true) {
                 delay(SYNC_INTERVAL_MS)
                 if (apiService.isLoggedIn.value) {
-                    try {
-                        uploadAll()
-                    } catch (e: Exception) {
-                        // 忽略错误，继续下一次同步
-                    }
+                    try { uploadAll() } catch (e: Exception) { }
                 }
             }
         }
     }
     
-    // 同步状态
     sealed class SyncState {
         object Idle : SyncState()
         object Syncing : SyncState()
@@ -77,22 +68,14 @@ class SyncManager(
     private val _lastSyncTime = MutableStateFlow<Long?>(null)
     val lastSyncTime: StateFlow<Long?> = _lastSyncTime
     
-    /**
-     * 登录后触发全量同步
-     */
     fun onLoginSuccess() {
         if (!apiService.isLoggedIn.value) return
         
         scope.launch {
             try {
                 _syncState.value = SyncState.Syncing
-                
-                // 1. 下载云端数据合并到本地
                 downloadAndMerge()
-                
-                // 2. 上传本地数据到云端
                 uploadAll()
-                
                 _lastSyncTime.value = System.currentTimeMillis()
                 _syncState.value = SyncState.Success("Sync completed")
             } catch (e: Exception) {
@@ -108,48 +91,65 @@ class SyncManager(
         val result = apiService.syncGetAll()
         result.fold(
             onSuccess = { response ->
-                // 合并收藏 - 只添加本地没有的
+                // 恢复收藏
                 response.favorites.forEach { cloudFav ->
                     try {
                         val localSong = songRepository.getSongById(cloudFav.videoId).first()
                         if (localSong == null) {
                             songRepository.insertSong(cloudFav.toSongEntity()).first()
                         }
-                    } catch (e: Exception) {
-                        // 忽略单个歌曲的插入错误
-                    }
+                    } catch (e: Exception) { }
                 }
                 
-                // 合并播放历史
+                // 恢复播放历史
                 response.history.forEach { cloudHistory ->
                     try {
                         val localSong = songRepository.getSongById(cloudHistory.videoId).first()
                         if (localSong == null) {
                             songRepository.insertSong(cloudHistory.toSongEntity()).first()
                         }
-                    } catch (e: Exception) {
-                        // 忽略单个歌曲的插入错误
-                    }
+                    } catch (e: Exception) { }
                 }
                 
-                // 恢复设置
-                response.settings?.let { cloudSettings ->
+                // 恢复播放列表
+                response.playlists.forEach { cloudPlaylist ->
                     try {
-                        cloudSettings.quality?.let { dataStoreManager.setQuality(it) }
-                        cloudSettings.language?.let { dataStoreManager.putString(DataStoreManager.LANGUAGE, it) }
-                        cloudSettings.saveHistory?.let { dataStoreManager.setSaveRecentSongAndVideo(it) }
-                    } catch (e: Exception) {
-                        // 忽略设置恢复错误
-                    }
+                        // 检查本地是否已有同名播放列表
+                        val localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
+                        val exists = localPlaylists.any { it.title == cloudPlaylist.title }
+                        if (!exists) {
+                            localPlaylistRepository.insertLocalPlaylist(
+                                LocalPlaylistEntity(
+                                    title = cloudPlaylist.title,
+                                    thumbnail = cloudPlaylist.thumbnail
+                                )
+                            )
+                        }
+                    } catch (e: Exception) { }
+                }
+                
+                // 恢复全部设置
+                response.settings?.let { s ->
+                    try {
+                        s.quality?.let { dataStoreManager.setQuality(it) }
+                        s.language?.let { dataStoreManager.putString("language", it) }
+                        s.saveHistory?.let { dataStoreManager.setSaveRecentSongAndQueue(it) }
+                        s.normalizeVolume?.let { dataStoreManager.setNormalizeVolume(it) }
+                        s.skipSilent?.let { dataStoreManager.setSkipSilent(it) }
+                        s.saveStateOfPlayback?.let { dataStoreManager.setSaveStateOfPlayback(it) }
+                        s.sponsorBlockEnabled?.let { dataStoreManager.setSponsorBlockEnabled(it) }
+                        s.enableTranslateLyric?.let { dataStoreManager.setEnableTranslateLyric(it) }
+                        s.lyricsProvider?.let { dataStoreManager.setLyricsProvider(it) }
+                        s.translucentBottomBar?.let { dataStoreManager.setTranslucentBottomBar(it) }
+                        s.blurPlayerBackground?.let { dataStoreManager.setBlurPlayerBackground(it) }
+                        s.watchVideoInsteadOfPlayingAudio?.let { dataStoreManager.setWatchVideoInsteadOfPlayingAudio(it) }
+                    } catch (e: Exception) { }
                 }
             },
-            onFailure = { /* 下载失败不影响，继续上传 */ }
+            onFailure = { }
         )
     }
     
-    /**
-     * 上传所有本地数据到云端
-     */
     private suspend fun uploadAll() {
         uploadFavorites()
         uploadHistory()
@@ -157,112 +157,81 @@ class SyncManager(
         uploadSettings()
     }
     
-    /**
-     * 上传收藏歌曲
-     */
     suspend fun uploadFavorites() {
         if (!apiService.isLoggedIn.value) return
-        
         try {
             val likedSongs = songRepository.getLikedSongs().first()
             if (likedSongs.isEmpty()) return
-            
             val syncItems = likedSongs.map { it.toSyncFavoriteItem() }
             apiService.syncFavorites(syncItems)
-        } catch (e: Exception) {
-            // 同步失败不影响本地使用
-        }
+        } catch (e: Exception) { }
     }
     
-    /**
-     * 上传播放历史
-     */
     suspend fun uploadHistory() {
         if (!apiService.isLoggedIn.value) return
-        
         try {
             val mostPlayed = songRepository.getMostPlayedSongs().first()
             if (mostPlayed.isEmpty()) return
-            
             val syncItems = mostPlayed.take(100).map { it.toSyncHistoryItem() }
             apiService.syncHistory(syncItems)
-        } catch (e: Exception) {
-            // 同步失败不影响本地使用
-        }
+        } catch (e: Exception) { }
     }
     
-    /**
-     * 上传播放列表
-     */
     suspend fun uploadPlaylists() {
         if (!apiService.isLoggedIn.value) return
-        
         try {
             val playlists = localPlaylistRepository.getAllLocalPlaylists().first()
             if (playlists.isEmpty()) return
-            
             val syncItems = playlists.map { it.toSyncPlaylistItem() }
             apiService.syncPlaylists(syncItems)
-        } catch (e: Exception) {
-            // 同步失败不影响本地使用
-        }
+        } catch (e: Exception) { }
     }
     
     /**
-     * 上传用户设置
+     * 上传全部用户设置
      */
     suspend fun uploadSettings() {
         if (!apiService.isLoggedIn.value) return
-        
         try {
-            val quality = dataStoreManager.quality.first()
-            val language = dataStoreManager.getString(DataStoreManager.LANGUAGE).first()
-            val saveHistory = dataStoreManager.saveRecentSongAndVideo.first() == DataStoreManager.TRUE
-            
             val settings = SyncSettingsRequest(
-                quality = quality,
-                language = language,
-                saveHistory = saveHistory
+                quality = dataStoreManager.quality.first(),
+                language = dataStoreManager.getString("language").first(),
+                saveHistory = dataStoreManager.saveRecentSongAndQueue.first() == DataStoreManager.TRUE,
+                normalizeVolume = dataStoreManager.normalizeVolume.first() == DataStoreManager.TRUE,
+                skipSilent = dataStoreManager.skipSilent.first() == DataStoreManager.TRUE,
+                saveStateOfPlayback = dataStoreManager.saveStateOfPlayback.first() == DataStoreManager.TRUE,
+                sponsorBlockEnabled = dataStoreManager.sponsorBlockEnabled.first() == DataStoreManager.TRUE,
+                enableTranslateLyric = dataStoreManager.enableTranslateLyric.first() == DataStoreManager.TRUE,
+                lyricsProvider = dataStoreManager.lyricsProvider.first(),
+                translucentBottomBar = dataStoreManager.translucentBottomBar.first() == DataStoreManager.TRUE,
+                blurPlayerBackground = dataStoreManager.blurPlayerBackground.first() == DataStoreManager.TRUE,
+                watchVideoInsteadOfPlayingAudio = dataStoreManager.watchVideoInsteadOfPlayingAudio.first() == DataStoreManager.TRUE
             )
             apiService.syncSettings(settings)
-        } catch (e: Exception) {
-            // 同步失败不影响本地使用
-        }
+        } catch (e: Exception) { }
     }
     
-    /**
-     * 收藏歌曲后触发同步
-     */
     fun onFavoriteChanged() {
         if (!apiService.isLoggedIn.value) return
         scope.launch { uploadFavorites() }
     }
     
-    /**
-     * 播放列表变更后触发同步
-     */
     fun onPlaylistChanged() {
         if (!apiService.isLoggedIn.value) return
         scope.launch { uploadPlaylists() }
     }
     
-    /**
-     * 设置变更后触发同步
-     */
     fun onSettingsChanged() {
         if (!apiService.isLoggedIn.value) return
         scope.launch { uploadSettings() }
     }
     
-    /**
-     * 手动触发全量同步
-     */
     fun syncNow() {
         onLoginSuccess()
     }
 }
 
-// ========== 扩展函数：Entity 转 SyncItem ==========
+// ========== Entity 转 SyncItem ==========
 
 private fun SongEntity.toSyncFavoriteItem() = SyncFavoriteItem(
     videoId = videoId,
@@ -288,7 +257,7 @@ private fun LocalPlaylistEntity.toSyncPlaylistItem() = SyncPlaylistItem(
     songs = null
 )
 
-// ========== 扩展函数：SyncItem 转 Entity ==========
+// ========== SyncItem 转 Entity ==========
 
 private fun SyncFavoriteItem.toSongEntity() = SongEntity(
     videoId = videoId,

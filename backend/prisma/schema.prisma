@@ -35,11 +35,27 @@ model UserSettings {
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  // 设置项
+  // 基本设置
   quality           String   @default("high")
   language          String   @default("en")
-  autoPlay          Boolean  @default(true)
   saveHistory       Boolean  @default(true)
+  
+  // 播放设置
+  normalizeVolume    Boolean  @default(false)
+  skipSilent         Boolean  @default(false)
+  saveStateOfPlayback Boolean @default(true)
+  
+  // 音乐功能
+  sponsorBlockEnabled Boolean @default(false)
+  enableTranslateLyric Boolean @default(false)
+  lyricsProvider     String   @default("simpmusic")
+  
+  // UI设置
+  translucentBottomBar Boolean @default(true)
+  blurPlayerBackground Boolean @default(true)
+  
+  // 其他
+  watchVideoInsteadOfPlayingAudio Boolean @default(false)
   
   updatedAt         DateTime @updatedAt
 }

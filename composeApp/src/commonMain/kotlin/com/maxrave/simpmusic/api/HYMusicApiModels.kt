@@ -49,10 +49,27 @@ data class SyncHistoryItem(
 
 @Serializable
 data class SyncSettingsRequest(
+    // 基本设置
     val quality: String? = null,
     val language: String? = null,
-    val autoPlay: Boolean? = null,
-    val saveHistory: Boolean? = null
+    val saveHistory: Boolean? = null,
+    
+    // 播放设置
+    val normalizeVolume: Boolean? = null,
+    val skipSilent: Boolean? = null,
+    val saveStateOfPlayback: Boolean? = null,
+    
+    // 音乐功能
+    val sponsorBlockEnabled: Boolean? = null,
+    val enableTranslateLyric: Boolean? = null,
+    val lyricsProvider: String? = null,
+    
+    // UI设置
+    val translucentBottomBar: Boolean? = null,
+    val blurPlayerBackground: Boolean? = null,
+    
+    // 其他
+    val watchVideoInsteadOfPlayingAudio: Boolean? = null
 )
 
 // ========== 响应模型 ==========
