@@ -549,11 +549,14 @@ private fun SyncAlbumItem.toAlbumEntity() = AlbumEntity(
     title = title,
     artistName = artist?.let { listOf(it) },
     thumbnails = thumbnail,
-    year = null,
-    type = "Album",
+    audioPlaylistId = browseId, // Use browseId as fallback
+    description = "",
     duration = null,
-    description = null,
-    likeStatus = "LIKE",
+    durationSeconds = 0,
+    trackCount = 0,
+    type = "Album",
+    year = null,
+    liked = true,
     inLibrary = now()
 )
 
@@ -561,17 +564,26 @@ private fun SyncArtistItem.toArtistEntity() = ArtistEntity(
     channelId = channelId,
     name = name,
     thumbnails = thumbnail,
+    followed = true,
     inLibrary = now()
 )
 
 private fun SyncYouTubePlaylistItem.toPlaylistEntity() = PlaylistEntity(
     id = playlistId,
     title = title,
-    thumbnails = thumbnail,
-    description = null,
-    year = null,
-    trackCount = null,
-    duration = null,
-    likeStatus = "LIKE",
+    thumbnails = thumbnail ?: "",
+    description = "",
+    duration = "",
+    durationSeconds = 0,
+    trackCount = 0,
+    liked = true,
+    inLibrary = now()
+)
+
+// ========== LocalPlaylist 转换 ==========
+
+private fun SyncPlaylistItem.toLocalPlaylistEntity() = LocalPlaylistEntity(
+    title = title,
+    thumbnail = thumbnail,
     inLibrary = now()
 )
