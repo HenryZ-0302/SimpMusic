@@ -114,10 +114,11 @@ class SyncManager(
                 // 恢复播放列表
                 response.playlists.forEach { cloudPlaylist ->
                     try {
-                        // 检查本地是否已有同名播放列表
-                        val localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
-                        val exists = localPlaylists.any { it.title == cloudPlaylist.title }
-                        if (!exists) {
+                        // 1. 检查或创建播放列表
+                        var localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
+                        var targetPlaylist = localPlaylists.find { it.title == cloudPlaylist.title }
+                        
+                        if (targetPlaylist == null) {
                             localPlaylistRepository.insertLocalPlaylist(
                                 LocalPlaylistEntity(
                                     title = cloudPlaylist.title,
@@ -125,6 +126,39 @@ class SyncManager(
                                 ),
                                 "Synced from cloud"
                             ).first()
+                            // 重新获取以拿到 ID
+                            localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
+                            targetPlaylist = localPlaylists.find { it.title == cloudPlaylist.title }
+                        }
+                        
+                        // 2. 恢复歌曲到播放列表
+                        targetPlaylist?.let { playlist ->
+                            // 获取当前播放列表已有的歌曲，避免重复添加
+                            val existingTracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
+                            val existingVideoIds = existingTracks.map { it.videoId }.toSet()
+                            
+                            cloudPlaylist.songs.forEach { songItem ->
+                                if (songItem.videoId !in existingVideoIds) {
+                                    // 确保歌曲在本地数据库中
+                                    val localSong = songRepository.getSongById(songItem.videoId).first()
+                                    val songEntity = if (localSong == null) {
+                                        val newSong = songItem.toSongEntity()
+                                        songRepository.insertSong(newSong).first()
+                                        newSong
+                                    } else {
+                                        localSong
+                                    }
+                                    
+                                    // 添加到播放列表
+                                    localPlaylistRepository.addTrackToLocalPlaylist(
+                                        id = playlist.id,
+                                        song = songEntity,
+                                        successMessage = "",
+                                        updatedYtMessage = "",
+                                        errorMessage = ""
+                                    ).first()
+                                }
+                            }
                         }
                     } catch (e: Exception) { }
                 }
@@ -207,7 +241,20 @@ class SyncManager(
         try {
             val playlists = localPlaylistRepository.getAllLocalPlaylists().first()
             if (playlists.isEmpty()) return
-            val syncItems = playlists.map { it.toSyncPlaylistItem() }
+            
+            val syncItems = playlists.map { playlist ->
+                // 获取播放列表中的歌曲
+                val songs = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
+                val syncSongs = songs.map { it.toSyncFavoriteItem() }
+                
+                SyncPlaylistItem(
+                    id = playlist.id.toString(),
+                    title = playlist.title,
+                    description = null,
+                    thumbnail = playlist.thumbnail,
+                    songs = syncSongs
+                )
+            }
             apiService.syncPlaylists(syncItems)
         } catch (e: Exception) { }
     }
