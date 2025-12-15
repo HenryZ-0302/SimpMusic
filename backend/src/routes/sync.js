@@ -91,36 +91,29 @@ router.post('/playlists', async (req, res) => {
         const { playlists } = req.body;
         const userId = req.user.id;
 
-        for (const playlist of playlists) {
-            const { id, title, description, thumbnail, songs } = playlist;
+        // 1. 删除该用户所有播放列表（级联删除会处理 songs）
+        await prisma.playlist.deleteMany({ where: { userId } });
 
-            const createdPlaylist = await prisma.playlist.upsert({
-                where: { id: id || 'new' },
-                create: {
-                    userId,
-                    title,
-                    description,
-                    thumbnail,
-                    songs: {
-                        create: songs?.map((song, index) => ({ ...song, order: index })) || []
+        // 2. 重新创建播放列表
+        if (playlists && playlists.length > 0) {
+            for (const playlist of playlists) {
+                const { title, description, thumbnail, songs } = playlist;
+
+                // 创建播放列表及其包含的歌曲
+                // 注意：这里不使用客户端传来的 id，而是让数据库自动生成 UUID
+                await prisma.playlist.create({
+                    data: {
+                        userId,
+                        title,
+                        description,
+                        thumbnail,
+                        songs: {
+                            create: songs?.map((song, index) => ({
+                                ...song,
+                                order: index
+                            })) || []
+                        }
                     }
-                },
-                update: {
-                    title,
-                    description,
-                    thumbnail
-                }
-            });
-
-            // 更新歌曲列表
-            if (songs && createdPlaylist.id) {
-                await prisma.playlistSong.deleteMany({ where: { playlistId: createdPlaylist.id } });
-                await prisma.playlistSong.createMany({
-                    data: songs.map((song, index) => ({
-                        playlistId: createdPlaylist.id,
-                        ...song,
-                        order: index
-                    }))
                 });
             }
         }
