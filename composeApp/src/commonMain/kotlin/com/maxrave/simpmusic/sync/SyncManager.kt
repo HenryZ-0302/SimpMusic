@@ -418,6 +418,28 @@ class SyncManager(
             apiService.syncSettings(settings)
         } catch (e: Exception) { }
     }
+
+    /**
+     * 上传音乐库 (Albums, Artists, YouTube Playlists)
+     */
+    suspend fun uploadLibrary() {
+        if (!apiService.isLoggedIn.value) return
+        try {
+            val albums = albumRepository.getAllAlbums(1000).first()
+            val artists = artistRepository.getAllArtists(1000).first()
+            val playlists = playlistRepository.getAllPlaylists(1000).first()
+
+            val request = SyncLibraryRequest(
+                albums = albums.map { it.toSyncAlbumItem() },
+                artists = artists.map { it.toSyncArtistItem() },
+                playlists = playlists.map { it.toSyncYouTubePlaylistItem() }
+            )
+            Logger.d(TAG, "Uploading Library: Albums=${request.albums.size}, Artists=${request.artists.size}, Playlists=${request.playlists.size}")
+            apiService.syncLibrary(request)
+        } catch (e: Exception) {
+            Logger.e(TAG, "Upload Library Error: ${e.message}")
+        }
+    }
     
     fun onFavoriteChanged() {
         if (!apiService.isLoggedIn.value) return
@@ -531,4 +553,59 @@ private fun SyncHistoryItem.toSongEntity() = SongEntity(
     category = null,
     resultType = null,
     totalPlayTime = 1
+)
+
+// ========== Library Entity 转 SyncItem ==========
+
+private fun AlbumEntity.toSyncAlbumItem() = SyncAlbumItem(
+    browseId = browseId,
+    title = title,
+    artist = artistName?.joinToString(", "),
+    thumbnail = thumbnails
+)
+
+private fun ArtistEntity.toSyncArtistItem() = SyncArtistItem(
+    channelId = channelId,
+    name = name,
+    thumbnail = thumbnails
+)
+
+private fun PlaylistEntity.toSyncYouTubePlaylistItem() = SyncYouTubePlaylistItem(
+    playlistId = id,
+    title = title,
+    thumbnail = thumbnails
+)
+
+// ========== Library SyncItem 转 Entity ==========
+
+private fun SyncAlbumItem.toAlbumEntity() = AlbumEntity(
+    browseId = browseId,
+    title = title,
+    artistName = artist?.let { listOf(it) },
+    thumbnails = thumbnail,
+    year = null,
+    type = "Album",
+    duration = null,
+    description = null,
+    likeStatus = "LIKE",
+    inLibrary = now()
+)
+
+private fun SyncArtistItem.toArtistEntity() = ArtistEntity(
+    channelId = channelId,
+    name = name,
+    thumbnails = thumbnail,
+    inLibrary = now()
+)
+
+private fun SyncYouTubePlaylistItem.toPlaylistEntity() = PlaylistEntity(
+    id = playlistId,
+    title = title,
+    thumbnails = thumbnail,
+    description = null,
+    year = null,
+    trackCount = null,
+    duration = null,
+    likeStatus = "LIKE",
+    inLibrary = now()
 )
