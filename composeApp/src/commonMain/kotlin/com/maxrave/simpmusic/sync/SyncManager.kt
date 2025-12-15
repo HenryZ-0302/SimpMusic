@@ -1,15 +1,27 @@
 package com.maxrave.simpmusic.sync
 
+import com.maxrave.domain.data.entities.AlbumEntity
+import com.maxrave.domain.data.entities.ArtistEntity
 import com.maxrave.domain.data.entities.LocalPlaylistEntity
+import com.maxrave.domain.data.entities.PlaylistEntity
 import com.maxrave.domain.data.entities.SongEntity
 import com.maxrave.domain.manager.DataStoreManager
+import com.maxrave.domain.repository.AlbumRepository
+import com.maxrave.domain.repository.ArtistRepository
 import com.maxrave.domain.repository.LocalPlaylistRepository
+import com.maxrave.domain.repository.PlaylistRepository
 import com.maxrave.domain.repository.SongRepository
+import com.maxrave.domain.extension.now
 import com.maxrave.simpmusic.api.HYMusicApiService
+import com.maxrave.simpmusic.api.SyncAlbumItem
+import com.maxrave.simpmusic.api.SyncArtistItem
 import com.maxrave.simpmusic.api.SyncFavoriteItem
 import com.maxrave.simpmusic.api.SyncHistoryItem
+import com.maxrave.simpmusic.api.SyncLibraryRequest
 import com.maxrave.simpmusic.api.SyncPlaylistItem
 import com.maxrave.simpmusic.api.SyncSettingsRequest
+import com.maxrave.simpmusic.api.SyncYouTubePlaylistItem
+import com.maxrave.logger.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -18,6 +30,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 
 /**
  * 数据同步管理器
@@ -27,18 +40,23 @@ import kotlinx.coroutines.launch
  * - 收藏歌曲 (Favorites)
  * - 播放列表 (Playlists)
  * - 播放历史 (History)
- * - 用户设置 (Settings) - 25+ 项全面同步
+ * - 用户设置 (Settings)
+ * - 音乐库 (Library): Albums, Artists, Saved YouTube Playlists
  */
 class SyncManager(
     private val apiService: HYMusicApiService,
     private val songRepository: SongRepository,
     private val localPlaylistRepository: LocalPlaylistRepository,
+    private val albumRepository: AlbumRepository,
+    private val artistRepository: ArtistRepository,
+    private val playlistRepository: PlaylistRepository,
     private val dataStoreManager: DataStoreManager,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     
     // 定期同步间隔（5分钟）
     private val SYNC_INTERVAL_MS = 5 * 60 * 1000L
+    private val TAG = "SyncManager"
     
     init {
         startPeriodicSync()
@@ -79,6 +97,63 @@ class SyncManager(
                 _lastSyncTime.value = System.currentTimeMillis()
                 _syncState.value = SyncState.Success("Sync completed")
             } catch (e: Exception) {
+                Logger.e(TAG, "Sync failed: ${e.message}")
+                _syncState.value = SyncState.Failed(e.message ?: "Sync failed")
+            }
+        }
+    }
+    
+    /**
+     * 手动上传数据到云端 (Full Overwrite)
+     */
+    fun uploadNow() {
+        if (!apiService.isLoggedIn.value) return
+        scope.launch {
+            try {
+                _syncState.value = SyncState.Syncing
+                uploadAll()
+                _lastSyncTime.value = System.currentTimeMillis()
+                _syncState.value = SyncState.Success("Upload completed")
+            } catch (e: Exception) {
+                Logger.e(TAG, "Upload failed: ${e.message}")
+                _syncState.value = SyncState.Failed(e.message ?: "Upload failed")
+            }
+        }
+    }
+
+    /**
+     * 手动从云端下载数据 (Merge)
+     */
+    fun downloadNow() {
+        if (!apiService.isLoggedIn.value) return
+        scope.launch {
+            try {
+                _syncState.value = SyncState.Syncing
+                downloadAndMerge()
+                _lastSyncTime.value = System.currentTimeMillis()
+                _syncState.value = SyncState.Success("Download completed")
+            } catch (e: Exception) {
+                Logger.e(TAG, "Download failed: ${e.message}")
+                _syncState.value = SyncState.Failed(e.message ?: "Download failed")
+            }
+        }
+    }
+
+    /**
+     * 执行完整同步 (Upload and Download)
+     */
+    fun fullSync() {
+        if (!apiService.isLoggedIn.value) return
+        scope.launch {
+            try {
+                _syncState.value = SyncState.Syncing
+                // 先下载合并，再上传最新的全量
+                downloadAndMerge()
+                uploadAll()
+                _lastSyncTime.value = System.currentTimeMillis()
+                _syncState.value = SyncState.Success("Full sync completed")
+            } catch (e: Exception) {
+                Logger.e(TAG, "Full sync failed: ${e.message}")
                 _syncState.value = SyncState.Failed(e.message ?: "Sync failed")
             }
         }
@@ -91,6 +166,8 @@ class SyncManager(
         val result = apiService.syncGetAll()
         result.fold(
             onSuccess = { response ->
+                Logger.d(TAG, "Download success: Fav=${response.favorites.size}, PL=${response.playlists.size}, Lib=${response.library != null}")
+
                 // 恢复收藏
                 response.favorites.forEach { cloudFav ->
                     try {
@@ -101,13 +178,13 @@ class SyncManager(
                             // 如果本地已有但未收藏，强制更新为收藏状态
                             songRepository.updateLikeStatus(
                                 videoId = cloudFav.videoId,
-                                likeStatus = 1 // 1 = LIKE, 0 = INDIFFERENT
+                                likeStatus = 1 // 1 = LIKE
                             )
                         }
                     } catch (e: Exception) { }
                 }
                 
-                // 恢复播放历史
+                // 恢复播放历史 (部分) - 这里只做简单合并，不做详细处理，因为历史记录比较复杂
                 response.history.forEach { cloudHistory ->
                     try {
                         val localSong = songRepository.getSongById(cloudHistory.videoId).first()
@@ -117,24 +194,22 @@ class SyncManager(
                     } catch (e: Exception) { }
                 }
                 
-                // 恢复播放列表
+                // 恢复播放列表 (本地自建)
                 response.playlists.forEach { cloudPlaylist ->
                     try {
-                        // 1. 检查或创建播放列表
-                        var localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
-                        var targetPlaylist = localPlaylists.find { it.title == cloudPlaylist.title }
+                        // 1. 恢复播放列表本身
+                        var targetPlaylist: LocalPlaylistEntity? = null
+                        val localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
+                        val existing = localPlaylists.find { it.title == cloudPlaylist.title }
                         
-                        if (targetPlaylist == null) {
-                            localPlaylistRepository.insertLocalPlaylist(
-                                LocalPlaylistEntity(
-                                    title = cloudPlaylist.title,
-                                    thumbnail = cloudPlaylist.thumbnail
-                                ),
-                                "Synced from cloud"
-                            ).first()
-                            // 重新获取以拿到 ID
-                            localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
-                            targetPlaylist = localPlaylists.find { it.title == cloudPlaylist.title }
+                        if (existing == null) {
+                            val newPlaylist = cloudPlaylist.toLocalPlaylistEntity()
+                            localPlaylistRepository.insertLocalPlaylist(newPlaylist, "Restored from cloud").first()
+                            // 获取刚插入的 ID
+                            targetPlaylist = localPlaylistRepository.getAllLocalPlaylists().first()
+                                .find { it.title == cloudPlaylist.title }
+                        } else {
+                            targetPlaylist = existing
                         }
                         
                         // 2. 恢复歌曲到播放列表
@@ -166,10 +241,39 @@ class SyncManager(
                                 }
                             }
                         }
-                    } catch (e: Exception) { }
+                    } catch (e: Exception) {
+                        Logger.e(TAG, "Error restoring playlist ${cloudPlaylist.title}: ${e.message}")
+                    }
+                }
+
+                // 恢复 Library (Albums, Artists, YouTube Playlists)
+                response.library?.let { lib ->
+                    // Albums
+                    lib.albums.forEach { item ->
+                        try {
+                            // 检查是否已存在，不存在可直接插入 (IGNORE on conflict usually)
+                            // 这里我们用 toAlbumEntity 里的 InLibrary 时间
+                            val entity = item.toAlbumEntity()
+                            albumRepository.insertAlbum(entity)
+                        } catch (e: Exception) { Logger.e(TAG, "Restore Album Error: $e") }
+                    }
+                    // Artists
+                    lib.artists.forEach { item ->
+                        try {
+                            val entity = item.toArtistEntity()
+                            artistRepository.insertArtist(entity) // void return
+                        } catch (e: Exception) { Logger.e(TAG, "Restore Artist Error: $e") }
+                    }
+                    // YouTube Playlists (Saved)
+                    lib.playlists.forEach { item ->
+                        try {
+                            val entity = item.toPlaylistEntity()
+                            playlistRepository.insertPlaylist(entity) // void return
+                        } catch (e: Exception) { Logger.e(TAG, "Restore YT Playlist Error: $e") }
+                    }
                 }
                 
-                // 恢复全部设置
+                // 恢复设置
                 response.settings?.let { s ->
                     try {
                         // 基本设置
@@ -210,15 +314,20 @@ class SyncManager(
                         s.keepYouTubePlaylistOffline?.let { dataStoreManager.setKeepYouTubePlaylistOffline(it) }
                     } catch (e: Exception) { }
                 }
+                
             },
-            onFailure = { }
+            onFailure = { e ->
+                Logger.e(TAG, "Failed to download data: ${e.message}")
+                throw e
+            }
         )
     }
     
     private suspend fun uploadAll() {
         uploadFavorites()
-        uploadHistory()
         uploadPlaylists()
+        uploadHistory()
+        uploadLibrary()
         uploadSettings()
     }
     
@@ -226,6 +335,7 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val likedSongs = songRepository.getLikedSongs().first()
+            Logger.d(TAG, "Uploading ${likedSongs.size} favorites")
             // 允许上传空列表，以便清空云端数据
             val syncItems = likedSongs.map { it.toSyncFavoriteItem() }
             apiService.syncFavorites(syncItems)
@@ -247,16 +357,14 @@ class SyncManager(
             val playlists = localPlaylistRepository.getAllLocalPlaylists().first()
             
             val syncItems = playlists.map { playlist ->
-                // 获取播放列表中的歌曲
-                val songs = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
-                val syncSongs = songs.map { it.toSyncFavoriteItem() }
+                // 获取播放列表的所有歌曲详情
+                val tracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
+                val songItems = tracks.map { it.toSyncFavoriteItem() } // Reuse SyncFavoriteItem for song details
                 
                 SyncPlaylistItem(
-                    id = playlist.id.toString(),
                     title = playlist.title,
-                    description = null,
                     thumbnail = playlist.thumbnail,
-                    songs = syncSongs
+                    songs = songItems
                 )
             }
             apiService.syncPlaylists(syncItems)
@@ -270,12 +378,12 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val settings = SyncSettingsRequest(
-                // 基本
+                // 基本设置
                 quality = dataStoreManager.quality.first(),
-                language = dataStoreManager.getString("language").first(),
-                saveHistory = dataStoreManager.saveRecentSongAndQueue.first() == DataStoreManager.TRUE,
+                language = dataStoreManager.language.first(),
+                saveHistory = dataStoreManager.saveRecentSongAndQueue.first() == "TRUE",
                 
-                // 下载
+                // 下载设置
                 downloadQuality = dataStoreManager.downloadQuality.first(),
                 videoDownloadQuality = dataStoreManager.videoDownloadQuality.first(),
                 videoQuality = dataStoreManager.videoQuality.first(),

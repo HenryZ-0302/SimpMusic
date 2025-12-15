@@ -169,3 +169,43 @@ model Announcement {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+// 同步的 Album (YouTube Library)
+model SyncedAlbum {
+  id          String   @id @default(uuid())
+  browseId    String   // YouTube Album ID
+  title       String
+  artist      String?
+  thumbnail   String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, browseId]) // 防止重复
+}
+
+// 同步的 Artist (YouTube Library)
+model SyncedArtist {
+  id          String   @id @default(uuid())
+  channelId   String   // YouTube Channel ID
+  name        String
+  thumbnail   String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, channelId])
+}
+
+// 同步的 YouTube Playlist (YouTube Library)
+model SyncedYouTubePlaylist {
+  id          String   @id @default(uuid())
+  playlistId  String   // YouTube Playlist ID
+  title       String
+  thumbnail   String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, playlistId])
+}

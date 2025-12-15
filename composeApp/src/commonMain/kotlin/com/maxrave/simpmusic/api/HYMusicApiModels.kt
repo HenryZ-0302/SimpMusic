@@ -112,7 +112,44 @@ data class SyncAllResponse(
     val favorites: List<SyncFavoriteItem> = emptyList(),
     val playlists: List<SyncPlaylistItem> = emptyList(),
     val history: List<SyncHistoryItem> = emptyList(),
-    val settings: SyncSettingsRequest? = null
+    val settings: SyncSettingsRequest? = null,
+    val library: SyncLibraryResponse? = null
+)
+
+@Serializable
+data class SyncLibraryResponse(
+    val albums: List<SyncAlbumItem> = emptyList(),
+    val artists: List<SyncArtistItem> = emptyList(),
+    val playlists: List<SyncYouTubePlaylistItem> = emptyList()
+)
+
+@Serializable
+data class SyncLibraryRequest(
+    val albums: List<SyncAlbumItem>,
+    val artists: List<SyncArtistItem>,
+    val playlists: List<SyncYouTubePlaylistItem>
+)
+
+@Serializable
+data class SyncAlbumItem(
+    val browseId: String,
+    val title: String,
+    val artist: String? = null,
+    val thumbnail: String? = null
+)
+
+@Serializable
+data class SyncArtistItem(
+    val channelId: String,
+    val name: String,
+    val thumbnail: String? = null
+)
+
+@Serializable
+data class SyncYouTubePlaylistItem(
+    val playlistId: String,
+    val title: String,
+    val thumbnail: String? = null
 )
 
 @Serializable

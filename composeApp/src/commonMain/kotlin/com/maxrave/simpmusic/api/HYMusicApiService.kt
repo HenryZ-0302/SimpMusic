@@ -273,6 +273,20 @@ class HYMusicApiService(
         
         return executeRequest(request) { json.decodeFromString(it) }
     }
+
+    /**
+     * 同步库 (Albums, Artists, Playlists)
+     */
+    suspend fun syncLibrary(request: SyncLibraryRequest): Result<ApiMessageResponse> {
+        val body = json.encodeToString(request)
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/sync/library")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .post(body.toRequestBody(jsonMediaType))
+            .build()
+
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
     
     // ========== 管理员功能 ==========
     

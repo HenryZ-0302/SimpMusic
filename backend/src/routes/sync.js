@@ -14,7 +14,7 @@ router.get('/all', async (req, res) => {
         const userId = req.user.id;
         console.log(`📤 [Sync Get All] User: ${userId}`);
 
-        const [favorites, playlists, history, settings] = await Promise.all([
+        const [favorites, playlists, history, settings, syncedAlbums, syncedArtists, syncedYouTubePlaylists] = await Promise.all([
             prisma.favorite.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } }),
             prisma.playlist.findMany({
                 where: { userId },
@@ -26,14 +26,87 @@ router.get('/all', async (req, res) => {
                 orderBy: { playedAt: 'desc' },
                 take: 100  // 最近100条
             }),
-            prisma.userSettings.findUnique({ where: { userId } })
+            prisma.userSettings.findUnique({ where: { userId } }),
+
+            // Library
+            prisma.syncedAlbum.findMany({ where: { userId } }),
+            prisma.syncedArtist.findMany({ where: { userId } }),
+            prisma.syncedYouTubePlaylist.findMany({ where: { userId } })
         ]);
 
-        console.log(`✅ [Sync Get All] Favorites: ${favorites.length}, Playlists: ${playlists.length}, History: ${history.length}`);
-        res.json({ favorites, playlists, history, settings });
+        console.log(`✅ [Sync Get All] Favorites: ${favorites.length}, Playlists: ${playlists.length}, History: ${history.length}, Library: (Alb:${syncedAlbums.length}, Art:${syncedArtists.length}, PL:${syncedYouTubePlaylists.length})`);
+
+        res.json({
+            favorites,
+            playlists,
+            history,
+            settings,
+            library: {
+                albums: syncedAlbums,
+                artists: syncedArtists,
+                playlists: syncedYouTubePlaylists
+            }
+        });
     } catch (error) {
         console.error('❌ [Sync Get All] Error:', error);
         res.status(500).json({ error: 'Failed to fetch sync data' });
+    }
+});
+
+// 同步库 (Albums, Artists, YouTube Playlists) - 全量覆盖
+router.post('/library', async (req, res) => {
+    try {
+        const { albums, artists, playlists } = req.body;
+        const userId = req.user.id;
+
+        console.log(`📥 [Sync Library] User: ${userId}`);
+
+        await prisma.$transaction(async (tx) => {
+            // 1. 清除旧数据
+            await tx.syncedAlbum.deleteMany({ where: { userId } });
+            await tx.syncedArtist.deleteMany({ where: { userId } });
+            await tx.syncedYouTubePlaylist.deleteMany({ where: { userId } });
+
+            // 2. 插入新数据
+            if (albums && albums.length > 0) {
+                await tx.syncedAlbum.createMany({
+                    data: albums.map(item => ({
+                        userId,
+                        browseId: item.browseId,
+                        title: item.title,
+                        artist: item.artist,
+                        thumbnail: item.thumbnail
+                    }))
+                });
+            }
+
+            if (artists && artists.length > 0) {
+                await tx.syncedArtist.createMany({
+                    data: artists.map(item => ({
+                        userId,
+                        channelId: item.channelId,
+                        name: item.name,
+                        thumbnail: item.thumbnail
+                    }))
+                });
+            }
+
+            if (playlists && playlists.length > 0) {
+                await tx.syncedYouTubePlaylist.createMany({
+                    data: playlists.map(item => ({
+                        userId,
+                        playlistId: item.playlistId,
+                        title: item.title,
+                        thumbnail: item.thumbnail
+                    }))
+                });
+            }
+        });
+
+        res.json({ message: 'Library synced successfully' });
+    } catch (error) {
+        console.error('❌ [Sync Library] Error:', error);
+        res.status(500).json({ error: 'Failed to sync library' });
     }
 });
 
