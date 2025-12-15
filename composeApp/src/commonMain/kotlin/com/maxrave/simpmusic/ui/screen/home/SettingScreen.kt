@@ -549,14 +549,32 @@ fun SettingScreen(
                     // 云同步
                     val syncManager: com.maxrave.simpmusic.sync.SyncManager = koinInject()
                     val syncState by syncManager.syncState.collectAsStateWithLifecycle()
+                    val syncSubtitle = when (syncState) {
+                        is com.maxrave.simpmusic.sync.SyncManager.SyncState.Syncing -> "Syncing..."
+                        is com.maxrave.simpmusic.sync.SyncManager.SyncState.Success -> (syncState as com.maxrave.simpmusic.sync.SyncManager.SyncState.Success).message
+                        is com.maxrave.simpmusic.sync.SyncManager.SyncState.Failed -> "Failed"
+                        else -> "Ready"
+                    }
+                    // 上传到云端
                     SettingItem(
-                        title = "Cloud Sync",
-                        subtitle = when (syncState) {
-                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Syncing -> "Syncing..."
-                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Success -> "Synced"
-                            is com.maxrave.simpmusic.sync.SyncManager.SyncState.Failed -> "Sync failed"
-                            else -> "Tap to sync your data"
+                        title = "Upload to Cloud",
+                        subtitle = "Upload local data to cloud ($syncSubtitle)",
+                        onClick = {
+                            syncManager.uploadNow()
                         },
+                    )
+                    // 从云端下载
+                    SettingItem(
+                        title = "Download from Cloud",
+                        subtitle = "Restore data from cloud ($syncSubtitle)",
+                        onClick = {
+                            syncManager.downloadNow()
+                        },
+                    )
+                    // 全量同步
+                    SettingItem(
+                        title = "Full Sync",
+                        subtitle = "Download then upload ($syncSubtitle)",
                         onClick = {
                             syncManager.syncNow()
                         },
