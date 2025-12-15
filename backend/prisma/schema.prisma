@@ -27,6 +27,11 @@ model User {
   playlists     Playlist[]
   playHistory   PlayHistory[]
   settings      UserSettings?
+  
+  // Library Sync 关联
+  syncedAlbums            SyncedAlbum[]
+  syncedArtists           SyncedArtist[]
+  syncedYouTubePlaylists  SyncedYouTubePlaylist[]
 }
 
 // 用户设置
