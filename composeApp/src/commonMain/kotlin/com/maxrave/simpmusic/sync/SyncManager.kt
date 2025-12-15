@@ -358,10 +358,20 @@ class SyncManager(
             Logger.d(TAG, "Uploading ${playlists.size} local playlists")
             
             val syncItems = playlists.map { playlist ->
-                // 获取播放列表的所有歌曲详情
-                val tracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
-                Logger.d(TAG, "Playlist '${playlist.title}' has ${tracks.size} tracks")
-                val songItems = tracks.map { it.toSyncFavoriteItem() } // Reuse SyncFavoriteItem for song details
+                // 方法1: 尝试从 tracks 字段获取视频 ID 列表
+                val trackVideoIds = playlist.tracks ?: emptyList()
+                Logger.d(TAG, "Playlist '${playlist.title}' has ${trackVideoIds.size} track IDs from tracks field")
+                
+                // 获取每首歌的详细信息
+                val songItems = trackVideoIds.mapNotNull { videoId ->
+                    try {
+                        songRepository.getSongById(videoId).first()?.toSyncFavoriteItem()
+                    } catch (e: Exception) {
+                        Logger.e(TAG, "Failed to get song $videoId: ${e.message}")
+                        null
+                    }
+                }
+                Logger.d(TAG, "Playlist '${playlist.title}' resolved ${songItems.size} songs")
                 
                 SyncPlaylistItem(
                     title = playlist.title,
