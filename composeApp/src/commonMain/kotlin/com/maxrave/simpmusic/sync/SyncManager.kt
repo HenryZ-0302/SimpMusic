@@ -227,7 +227,7 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val likedSongs = songRepository.getLikedSongs().first()
-            if (likedSongs.isEmpty()) return
+            // 允许上传空列表，以便清空云端数据
             val syncItems = likedSongs.map { it.toSyncFavoriteItem() }
             apiService.syncFavorites(syncItems)
         } catch (e: Exception) { }
@@ -237,7 +237,6 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val mostPlayed = songRepository.getMostPlayedSongs().first()
-            if (mostPlayed.isEmpty()) return
             val syncItems = mostPlayed.take(100).map { it.toSyncHistoryItem() }
             apiService.syncHistory(syncItems)
         } catch (e: Exception) { }
@@ -247,7 +246,6 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val playlists = localPlaylistRepository.getAllLocalPlaylists().first()
-            if (playlists.isEmpty()) return
             
             val syncItems = playlists.map { playlist ->
                 // 获取播放列表中的歌曲
