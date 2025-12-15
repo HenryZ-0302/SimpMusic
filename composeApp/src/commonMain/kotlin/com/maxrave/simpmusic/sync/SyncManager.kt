@@ -122,8 +122,9 @@ class SyncManager(
                                 LocalPlaylistEntity(
                                     title = cloudPlaylist.title,
                                     thumbnail = cloudPlaylist.thumbnail
-                                )
-                            )
+                                ),
+                                "Synced from cloud"
+                            ).first()
                         }
                     } catch (e: Exception) { }
                 }

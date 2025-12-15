@@ -163,3 +163,15 @@ data class StatsInfo(
     val totalPlaylists: Int = 0,
     val totalPlayHistory: Int = 0
 )
+
+// 公告数据
+@Serializable
+data class AnnouncementItem(
+    val id: String,
+    val title: String,
+    val content: String,
+    val isActive: Boolean = true,
+    val priority: Int = 0,
+    val createdAt: String? = null,
+    val updatedAt: String? = null
+)
