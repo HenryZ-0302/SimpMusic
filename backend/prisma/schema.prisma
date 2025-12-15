@@ -35,12 +35,6 @@ model UserSettings {
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-// 用户设置
-model UserSettings {
-  id                String   @id @default(uuid())
-  userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
   // 基本设置
   quality           String   @default("high")
   language          String   @default("en")
@@ -77,7 +71,7 @@ model UserSettings {
   // 其他
   watchVideoInsteadOfPlayingAudio Boolean @default(false)
   keepYouTubePlaylistOffline      Boolean @default(false)
-  automatchType                   String?   // 保留扩展
+  automatchType                   String?
   
   updatedAt         DateTime @updatedAt
 }
@@ -170,7 +164,7 @@ model Announcement {
   title         String
   content       String
   isActive      Boolean  @default(true)
-  priority      Int      @default(0)  // 优先级，数字越大越靠前
+  priority      Int      @default(0)
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
