@@ -212,3 +212,16 @@ data class AnnouncementItem(
     val createdAt: String? = null,
     val updatedAt: String? = null
 )
+
+// 系统设置
+@Serializable
+data class SystemSettingsInfo(
+    val id: String = "singleton",
+    val registrationEnabled: Boolean = true,
+    val updatedAt: String? = null
+)
+
+@Serializable
+data class SystemSettingsResponse(
+    val settings: SystemSettingsInfo
+)

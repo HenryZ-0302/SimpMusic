@@ -58,6 +58,8 @@ fun AdminScreen(
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showDeleteDialog by remember { mutableStateOf<AdminUserInfo?>(null) }
+    var registrationEnabled by remember { mutableStateOf(true) }
+    var isUpdatingSetting by remember { mutableStateOf(false) }
     
     // 检查是否是管理员
     val isAdmin = currentUser?.isAdmin == true
@@ -79,6 +81,12 @@ fun AdminScreen(
                 // 加载统计
                 apiService.adminGetStats().fold(
                     onSuccess = { response -> stats = response.stats },
+                    onFailure = { e -> errorMessage = e.message }
+                )
+                
+                // 加载系统设置
+                apiService.adminGetSettings().fold(
+                    onSuccess = { response -> registrationEnabled = response.settings.registrationEnabled },
                     onFailure = { e -> errorMessage = e.message }
                 )
                 
@@ -142,6 +150,82 @@ fun AdminScreen(
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     StatsCard(stats)
+                }
+                
+                // 系统设置
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "System Settings",
+                        style = typo().titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    // 注册开关卡片
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White.copy(alpha = 0.1f)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(
+                                    text = "Allow Registration",
+                                    style = typo().bodyLarge,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = if (registrationEnabled) "New users can register" else "Registration is disabled",
+                                    style = typo().bodySmall,
+                                    color = Color.White.copy(alpha = 0.6f)
+                                )
+                            }
+                            
+                            if (isUpdatingSetting) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = Color.White,
+                                    strokeWidth = 2.dp
+                                )
+                            } else {
+                                Switch(
+                                    checked = registrationEnabled,
+                                    onCheckedChange = { newValue ->
+                                        isUpdatingSetting = true
+                                        scope.launch {
+                                            apiService.adminUpdateSettings(newValue).fold(
+                                                onSuccess = { response ->
+                                                    registrationEnabled = response.settings.registrationEnabled
+                                                    isUpdatingSetting = false
+                                                },
+                                                onFailure = { e ->
+                                                    errorMessage = e.message
+                                                    isUpdatingSetting = false
+                                                }
+                                            )
+                                        }
+                                    },
+                                    colors = SwitchDefaults.colors(
+                                        checkedThumbColor = Color.White,
+                                        checkedTrackColor = Color.Green.copy(alpha = 0.6f),
+                                        uncheckedThumbColor = Color.White,
+                                        uncheckedTrackColor = Color.Red.copy(alpha = 0.4f)
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
                 
                 // 用户列表

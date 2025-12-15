@@ -362,6 +362,35 @@ class HYMusicApiService(
         return executeRequest(request) { json.decodeFromString(it) }
     }
     
+    /**
+     * 获取系统设置（管理员）
+     */
+    suspend fun adminGetSettings(): Result<SystemSettingsResponse> {
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/admin/settings")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .get()
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
+    /**
+     * 更新系统设置（管理员）
+     */
+    suspend fun adminUpdateSettings(registrationEnabled: Boolean): Result<SystemSettingsResponse> {
+        val body = """{"registrationEnabled": $registrationEnabled}"""
+            .toRequestBody("application/json".toMediaType())
+        
+        val request = Request.Builder()
+            .url("$HYMUSIC_API_BASE_URL/api/admin/settings")
+            .addHeader("Authorization", "Bearer ${authToken ?: ""}")
+            .put(body)
+            .build()
+        
+        return executeRequest(request) { json.decodeFromString(it) }
+    }
+    
     // ==================== 公告 API ====================
     
     /**
