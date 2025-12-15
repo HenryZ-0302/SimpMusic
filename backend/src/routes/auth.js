@@ -10,6 +10,19 @@ const prisma = new PrismaClient();
 // 注册
 router.post('/register', async (req, res) => {
     try {
+        // 检查注册是否开启
+        const settings = await prisma.systemSettings.findUnique({
+            where: { id: 'singleton' }
+        });
+
+        // 如果设置存在且注册已关闭，返回错误
+        if (settings && !settings.registrationEnabled) {
+            return res.status(403).json({
+                error: 'Registration is currently disabled',
+                code: 'REGISTRATION_DISABLED'
+            });
+        }
+
         const { email, password, nickname } = req.body;
 
         // 验证输入

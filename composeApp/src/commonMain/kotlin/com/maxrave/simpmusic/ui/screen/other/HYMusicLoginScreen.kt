@@ -35,6 +35,7 @@ fun HYMusicLoginScreen(
 ) {
     val hazeState = rememberHazeState()
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
     
     // UI State
     var isLoginMode by remember { mutableStateOf(true) }
@@ -48,6 +49,9 @@ fun HYMusicLoginScreen(
     // 登录状态
     val isLoggedIn by apiService.isLoggedIn.collectAsStateWithLifecycle()
     val currentUser by apiService.currentUser.collectAsStateWithLifecycle()
+    
+    // Snackbar Host (放在 Scaffold 或最外层)
+    Box(modifier = Modifier.fillMaxSize()) {
 
     Column(
         modifier = Modifier
@@ -223,6 +227,15 @@ fun HYMusicLoginScreen(
                             onSuccess = { response ->
                                 if (response.error != null) {
                                     errorMessage = response.error
+                                    // 如果是注册被禁用的错误，显示 Snackbar
+                                    if (response.error.contains("disabled", ignoreCase = true)) {
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = "Registration is currently disabled by administrator",
+                                                duration = SnackbarDuration.Long
+                                            )
+                                        }
+                                    }
                                 } else {
                                     successMessage = if (isLoginMode) "Login successful!" else "Registration successful!"
                                     // 清空输入
@@ -303,4 +316,11 @@ fun HYMusicLoginScreen(
             Color.Unspecified,
         ),
     )
+    
+    // Snackbar 显示在底部
+    SnackbarHost(
+        hostState = snackbarHostState,
+        modifier = Modifier.align(Alignment.BottomCenter)
+    )
+    } // 关闭 Box
 }

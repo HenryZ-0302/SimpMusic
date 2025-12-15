@@ -214,3 +214,10 @@ model SyncedYouTubePlaylist {
 
   @@unique([userId, playlistId])
 }
+
+// 系统设置（全局配置）
+model SystemSettings {
+  id                    String   @id @default("singleton")
+  registrationEnabled   Boolean  @default(true)
+  updatedAt             DateTime @updatedAt
+}

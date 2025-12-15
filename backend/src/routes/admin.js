@@ -196,4 +196,55 @@ router.delete('/users/:id', async (req, res) => {
     }
 });
 
+// ========== 系统设置 ==========
+
+// 获取系统设置
+router.get('/settings', async (req, res) => {
+    try {
+        let settings = await prisma.systemSettings.findUnique({
+            where: { id: 'singleton' }
+        });
+
+        // 如果不存在，创建默认设置
+        if (!settings) {
+            settings = await prisma.systemSettings.create({
+                data: { id: 'singleton', registrationEnabled: true }
+            });
+        }
+
+        res.json({ settings });
+    } catch (error) {
+        console.error('Get settings error:', error);
+        res.status(500).json({ error: 'Failed to get settings' });
+    }
+});
+
+// 更新系统设置
+router.put('/settings', async (req, res) => {
+    try {
+        const { registrationEnabled } = req.body;
+
+        const settings = await prisma.systemSettings.upsert({
+            where: { id: 'singleton' },
+            create: {
+                id: 'singleton',
+                registrationEnabled: registrationEnabled ?? true
+            },
+            update: {
+                registrationEnabled: registrationEnabled ?? true
+            }
+        });
+
+        console.log(`⚙️ [Admin Settings] registrationEnabled = ${settings.registrationEnabled}`);
+
+        res.json({
+            message: 'Settings updated',
+            settings
+        });
+    } catch (error) {
+        console.error('Update settings error:', error);
+        res.status(500).json({ error: 'Failed to update settings' });
+    }
+});
+
 module.exports = router;
