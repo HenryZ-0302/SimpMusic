@@ -459,40 +459,6 @@ class SyncManager(
     fun syncNow() {
         onLoginSuccess()
     }
-    
-    /**
-     * 手动上传本地数据到云端
-     */
-    fun uploadNow() {
-        if (!apiService.isLoggedIn.value) return
-        scope.launch {
-            try {
-                _syncState.value = SyncState.Syncing
-                uploadAll()
-                _lastSyncTime.value = System.currentTimeMillis()
-                _syncState.value = SyncState.Success("Upload completed")
-            } catch (e: Exception) {
-                _syncState.value = SyncState.Failed(e.message ?: "Upload failed")
-            }
-        }
-    }
-    
-    /**
-     * 手动从云端下载数据到本地
-     */
-    fun downloadNow() {
-        if (!apiService.isLoggedIn.value) return
-        scope.launch {
-            try {
-                _syncState.value = SyncState.Syncing
-                downloadAndMerge()
-                _lastSyncTime.value = System.currentTimeMillis()
-                _syncState.value = SyncState.Success("Download completed")
-            } catch (e: Exception) {
-                _syncState.value = SyncState.Failed(e.message ?: "Download failed")
-            }
-        }
-    }
 }
 
 // ========== Entity 转 SyncItem ==========
