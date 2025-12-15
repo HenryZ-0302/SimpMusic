@@ -355,10 +355,12 @@ class SyncManager(
         if (!apiService.isLoggedIn.value) return
         try {
             val playlists = localPlaylistRepository.getAllLocalPlaylists().first()
+            Logger.d(TAG, "Uploading ${playlists.size} local playlists")
             
             val syncItems = playlists.map { playlist ->
                 // 获取播放列表的所有歌曲详情
                 val tracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
+                Logger.d(TAG, "Playlist '${playlist.title}' has ${tracks.size} tracks")
                 val songItems = tracks.map { it.toSyncFavoriteItem() } // Reuse SyncFavoriteItem for song details
                 
                 SyncPlaylistItem(
@@ -367,8 +369,11 @@ class SyncManager(
                     songs = songItems
                 )
             }
+            Logger.d(TAG, "Syncing ${syncItems.size} playlists to cloud")
             apiService.syncPlaylists(syncItems)
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+            Logger.e(TAG, "Upload Playlists Error: ${e.message}")
+        }
     }
     
     /**

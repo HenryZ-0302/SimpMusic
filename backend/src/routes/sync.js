@@ -164,6 +164,8 @@ router.post('/playlists', async (req, res) => {
         const { playlists } = req.body;
         const userId = req.user.id;
 
+        console.log(`📥 [Sync Playlists] User: ${userId}, Count: ${playlists?.length || 0}`);
+
         // 1. 删除该用户所有播放列表（级联删除会处理 songs）
         await prisma.playlist.deleteMany({ where: { userId } });
 
@@ -171,9 +173,7 @@ router.post('/playlists', async (req, res) => {
         if (playlists && playlists.length > 0) {
             for (const playlist of playlists) {
                 const { title, description, thumbnail, songs } = playlist;
-
-                // 创建播放列表及其包含的歌曲
-                // 注意：这里不使用客户端传来的 id，而是让数据库自动生成 UUID
+                console.log(`   → Syncing playlist: ${title} with ${songs?.length || 0} songs`);
                 await prisma.playlist.create({
                     data: {
                         userId,
