@@ -197,50 +197,41 @@ class SyncManager(
                 // 恢复播放列表 (本地自建)
                 response.playlists.forEach { cloudPlaylist ->
                     try {
-                        // 1. 恢复播放列表本身
-                        var targetPlaylist: LocalPlaylistEntity? = null
+                        Logger.d(TAG, "Restoring playlist '${cloudPlaylist.title}' with ${cloudPlaylist.songs?.size ?: 0} songs")
+                        
+                        // 检查是否已存在同名歌单
                         val localPlaylists = localPlaylistRepository.getAllLocalPlaylists().first()
                         val existing = localPlaylists.find { it.title == cloudPlaylist.title }
                         
-                        if (existing == null) {
-                            val newPlaylist = cloudPlaylist.toLocalPlaylistEntity()
-                            localPlaylistRepository.insertLocalPlaylist(newPlaylist, "Restored from cloud").first()
-                            // 获取刚插入的 ID
-                            targetPlaylist = localPlaylistRepository.getAllLocalPlaylists().first()
-                                .find { it.title == cloudPlaylist.title }
-                        } else {
-                            targetPlaylist = existing
+                        if (existing != null) {
+                            Logger.d(TAG, "Playlist '${cloudPlaylist.title}' already exists, skipping")
+                            return@forEach // 已存在则跳过
                         }
                         
-                        // 2. 恢复歌曲到播放列表
-                        targetPlaylist?.let { playlist ->
-                            // 获取当前播放列表已有的歌曲，避免重复添加
-                            val existingTracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
-                            val existingVideoIds = existingTracks.map { it.videoId }.toSet()
-                            
-                            cloudPlaylist.songs.orEmpty().forEach { songItem ->
-                                if (songItem.videoId !in existingVideoIds) {
-                                    // 确保歌曲在本地数据库中
-                                    val localSong = songRepository.getSongById(songItem.videoId).first()
-                                    val songEntity = if (localSong == null) {
-                                        val newSong = songItem.toSongEntity()
-                                        songRepository.insertSong(newSong).first()
-                                        newSong
-                                    } else {
-                                        localSong
-                                    }
-                                    
-                                    // 添加到播放列表
-                                    localPlaylistRepository.addTrackToLocalPlaylist(
-                                        id = playlist.id,
-                                        song = songEntity,
-                                        successMessage = "",
-                                        updatedYtMessage = "",
-                                        errorMessage = ""
-                                    ).first()
+                        // 1. 先确保所有歌曲都在本地数据库中
+                        val videoIds = mutableListOf<String>()
+                        cloudPlaylist.songs.orEmpty().forEach { songItem ->
+                            try {
+                                val localSong = songRepository.getSongById(songItem.videoId).first()
+                                if (localSong == null) {
+                                    songRepository.insertSong(songItem.toSongEntity()).first()
                                 }
+                                videoIds.add(songItem.videoId)
+                            } catch (e: Exception) {
+                                Logger.e(TAG, "Failed to restore song ${songItem.videoId}: ${e.message}")
                             }
                         }
+                        
+                        // 2. 创建歌单，包含 tracks 字段
+                        val newPlaylist = LocalPlaylistEntity(
+                            title = cloudPlaylist.title,
+                            thumbnail = cloudPlaylist.thumbnail,
+                            tracks = videoIds, // 直接设置 tracks 字段！
+                            inLibrary = now()
+                        )
+                        localPlaylistRepository.insertLocalPlaylist(newPlaylist, "Restored from cloud").first()
+                        Logger.d(TAG, "Successfully restored playlist '${cloudPlaylist.title}' with ${videoIds.size} tracks")
+                        
                     } catch (e: Exception) {
                         Logger.e(TAG, "Error restoring playlist ${cloudPlaylist.title}: ${e.message}")
                     }
