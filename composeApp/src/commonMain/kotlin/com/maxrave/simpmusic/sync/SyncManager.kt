@@ -8,6 +8,8 @@ import com.maxrave.simpmusic.api.HYMusicApiService
 import com.maxrave.simpmusic.api.SyncFavoriteItem
 import com.maxrave.simpmusic.api.SyncHistoryItem
 import com.maxrave.simpmusic.api.SyncPlaylistItem
+import com.maxrave.simpmusic.api.SyncSettingsRequest
+import com.maxrave.simpmusic.data.dataStore.DataStoreManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -20,11 +22,18 @@ import kotlinx.coroutines.launch
 /**
  * 数据同步管理器
  * 负责本地数据与云端的同步
+ * 
+ * 同步内容：
+ * - 收藏歌曲 (Favorites)
+ * - 播放列表 (Playlists)
+ * - 播放历史 (History)
+ * - 用户设置 (Settings)
  */
 class SyncManager(
     private val apiService: HYMusicApiService,
     private val songRepository: SongRepository,
     private val localPlaylistRepository: LocalPlaylistRepository,
+    private val dataStoreManager: DataStoreManager,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     
@@ -104,7 +113,6 @@ class SyncManager(
                     try {
                         val localSong = songRepository.getSongById(cloudFav.videoId).first()
                         if (localSong == null) {
-                            // 必须调用 .first() 来收集 Flow，否则 insertSong 不会执行
                             songRepository.insertSong(cloudFav.toSongEntity()).first()
                         }
                     } catch (e: Exception) {
@@ -123,6 +131,17 @@ class SyncManager(
                         // 忽略单个歌曲的插入错误
                     }
                 }
+                
+                // 恢复设置
+                response.settings?.let { cloudSettings ->
+                    try {
+                        cloudSettings.quality?.let { dataStoreManager.setQuality(it) }
+                        cloudSettings.language?.let { dataStoreManager.putString(DataStoreManager.LANGUAGE, it) }
+                        cloudSettings.saveHistory?.let { dataStoreManager.setSaveRecentSongAndVideo(it) }
+                    } catch (e: Exception) {
+                        // 忽略设置恢复错误
+                    }
+                }
             },
             onFailure = { /* 下载失败不影响，继续上传 */ }
         )
@@ -135,6 +154,7 @@ class SyncManager(
         uploadFavorites()
         uploadHistory()
         uploadPlaylists()
+        uploadSettings()
     }
     
     /**
@@ -189,6 +209,28 @@ class SyncManager(
     }
     
     /**
+     * 上传用户设置
+     */
+    suspend fun uploadSettings() {
+        if (!apiService.isLoggedIn.value) return
+        
+        try {
+            val quality = dataStoreManager.quality.first()
+            val language = dataStoreManager.getString(DataStoreManager.LANGUAGE).first()
+            val saveHistory = dataStoreManager.saveRecentSongAndVideo.first() == DataStoreManager.TRUE
+            
+            val settings = SyncSettingsRequest(
+                quality = quality,
+                language = language,
+                saveHistory = saveHistory
+            )
+            apiService.syncSettings(settings)
+        } catch (e: Exception) {
+            // 同步失败不影响本地使用
+        }
+    }
+    
+    /**
      * 收藏歌曲后触发同步
      */
     fun onFavoriteChanged() {
@@ -202,6 +244,14 @@ class SyncManager(
     fun onPlaylistChanged() {
         if (!apiService.isLoggedIn.value) return
         scope.launch { uploadPlaylists() }
+    }
+    
+    /**
+     * 设置变更后触发同步
+     */
+    fun onSettingsChanged() {
+        if (!apiService.isLoggedIn.value) return
+        scope.launch { uploadSettings() }
     }
     
     /**

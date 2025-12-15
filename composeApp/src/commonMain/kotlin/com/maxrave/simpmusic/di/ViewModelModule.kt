@@ -27,8 +27,8 @@ val viewModelModule =
         // HYMusic API 服务 (单例，注入 DataStoreManager)
         single { HYMusicApiService(get()) }
         
-        // 数据同步管理器 (单例)
-        single { SyncManager(get(), get(), get()) }
+        // 数据同步管理器 (单例，注入 apiService, songRepository, localPlaylistRepository, dataStoreManager)
+        single { SyncManager(get(), get(), get(), get()) }
         
         single {
             SharedViewModel(
