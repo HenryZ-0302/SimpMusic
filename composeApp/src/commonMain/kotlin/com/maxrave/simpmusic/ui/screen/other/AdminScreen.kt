@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import com.maxrave.simpmusic.api.AdminUserInfo
 import com.maxrave.simpmusic.api.HYMusicApiService
 import com.maxrave.simpmusic.api.StatsInfo
+import com.maxrave.simpmusic.ui.component.PlatformSwitch
 import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.theme.typo
 import dev.chrisbanes.haze.hazeEffect
@@ -199,7 +200,7 @@ fun AdminScreen(
                                     strokeWidth = 2.dp
                                 )
                             } else {
-                                Switch(
+                                PlatformSwitch(
                                     checked = registrationEnabled,
                                     onCheckedChange = { newValue ->
                                         isUpdatingSetting = true
@@ -216,12 +217,7 @@ fun AdminScreen(
                                             )
                                         }
                                     },
-                                    colors = SwitchDefaults.colors(
-                                        checkedThumbColor = Color.White,
-                                        checkedTrackColor = Color.Green.copy(alpha = 0.6f),
-                                        uncheckedThumbColor = Color.White,
-                                        uncheckedTrackColor = Color.Red.copy(alpha = 0.4f)
-                                    )
+                                    useLiquidGlass = true
                                 )
                             }
                         }
