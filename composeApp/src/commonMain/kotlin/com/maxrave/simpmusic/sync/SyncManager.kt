@@ -100,9 +100,8 @@ class SyncManager(
                         } else if (!localSong.liked) {
                             // 如果本地已有但未收藏，强制更新为收藏状态
                             songRepository.updateLikeStatus(
-                                id = cloudFav.videoId,
-                                likeStatus = "LIKE",
-                                liked = true
+                                videoId = cloudFav.videoId,
+                                likeStatus = 1 // 1 = LIKE, 0 = INDIFFERENT
                             )
                         }
                     } catch (e: Exception) { }
@@ -144,7 +143,7 @@ class SyncManager(
                             val existingTracks = localPlaylistRepository.getFullPlaylistTracks(playlist.id)
                             val existingVideoIds = existingTracks.map { it.videoId }.toSet()
                             
-                            cloudPlaylist.songs.forEach { songItem ->
+                            cloudPlaylist.songs.orEmpty().forEach { songItem ->
                                 if (songItem.videoId !in existingVideoIds) {
                                     // 确保歌曲在本地数据库中
                                     val localSong = songRepository.getSongById(songItem.videoId).first()
