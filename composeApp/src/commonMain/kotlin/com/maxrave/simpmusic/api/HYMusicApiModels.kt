@@ -54,22 +54,37 @@ data class SyncSettingsRequest(
     val language: String? = null,
     val saveHistory: Boolean? = null,
     
+    // 下载设置
+    val downloadQuality: String? = null,
+    val videoDownloadQuality: String? = null,
+    val videoQuality: String? = null,
+    
     // 播放设置
     val normalizeVolume: Boolean? = null,
     val skipSilent: Boolean? = null,
     val saveStateOfPlayback: Boolean? = null,
+    val crossfadeEnabled: Boolean? = null,
+    val crossfadeDuration: Int? = null,
     
     // 音乐功能
     val sponsorBlockEnabled: Boolean? = null,
     val enableTranslateLyric: Boolean? = null,
     val lyricsProvider: String? = null,
+    val translationLanguage: String? = null,
+    val aiProvider: String? = null,
+    val useAITranslation: Boolean? = null,
     
     // UI设置
     val translucentBottomBar: Boolean? = null,
     val blurPlayerBackground: Boolean? = null,
+    val blurFullscreenLyrics: Boolean? = null,
+    val enableLiquidGlass: Boolean? = null,
+    val explicitContentEnabled: Boolean? = null,
+    val homeLimit: Int? = null,
     
     // 其他
-    val watchVideoInsteadOfPlayingAudio: Boolean? = null
+    val watchVideoInsteadOfPlayingAudio: Boolean? = null,
+    val keepYouTubePlaylistOffline: Boolean? = null
 )
 
 // ========== 响应模型 ==========

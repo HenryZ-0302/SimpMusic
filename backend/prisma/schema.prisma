@@ -35,27 +35,49 @@ model UserSettings {
   userId            String   @unique
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+// 用户设置
+model UserSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
   // 基本设置
   quality           String   @default("high")
   language          String   @default("en")
   saveHistory       Boolean  @default(true)
   
+  // 下载设置
+  downloadQuality      String   @default("high")
+  videoDownloadQuality String   @default("high")
+  videoQuality         String   @default("high")
+  
   // 播放设置
   normalizeVolume    Boolean  @default(false)
   skipSilent         Boolean  @default(false)
   saveStateOfPlayback Boolean @default(true)
+  crossfadeEnabled  Boolean  @default(false)
+  crossfadeDuration Int      @default(0)
   
   // 音乐功能
   sponsorBlockEnabled Boolean @default(false)
   enableTranslateLyric Boolean @default(false)
   lyricsProvider     String   @default("simpmusic")
+  translationLanguage String  @default("en")
+  aiProvider         String   @default("gemini")
+  useAITranslation   Boolean  @default(false)
   
   // UI设置
   translucentBottomBar Boolean @default(true)
   blurPlayerBackground Boolean @default(true)
+  blurFullscreenLyrics Boolean @default(false)
+  enableLiquidGlass    Boolean @default(false)
+  explicitContentEnabled Boolean @default(false)
+  homeLimit            Int     @default(10)
   
   // 其他
   watchVideoInsteadOfPlayingAudio Boolean @default(false)
+  keepYouTubePlaylistOffline      Boolean @default(false)
+  automatchType                   String?   // 保留扩展
   
   updatedAt         DateTime @updatedAt
 }
