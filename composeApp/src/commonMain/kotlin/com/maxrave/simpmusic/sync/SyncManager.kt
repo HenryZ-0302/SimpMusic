@@ -97,6 +97,13 @@ class SyncManager(
                         val localSong = songRepository.getSongById(cloudFav.videoId).first()
                         if (localSong == null) {
                             songRepository.insertSong(cloudFav.toSongEntity()).first()
+                        } else if (!localSong.liked) {
+                            // 如果本地已有但未收藏，强制更新为收藏状态
+                            songRepository.updateLikeStatus(
+                                id = cloudFav.videoId,
+                                likeStatus = "LIKE",
+                                liked = true
+                            )
                         }
                     } catch (e: Exception) { }
                 }
