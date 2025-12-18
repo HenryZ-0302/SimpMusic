@@ -90,6 +90,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.koin.core.component.inject
 import hymusic.composeapp.generated.resources.Res
 import hymusic.composeapp.generated.resources.added_to_queue
 import hymusic.composeapp.generated.resources.added_to_youtube_liked
