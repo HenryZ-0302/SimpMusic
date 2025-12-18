@@ -55,39 +55,37 @@ fun AppTheme(
         @Composable()
         () -> Unit,
 ) {
-    val contentWithImageLoader: @Composable () -> Unit = {
-        setSingletonImageLoaderFactory { context ->
-            ImageLoader
-                .Builder(context)
-                .components {
-                    add(
-                        OkHttpNetworkFetcherFactory(
-                            callFactory = {
-                                OkHttpClient()
-                            },
-                        ),
-                    )
-                }
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .networkCachePolicy(CachePolicy.ENABLED)
-                .diskCache(
-                    DiskCache
-                        .Builder()
-                        .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
-                        .maxSizeBytes(512L * 1024 * 1024)
-                        .build(),
-                ).crossfade(true)
-                .build()
-        }
-        content()
+    // 在 Composition 外部设置 ImageLoaderFactory，确保只设置一次
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader
+            .Builder(context)
+            .components {
+                add(
+                    OkHttpNetworkFetcherFactory(
+                        callFactory = {
+                            OkHttpClient()
+                        },
+                    ),
+                )
+            }
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
+            .diskCache(
+                DiskCache
+                    .Builder()
+                    .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
+                    .maxSizeBytes(512L * 1024 * 1024)
+                    .build(),
+            ).crossfade(true)
+            .build()
     }
 
     MaterialExpressiveTheme(
         colorScheme = DarkColors,
         content = {
             CompositionLocalProvider(
-                LocalContentColor provides DarkColors.onSurfaceVariant, // replace this with needed color from your pallete
-                contentWithImageLoader,
+                LocalContentColor provides DarkColors.onSurfaceVariant,
+                content,
             )
         },
         typography = typo(),
