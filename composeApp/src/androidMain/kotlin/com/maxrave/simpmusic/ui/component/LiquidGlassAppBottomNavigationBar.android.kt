@@ -1,13 +1,22 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.maxrave.simpmusic.ui.component
 
 import android.graphics.Bitmap
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -16,7 +25,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +39,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.LibraryMusic
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -51,12 +61,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -76,10 +88,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.backdrops.rememberCombinedBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
+import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
@@ -91,6 +103,7 @@ import com.maxrave.domain.data.player.GenericMediaItem
 import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.expect.ui.PlatformBackdrop
 import com.maxrave.simpmusic.expect.ui.drawBackdropCustomShape
+import com.maxrave.simpmusic.extension.greyScale
 import com.maxrave.simpmusic.ui.navigation.destination.home.HomeDestination
 import com.maxrave.simpmusic.ui.navigation.destination.library.LibraryDestination
 import com.maxrave.simpmusic.ui.navigation.destination.search.SearchDestination
@@ -98,6 +111,7 @@ import com.maxrave.simpmusic.ui.screen.MiniPlayer
 import com.maxrave.simpmusic.ui.theme.bottomBarSeedDark
 import com.maxrave.simpmusic.ui.theme.transparent
 import com.maxrave.simpmusic.ui.theme.typo
+import com.maxrave.simpmusic.ui.theme.white
 import com.maxrave.simpmusic.ui.utils.DampedDragAnimation
 import com.maxrave.simpmusic.ui.utils.InteractiveHighlight
 import com.maxrave.simpmusic.ui.utils.LocalLiquidBottomTabScale
@@ -115,10 +129,11 @@ import kotlin.math.abs
 import kotlin.math.sign
 import kotlin.reflect.KClass
 import kotlin.time.Duration.Companion.seconds
+import androidx.compose.ui.graphics.lerp as colorLerp
 
 private const val TAG = "LiquidGlassAppBottomNavigationBar"
 
-// Capsule 形状
+// ContinuousCapsule replacement - 使用完全圆角的形状
 private val CapsuleShape = RoundedCornerShape(50)
 
 @Composable
@@ -176,6 +191,11 @@ actual fun LiquidGlassAppBottomNavigationBar(
     var isShowMiniPlayer by rememberSaveable { mutableStateOf(true) }
 
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val bottomNavScreens = listOf(
+        BottomNavScreen.Home,
+        BottomNavScreen.Search,
+        BottomNavScreen.Library,
+    )
     
     // 只包含 Home 和 Library（搜索单独处理）
     val tabScreens = listOf(BottomNavScreen.Home, BottomNavScreen.Library)
@@ -236,87 +256,101 @@ actual fun LiquidGlassAppBottomNavigationBar(
             .padding(WindowInsets.navigationBars.asPaddingValues())
             .padding(bottom = 8.dp)
             .imePadding(),
-        animateChangesSpec = spring(stiffness = 400f, dampingRatio = 0.85f),
+        animateChangesSpec = tween(300),
     ) {
         // 底部导航区域
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .layoutId("toolbar"),
         ) {
             // 左侧：LiquidBottomTabs 风格的导航栏（Home + Library）
-            if (isExpanded) {
-                LiquidBottomTabs(
-                    selectedTabIndex = { selectedIndex },
-                    onTabSelected = { index ->
-                        selectedIndex = index
-                        val screen = tabScreens[index]
-                        if (currentBackStackEntry?.destination?.hierarchy?.any {
-                                it.hasRoute(screen.destination::class)
-                            } == true
-                        ) {
-                            reloadDestinationIfNeeded(screen.destination::class)
-                        } else {
-                            navController.navigate(screen.destination) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    },
-                    backdrop = backdrop,
-                    tabsCount = tabsCount,
-                    isLightTheme = isLightTheme,
-                    accentColor = accentColor,
-                    containerColor = containerColor,
-                    modifier = Modifier.weight(1f),
-                ) { onTabClick ->
-                    tabScreens.forEachIndexed { index, screen ->
-                        LiquidTabItem(
-                            icon = {
-                                Icon(
-                                    when (screen) {
-                                        BottomNavScreen.Home -> Icons.Rounded.Home
-                                        BottomNavScreen.Library -> Icons.Rounded.LibraryMusic
-                                        else -> Icons.Rounded.Home
+            AnimatedContent(
+                targetState = isExpanded,
+                transitionSpec = {
+                    fadeIn(animationSpec = tween(300)) togetherWith fadeOut(animationSpec = tween(300))
+                },
+                modifier = Modifier.weight(1f, fill = false)
+            ) { expanded ->
+                if (expanded) {
+                    LiquidBottomTabs(
+                        selectedTabIndex = { selectedIndex },
+                        onTabSelected = { index ->
+                            // This callback is primarily for internal animation updates in LiquidBottomTabs
+                            // The actual navigation is handled by the clickable modifier on LiquidTabItem
+                            selectedIndex = index
+                        },
+                        backdrop = backdrop,
+                        tabsCount = tabsCount,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 12.dp), // 添加间距
+                    ) {
+                        tabScreens.forEachIndexed { index, screen ->
+                            LiquidTabItem(
+                                icon = {
+                                    Icon(
+                                        when (screen) {
+                                            BottomNavScreen.Home -> Icons.Rounded.Home
+                                            BottomNavScreen.Library -> Icons.Rounded.LibraryMusic
+                                            else -> Icons.Rounded.Home
+                                        },
+                                        contentDescription = null,
+                                    )
+                                },
+                                label = { Text(stringResource(screen.title), style = typo().bodySmall) },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable(
+                                        interactionSource = remember { MutableInteractionSource() },
+                                        indication = null
+                                    ) {
+                                        // 点击切换逻辑：真正触发导航
+                                        val targetScreen = tabScreens[index]
+                                        if (currentBackStackEntry?.destination?.hierarchy?.any {
+                                                it.hasRoute(targetScreen.destination::class)
+                                            } == true
+                                        ) {
+                                            reloadDestinationIfNeeded(targetScreen.destination::class)
+                                        } else {
+                                            navController.navigate(targetScreen.destination) {
+                                                popUpTo(navController.graph.startDestinationId) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
                                     },
-                                    contentDescription = null,
-                                )
-                            },
-                            label = { Text(stringResource(screen.title), style = typo().bodySmall) },
-                            onClick = { onTabClick(index) },
-                            modifier = Modifier.weight(1f),
-                        )
+                            )
+                        }
+                    }
+                } else {
+                    // 收缩状态：只显示当前选中的图标按钮
+                    val currentScreen = tabScreens.getOrElse(selectedIndex) { BottomNavScreen.Home }
+                    Row {
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .drawBackdropCustomShape(backdrop, layer, luminanceAnimation.value, CircleShape)
+                                .size(48.dp),
+                            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
+                            onClick = { isExpanded = true },
+                            shape = CircleShape,
+                            containerColor = transparent,
+                            contentColor = bottomBarSeedDark,
+                        ) {
+                            Icon(
+                                when (currentScreen) {
+                                    BottomNavScreen.Home -> Icons.Rounded.Home
+                                    BottomNavScreen.Library -> Icons.Rounded.LibraryMusic
+                                    else -> Icons.Rounded.Home
+                                },
+                                contentDescription = null,
+                            )
+                        }
+                        Spacer(Modifier.size(8.dp))
                     }
                 }
-                
-                Spacer(Modifier.size(12.dp))
-            } else {
-                // 收缩状态：只显示当前选中的图标按钮
-                val currentScreen = tabScreens.getOrElse(selectedIndex) { BottomNavScreen.Home }
-                FloatingActionButton(
-                    modifier = Modifier
-                        .drawBackdropCustomShape(backdrop, layer, luminanceAnimation.value, CircleShape)
-                        .size(48.dp),
-                    elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
-                    onClick = { isExpanded = true },
-                    shape = CircleShape,
-                    containerColor = transparent,
-                    contentColor = bottomBarSeedDark,
-                ) {
-                    Icon(
-                        when (currentScreen) {
-                            BottomNavScreen.Home -> Icons.Rounded.Home
-                            BottomNavScreen.Library -> Icons.Rounded.LibraryMusic
-                            else -> Icons.Rounded.Home
-                        },
-                        contentDescription = null,
-                    )
-                }
-                Spacer(Modifier.size(8.dp))
             }
 
             // 搜索按钮（独立 FAB）
@@ -360,7 +394,7 @@ actual fun LiquidGlassAppBottomNavigationBar(
         MiniPlayer(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = if (isExpanded) 12.dp else 4.dp) // 收缩时减少 padding
                 .height(56.dp)
                 .layoutId("miniPlayer"),
             backdrop = backdrop,
@@ -379,12 +413,13 @@ private fun LiquidBottomTabs(
     onTabSelected: (index: Int) -> Unit,
     backdrop: Backdrop,
     tabsCount: Int,
-    isLightTheme: Boolean,
-    accentColor: Color,
-    containerColor: Color,
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.(onTabClick: (Int) -> Unit) -> Unit
+    content: @Composable RowScope.() -> Unit
 ) {
+    val isLightTheme = !isSystemInDarkTheme()
+    val accentColor = if (isLightTheme) Color(0xFF0088FF) else Color(0xFF0091FF)
+    val containerColor = if (isLightTheme) Color(0xFFFAFAFA).copy(0.4f) else Color(0xFF121212).copy(0.4f)
+
     val tabsBackdrop = rememberLayerBackdrop()
 
     BoxWithConstraints(
@@ -401,7 +436,7 @@ private fun LiquidBottomTabs(
             derivedStateOf {
                 val fraction = (offsetAnimation.value / constraints.maxWidth).fastCoerceIn(-1f, 1f)
                 with(density) {
-                    4f.dp.toPx() * fraction.sign * androidx.compose.animation.core.EaseOut.transform(abs(fraction))
+                    4f.dp.toPx() * fraction.sign * EaseOut.transform(abs(fraction))
                 }
             }
         }
@@ -412,7 +447,6 @@ private fun LiquidBottomTabs(
             mutableIntStateOf(selectedTabIndex())
         }
         
-        // 核心：可拖动动画
         val dampedDragAnimation = remember(animationScope) {
             DampedDragAnimation(
                 animationScope = animationScope,
@@ -420,7 +454,7 @@ private fun LiquidBottomTabs(
                 valueRange = 0f..(tabsCount - 1).toFloat(),
                 visibilityThreshold = 0.001f,
                 initialScale = 1f,
-                pressedScale = 1.3f, // 按压时放大
+                pressedScale = 78f / 56f,
                 onDragStarted = {},
                 onDragStopped = {
                     val targetIndex = targetValue.fastRoundToInt().fastCoerceIn(0, tabsCount - 1)
@@ -429,6 +463,8 @@ private fun LiquidBottomTabs(
                     animationScope.launch {
                         offsetAnimation.animateTo(0f, spring(1f, 300f, 0.5f))
                     }
+                    // onDragStopped 中调用 onTabSelected 只是为了拖拽结束后的回调
+                    onTabSelected(targetIndex)
                 },
                 onDrag = { _, dragAmount ->
                     updateValue(
@@ -453,12 +489,13 @@ private fun LiquidBottomTabs(
             snapshotFlow { currentIndex }
                 .drop(1)
                 .collectLatest { index ->
-                    dampedDragAnimation.animateToValue(index.toFloat())
-                    onTabSelected(index)
+                    // 仅当目标索引与动画当前目标不一致时才动画，避免循环
+                    if (abs(dampedDragAnimation.targetValue - index.toFloat()) > 0.01f) {
+                        dampedDragAnimation.animateToValue(index.toFloat())
+                    }
                 }
         }
 
-        // 交互高亮效果
         val interactiveHighlight = remember(animationScope) {
             InteractiveHighlight(
                 animationScope = animationScope,
@@ -472,7 +509,7 @@ private fun LiquidBottomTabs(
             )
         }
 
-        // 主容器（带液态玻璃效果）
+        // 主容器
         Row(
             Modifier
                 .graphicsLayer {
@@ -495,16 +532,12 @@ private fun LiquidBottomTabs(
                     onDrawSurface = { drawRect(containerColor) }
                 )
                 .then(interactiveHighlight.modifier)
-                .height(56f.dp)
+                .height(64f.dp)
                 .fillMaxWidth()
                 .padding(4f.dp),
             verticalAlignment = Alignment.CenterVertically,
-        ) {
-            content { index ->
-                // 点击 Tab 时更新 currentIndex
-                currentIndex = index
-            }
-        }
+            content = content
+        )
 
         // Accent 高亮层
         CompositionLocalProvider(
@@ -539,17 +572,16 @@ private fun LiquidBottomTabs(
                         onDrawSurface = { drawRect(containerColor) }
                     )
                     .then(interactiveHighlight.modifier)
-                    .height(48f.dp)
+                    .height(56f.dp)
                     .fillMaxWidth()
                     .padding(horizontal = 4f.dp)
                     .graphicsLayer(colorFilter = ColorFilter.tint(accentColor)),
                 verticalAlignment = Alignment.CenterVertically,
-            ) {
-                content { _ -> } // 高亮层不需要处理点击
-            }
+                content = content
+            )
         }
 
-        // 可拖动的选择指示器（核心 Liquid Glass 效果）
+        // 可拖动选择指示器
         Box(
             Modifier
                 .padding(horizontal = 4f.dp)
@@ -558,8 +590,8 @@ private fun LiquidBottomTabs(
                         if (isLtr) dampedDragAnimation.value * tabWidth + panelOffset
                         else size.width - (dampedDragAnimation.value + 1f) * tabWidth + panelOffset
                 }
-                .then(interactiveHighlight.gestureModifier) // 添加触摸手势
-                .then(dampedDragAnimation.modifier)          // 添加拖动动画
+                .then(interactiveHighlight.gestureModifier)
+                .then(dampedDragAnimation.modifier)
                 .drawBackdrop(
                     backdrop = rememberCombinedBackdrop(backdrop, tabsBackdrop),
                     shape = { CapsuleShape },
@@ -568,7 +600,7 @@ private fun LiquidBottomTabs(
                         lens(
                             10f.dp.toPx() * progress,
                             14f.dp.toPx() * progress,
-                            chromaticAberration = true  // 色差效果
+                            chromaticAberration = true
                         )
                     },
                     highlight = {
@@ -587,7 +619,6 @@ private fun LiquidBottomTabs(
                         )
                     },
                     layerBlock = {
-                        // 按压时的缩放和速度变形
                         scaleX = dampedDragAnimation.scaleX
                         scaleY = dampedDragAnimation.scaleY
                         val velocity = dampedDragAnimation.velocity / 10f
@@ -604,7 +635,7 @@ private fun LiquidBottomTabs(
                         drawRect(Color.Black.copy(alpha = 0.03f * progress))
                     }
                 )
-                .height(48f.dp)
+                .height(56f.dp)
                 .fillMaxWidth(1f / tabsCount)
         )
     }
@@ -614,11 +645,10 @@ private fun LiquidBottomTabs(
 private fun RowScope.LiquidTabItem(
     icon: @Composable () -> Unit,
     label: @Composable () -> Unit,
-    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.clickable(onClick = onClick),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         icon()
@@ -637,16 +667,16 @@ private fun decoupledConstraints(
             width = Dimension.wrapContent
             height = Dimension.wrapContent
             if (!isExpanded) {
-                start.linkTo(parent.start)
+                start.linkTo(parent.start, margin = 16.dp) // 使用 margin 替代 padding
             } else {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
+                start.linkTo(parent.start, margin = 16.dp)
+                end.linkTo(parent.end, margin = 16.dp)
             }
         }
         val miniPlayer = createRefFor("miniPlayer")
         constrain(miniPlayer) {
             if (!isExpanded) {
-                start.linkTo(toolbar.end, margin = 8.dp)
+                start.linkTo(toolbar.end)
                 end.linkTo(parent.end)
                 top.linkTo(toolbar.top)
                 bottom.linkTo(toolbar.bottom)
