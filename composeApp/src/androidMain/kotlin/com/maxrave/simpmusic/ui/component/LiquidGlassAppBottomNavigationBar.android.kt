@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.rounded.Home
@@ -89,7 +90,6 @@ import com.kyant.backdrop.effects.vibrancy
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
-import com.kyant.capsule.ContinuousCapsule
 import com.maxrave.domain.data.player.GenericMediaItem
 import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.expect.ui.PlatformBackdrop
@@ -123,6 +123,9 @@ import kotlin.time.Duration.Companion.seconds
 import androidx.compose.ui.graphics.lerp as colorLerp
 
 private const val TAG = "LiquidGlassAppBottomNavigationBar"
+
+// ContinuousCapsule replacement - 使用完全圆角的形状
+private val CapsuleShape = RoundedCornerShape(50)
 
 @Composable
 actual fun LiquidGlassAppBottomNavigationBar(
@@ -274,7 +277,7 @@ actual fun LiquidGlassAppBottomNavigationBar(
                             }
                         }
                     },
-                    backdrop = backdrop.backdrop,
+                    backdrop = backdrop,
                     tabsCount = tabsCount,
                     modifier = Modifier.weight(1f),
                 ) {
@@ -482,7 +485,7 @@ private fun LiquidBottomTabs(
                 }
                 .drawBackdrop(
                     backdrop = backdrop,
-                    shape = { ContinuousCapsule },
+                    shape = { CapsuleShape },
                     effects = {
                         vibrancy()
                         blur(8f.dp.toPx())
@@ -520,7 +523,7 @@ private fun LiquidBottomTabs(
                     }
                     .drawBackdrop(
                         backdrop = backdrop,
-                        shape = { ContinuousCapsule },
+                        shape = { CapsuleShape },
                         effects = {
                             val progress = dampedDragAnimation.pressProgress
                             vibrancy()
@@ -559,7 +562,7 @@ private fun LiquidBottomTabs(
                 .then(dampedDragAnimation.modifier)
                 .drawBackdrop(
                     backdrop = rememberCombinedBackdrop(backdrop, tabsBackdrop),
-                    shape = { ContinuousCapsule },
+                    shape = { CapsuleShape },
                     effects = {
                         val progress = dampedDragAnimation.pressProgress
                         lens(
