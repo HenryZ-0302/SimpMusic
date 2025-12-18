@@ -26,6 +26,7 @@ import com.maxrave.domain.utils.collectResource
 import com.maxrave.domain.utils.toTrack
 import com.maxrave.logger.LogLevel
 import com.maxrave.simpmusic.expect.shareUrl
+import com.maxrave.simpmusic.sync.SyncManager
 import com.maxrave.simpmusic.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,6 +59,7 @@ class NowPlayingBottomSheetViewModel(
     private val songRepository: SongRepository,
 ) : BaseViewModel() {
     private val downloadUtils: DownloadHandler by inject()
+    private val syncManager: SyncManager by inject()
     private val _uiState: MutableStateFlow<NowPlayingBottomSheetUIState> =
         MutableStateFlow(
             NowPlayingBottomSheetUIState(
@@ -236,6 +238,8 @@ class NowPlayingBottomSheetViewModel(
                         songUIState.videoId,
                         if (songUIState.liked) 0 else 1,
                     )
+                    // 触发云端同步
+                    syncManager.onFavoriteChanged()
                 }
 
                 is NowPlayingBottomSheetUIEvent.Download -> {
@@ -290,6 +294,8 @@ class NowPlayingBottomSheetViewModel(
                             ).collectLatestResource(
                                 onSuccess = {
                                     makeToast(it ?: getString(Res.string.added_to_playlist))
+                                    // 触发云端同步
+                                    syncManager.onPlaylistChanged()
                                 },
                                 onError = {
                                     makeToast(it)

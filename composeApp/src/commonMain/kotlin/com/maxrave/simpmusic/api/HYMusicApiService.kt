@@ -68,6 +68,7 @@ class HYMusicApiService(
     
     /**
      * 从 DataStore 恢复登录状态
+     * 会在启动时验证用户状态（包括封禁检查）
      */
     private suspend fun restoreLoginState() {
         val savedToken = dataStoreManager.getString(KEY_HYMUSIC_TOKEN).first()
@@ -75,19 +76,19 @@ class HYMusicApiService(
             authToken = savedToken
             _isLoggedIn.value = true
             
-            // 恢复用户信息
+            // 恢复用户信息（先从本地缓存，再从服务器验证）
             val savedUserJson = dataStoreManager.getString(KEY_HYMUSIC_USER).first()
             if (!savedUserJson.isNullOrEmpty()) {
                 try {
                     _currentUser.value = json.decodeFromString<UserInfo>(savedUserJson)
                 } catch (e: Exception) {
-                    // 如果解析失败，尝试从服务器获取
-                    getMe()
+                    // 解析失败，忽略
                 }
-            } else {
-                // 尝试从服务器获取用户信息
-                getMe()
             }
+            
+            // 关键修复：总是从服务器验证用户状态
+            // 这会检查用户是否被封禁，如果 403 会自动触发登出
+            getMe()
         }
     }
     

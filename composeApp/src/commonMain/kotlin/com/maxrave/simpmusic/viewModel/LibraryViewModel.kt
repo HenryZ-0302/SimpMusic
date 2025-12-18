@@ -18,6 +18,7 @@ import com.maxrave.domain.repository.PlaylistRepository
 import com.maxrave.domain.repository.PodcastRepository
 import com.maxrave.domain.repository.SongRepository
 import com.maxrave.domain.utils.LocalResource
+import com.maxrave.simpmusic.sync.SyncManager
 import com.maxrave.simpmusic.viewModel.base.BaseViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,6 +46,7 @@ class LibraryViewModel(
     private val localPlaylistRepository: LocalPlaylistRepository,
     private val albumRepository: AlbumRepository,
     private val podcastRepository: PodcastRepository,
+    private val syncManager: SyncManager,
 ) : BaseViewModel() {
     private val _currentScreen: MutableStateFlow<LibraryChipType> = MutableStateFlow(LibraryChipType.YOUR_LIBRARY)
     val currentScreen: StateFlow<LibraryChipType> get() = _currentScreen.asStateFlow()
@@ -248,6 +250,7 @@ class LibraryViewModel(
                 ).lastOrNull()
                 ?.let {
                     log("Created playlist with id: $it")
+                    syncManager.onPlaylistChanged() // 触发云端同步
                 }
             getLocalPlaylist()
         }

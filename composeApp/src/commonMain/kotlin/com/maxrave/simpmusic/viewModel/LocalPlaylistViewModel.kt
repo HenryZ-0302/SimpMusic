@@ -38,6 +38,7 @@ import com.maxrave.domain.utils.toSongEntity
 import com.maxrave.domain.utils.toTrack
 import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.pagination.PagingActions
+import com.maxrave.simpmusic.sync.SyncManager
 import com.maxrave.simpmusic.ui.theme.md_theme_dark_background
 import com.maxrave.simpmusic.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -85,6 +86,7 @@ class LocalPlaylistViewModel(
 ) : BaseViewModel() {
     private val converter = Converters()
     private val downloadUtils: DownloadHandler by inject<DownloadHandler>()
+    private val syncManager: SyncManager by inject<SyncManager>()
 
     private var _offset: MutableStateFlow<Int> = MutableStateFlow(0)
     val offset: StateFlow<Int> = _offset
@@ -426,6 +428,7 @@ class LocalPlaylistViewModel(
                     onSuccess = {
                         makeToast(it)
                         updatePlaylistState(id)
+                        syncManager.onPlaylistChanged() // 触发云端同步
                         hideLoadingDialog()
                     },
                     onError = {
@@ -445,6 +448,7 @@ class LocalPlaylistViewModel(
                 .collectLatestResource(
                     onSuccess = {
                         makeToast(it)
+                        syncManager.onPlaylistChanged() // 触发云端同步
                         hideLoadingDialog()
                     },
                     onError = {
@@ -495,6 +499,7 @@ class LocalPlaylistViewModel(
                         makeToast(it)
                         onApplyActions(PagingActions.Remove(song to pair))
                         updatePlaylistState(id)
+                        syncManager.onPlaylistChanged() // 触发云端同步
                     },
                     onError = {
                         makeToast(it)
@@ -717,6 +722,7 @@ class LocalPlaylistViewModel(
                                     onApplyActions(PagingActions.Insert(track.toSongEntity() to pair))
                                 }
                             }
+                            syncManager.onPlaylistChanged() // 触发云端同步
                         },
                         onError = {
                             makeToast(it)
