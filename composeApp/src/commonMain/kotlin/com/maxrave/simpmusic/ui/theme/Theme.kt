@@ -6,14 +6,6 @@ import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import coil3.ImageLoader
-import coil3.compose.setSingletonImageLoaderFactory
-import coil3.disk.DiskCache
-import coil3.network.okhttp.OkHttpNetworkFetcherFactory
-import coil3.request.CachePolicy
-import coil3.request.crossfade
-import okhttp3.OkHttpClient
-import okio.FileSystem
 
 val DarkColors =
     darkColorScheme(
@@ -55,31 +47,7 @@ fun AppTheme(
         @Composable()
         () -> Unit,
 ) {
-    // 在 Composition 外部设置 ImageLoaderFactory，确保只设置一次
-    setSingletonImageLoaderFactory { context ->
-        ImageLoader
-            .Builder(context)
-            .components {
-                add(
-                    OkHttpNetworkFetcherFactory(
-                        callFactory = {
-                            OkHttpClient()
-                        },
-                    ),
-                )
-            }
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .networkCachePolicy(CachePolicy.ENABLED)
-            .diskCache(
-                DiskCache
-                    .Builder()
-                    .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
-                    .maxSizeBytes(512L * 1024 * 1024)
-                    .build(),
-            ).crossfade(true)
-            .build()
-    }
-
+    // ImageLoader 已在 SimpMusicApplication 中通过 SingletonImageLoader.Factory 配置
     MaterialExpressiveTheme(
         colorScheme = DarkColors,
         content = {
