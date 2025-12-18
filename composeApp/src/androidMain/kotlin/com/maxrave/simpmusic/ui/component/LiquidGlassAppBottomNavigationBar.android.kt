@@ -9,6 +9,8 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -247,7 +249,7 @@ actual fun LiquidGlassAppBottomNavigationBar(
             .padding(WindowInsets.navigationBars.asPaddingValues())
             .padding(bottom = 8.dp)
             .imePadding(),
-        animateChangesSpec = tween(300),
+        animateChangesSpec = tween(400),
     ) {
         // 底部导航区域
         Row(
@@ -280,9 +282,10 @@ actual fun LiquidGlassAppBottomNavigationBar(
                     backdrop = backdrop,
                     tabsCount = tabsCount,
                     modifier = Modifier.weight(1f),
-                ) {
-                    tabScreens.forEach { screen ->
+                ) { onItemClick ->
+                    tabScreens.forEachIndexed { index, screen ->
                         LiquidTabItem(
+                            index = index,
                             icon = {
                                 Icon(
                                     when (screen) {
@@ -294,12 +297,13 @@ actual fun LiquidGlassAppBottomNavigationBar(
                                 )
                             },
                             label = { Text(stringResource(screen.title), style = typo().bodySmall) },
+                            onClick = onItemClick,
                             modifier = Modifier.weight(1f),
                         )
                     }
                 }
                 
-                Spacer(Modifier.size(12.dp))
+                Spacer(Modifier.size(8.dp))
             } else {
                 // 收缩状态：只显示当前选中的图标按钮
                 val currentScreen = tabScreens.getOrElse(selectedIndex) { BottomNavScreen.Home }
@@ -386,7 +390,7 @@ private fun LiquidBottomTabs(
     backdrop: Backdrop,
     tabsCount: Int,
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.(onItemClick: (Int) -> Unit) -> Unit
 ) {
     val isLightTheme = !isSystemInDarkTheme()
     val accentColor = if (isLightTheme) Color(0xFF0088FF) else Color(0xFF0091FF)
@@ -504,8 +508,13 @@ private fun LiquidBottomTabs(
                 .fillMaxWidth()
                 .padding(4f.dp),
             verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
+        ) {
+            content { index ->
+                currentIndex = index
+                dampedDragAnimation.animateToValue(index.toFloat())
+                onTabSelected(index)
+            }
+        }
 
         // Accent 高亮层
         CompositionLocalProvider(
@@ -545,8 +554,9 @@ private fun LiquidBottomTabs(
                     .padding(horizontal = 4f.dp)
                     .graphicsLayer(colorFilter = ColorFilter.tint(accentColor)),
                 verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
+            ) {
+                content { } // 只是视觉层，不需要点击处理
+            }
         }
 
         // 可拖动选择指示器
@@ -611,12 +621,18 @@ private fun LiquidBottomTabs(
 
 @Composable
 private fun RowScope.LiquidTabItem(
+    index: Int,
     icon: @Composable () -> Unit,
     label: @Composable () -> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { onClick(index) },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         icon()
