@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -272,7 +273,7 @@ actual fun LiquidGlassAppBottomNavigationBar(
                     accentColor = accentColor,
                     containerColor = containerColor,
                     modifier = Modifier.weight(1f),
-                ) {
+                ) { onTabClick ->
                     tabScreens.forEachIndexed { index, screen ->
                         LiquidTabItem(
                             icon = {
@@ -286,6 +287,7 @@ actual fun LiquidGlassAppBottomNavigationBar(
                                 )
                             },
                             label = { Text(stringResource(screen.title), style = typo().bodySmall) },
+                            onClick = { onTabClick(index) },
                             modifier = Modifier.weight(1f),
                         )
                     }
@@ -381,7 +383,7 @@ private fun LiquidBottomTabs(
     accentColor: Color,
     containerColor: Color,
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.(onTabClick: (Int) -> Unit) -> Unit
 ) {
     val tabsBackdrop = rememberLayerBackdrop()
 
@@ -497,8 +499,12 @@ private fun LiquidBottomTabs(
                 .fillMaxWidth()
                 .padding(4f.dp),
             verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
+        ) {
+            content { index ->
+                // 点击 Tab 时更新 currentIndex
+                currentIndex = index
+            }
+        }
 
         // Accent 高亮层
         CompositionLocalProvider(
@@ -538,8 +544,9 @@ private fun LiquidBottomTabs(
                     .padding(horizontal = 4f.dp)
                     .graphicsLayer(colorFilter = ColorFilter.tint(accentColor)),
                 verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
+            ) {
+                content { _ -> } // 高亮层不需要处理点击
+            }
         }
 
         // 可拖动的选择指示器（核心 Liquid Glass 效果）
@@ -607,10 +614,11 @@ private fun LiquidBottomTabs(
 private fun RowScope.LiquidTabItem(
     icon: @Composable () -> Unit,
     label: @Composable () -> Unit,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         icon()
