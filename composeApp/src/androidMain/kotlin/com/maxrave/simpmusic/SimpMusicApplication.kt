@@ -9,6 +9,7 @@ import androidx.work.Configuration
 import androidx.work.WorkManager
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil3.ImageLoader
+import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
@@ -33,31 +34,6 @@ class SimpMusicApplication :
     Application(),
     KoinComponent,
     SingletonImageLoader.Factory {
-    
-    override fun newImageLoader(context: coil3.PlatformContext): ImageLoader {
-        return ImageLoader
-            .Builder(context)
-            .components {
-                add(
-                    OkHttpNetworkFetcherFactory(
-                        callFactory = {
-                            OkHttpClient()
-                        },
-                    ),
-                )
-            }
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .networkCachePolicy(CachePolicy.ENABLED)
-            .diskCache(
-                DiskCache
-                    .Builder()
-                    .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
-                    .maxSizeBytes(512L * 1024 * 1024)
-                    .build(),
-            ).crossfade(true)
-            .build()
-    }
-    
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -107,4 +83,27 @@ class SimpMusicApplication :
 
         Logger.w("Terminate", "Checking")
     }
+
+    override fun newImageLoader(context: PlatformContext): ImageLoader =
+        ImageLoader
+            .Builder(context)
+            .components {
+                add(
+                    OkHttpNetworkFetcherFactory(
+                        callFactory = {
+                            OkHttpClient()
+                        },
+                    ),
+                )
+            }
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
+            .diskCache(
+                DiskCache
+                    .Builder()
+                    .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
+                    .maxSizeBytes(512L * 1024 * 1024)
+                    .build(),
+            ).crossfade(true)
+            .build()
 }
